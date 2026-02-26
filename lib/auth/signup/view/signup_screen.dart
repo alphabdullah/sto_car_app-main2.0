@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -51,6 +53,84 @@ class SignupScreen extends StatelessWidget {
         : isMediumMobile
         ? screenWidth * 0.1
         : 24.0;
+
+    Widget buildDocumentUploadCard({
+      required String label,
+      required Uint8List? imageData,
+      required VoidCallback onTap,
+    }) {
+      final cardHeight = isTablet
+          ? 200.0
+          : isLargeMobile
+          ? 180.0
+          : isMediumMobile
+          ? 170.0
+          : 160.0;
+
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: cardHeight,
+          decoration: BoxDecoration(
+            color: AppTheme.bgSecondary,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.border.withOpacity(0.8)),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: imageData != null
+                      ? Image.memory(
+                          imageData,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppTheme.bgElevated,
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 32,
+                                  color: AppTheme.textMuted,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Tap to upload',
+                                  style: TextStyle(
+                                    color: AppTheme.textMuted,
+                                    fontFamily: AppTheme.fontFamily,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.textPrimary,
+                  fontFamily: AppTheme.fontFamily,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppTheme.bgPrimary,
@@ -564,6 +644,85 @@ class SignupScreen extends StatelessWidget {
                 );
               }),
 
+              SizedBox(
+                height: isTablet
+                    ? 22.0
+                    : isLargeMobile
+                    ? 18.0
+                    : isMediumMobile
+                    ? 16.0
+                    : 14.0,
+              ),
+
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Upload Emirates ID',
+                  style: TextStyle(
+                    fontSize: isTablet
+                        ? 18.0
+                        : isLargeMobile
+                        ? 16.0
+                        : isMediumMobile
+                        ? 15.0
+                        : 14.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textPrimary,
+                    fontFamily: AppTheme.fontFamily,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Please upload both the front and back of your Emirates Card for verification.',
+                style: TextStyle(
+                  fontSize: isTablet
+                      ? 16.0
+                      : isLargeMobile
+                      ? 15.0
+                      : isMediumMobile
+                      ? 14.0
+                      : 13.0,
+                  color: AppTheme.textMuted,
+                  fontFamily: AppTheme.fontFamily,
+                ),
+              ),
+              SizedBox(
+                height: isTablet
+                    ? 16.0
+                    : isLargeMobile
+                    ? 14.0
+                    : isMediumMobile
+                    ? 12.0
+                    : 10.0,
+              ),
+
+              Obx(
+                () {
+                  final uploadSpacing =
+                      isTablet ? 24.0 : isLargeMobile ? 16.0 : 12.0;
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: buildDocumentUploadCard(
+                          label: 'Front Side',
+                          imageData: controller.registrationImageFront,
+                          onTap: () => controller.pickRegistrationImageFront(),
+                        ),
+                      ),
+                      SizedBox(width: uploadSpacing),
+                      Expanded(
+                        child: buildDocumentUploadCard(
+                          label: 'Back Side',
+                          imageData: controller.registrationImageBack,
+                          onTap: () => controller.pickRegistrationImageBack(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
               SizedBox(
                 height: isTablet
                     ? 32.0

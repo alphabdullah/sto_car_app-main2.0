@@ -288,6 +288,52 @@ class UserProfileScreen extends StatelessWidget {
                     ),
                   ),
 
+                  Obx(() {
+                    final user = authState.currentUser;
+                    final front = user?.registrationImageFront;
+                    final back = user?.registrationImageBack;
+                    if (front == null && back == null) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Emirates ID',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.textPrimary,
+                              fontFamily: AppTheme.fontFamily,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildIdImageCard(
+                                  context,
+                                  label: 'Front Side',
+                                  imageUrl: front,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _buildIdImageCard(
+                                  context,
+                                  label: 'Back Side',
+                                  imageUrl: back,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+
                   // Logout Button
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
@@ -511,6 +557,82 @@ class UserProfileScreen extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIdImageCard(
+    BuildContext context, {
+    required String label,
+    String? imageUrl,
+  }) {
+    return Container(
+      height: 180,
+      decoration: BoxDecoration(
+        color: AppTheme.bgSecondary,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.border),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: imageUrl != null
+                  ? Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Container(
+                          color: AppTheme.bgElevated,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(AppTheme.redPrimary),
+                              value:
+                                  progress.expectedTotalBytes != null
+                                      ? progress.cumulativeBytesLoaded /
+                                          progress.expectedTotalBytes!
+                                      : null,
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return _buildIdImagePlaceholder();
+                      },
+                    )
+                  : _buildIdImagePlaceholder(),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: AppTheme.textPrimary,
+              fontFamily: AppTheme.fontFamily,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIdImagePlaceholder() {
+    return Container(
+      color: AppTheme.bgElevated,
+      child: Center(
+        child: Icon(
+          Icons.document_scanner_outlined,
+          size: 36,
+          color: AppTheme.textMuted,
         ),
       ),
     );

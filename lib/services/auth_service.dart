@@ -1,3 +1,7 @@
+import 'dart:typed_data';
+
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import '../core/api/api_client.dart';
 import '../core/api/api_endpoints.dart';
 
@@ -24,17 +28,44 @@ class AuthService {
     required String password,
     required String passwordConfirmation,
     required String phone,
+    Uint8List? registrationImage1,
+    Uint8List? registrationImage2,
   }) async {
     try {
-      final response = await _apiClient.post(
+      final fields = {
+        'name': name,
+        'email': email,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+        'phone': phone,
+      };
+
+      final files = <http.MultipartFile>[];
+      if (registrationImage1 != null) {
+        files.add(
+          http.MultipartFile.fromBytes(
+            'registration_image_1',
+            registrationImage1,
+            filename: 'registration_front.jpg',
+            contentType: MediaType('image', 'jpeg'),
+          ),
+        );
+      }
+      if (registrationImage2 != null) {
+        files.add(
+          http.MultipartFile.fromBytes(
+            'registration_image_2',
+            registrationImage2,
+            filename: 'registration_back.jpg',
+            contentType: MediaType('image', 'jpeg'),
+          ),
+        );
+      }
+
+      final response = await _apiClient.multipartPost(
         ApiEndpoints.register,
-        body: {
-          'name': name,
-          'email': email,
-          'password': password,
-          'password_confirmation': passwordConfirmation,
-          'phone': phone,
-        },
+        fields: fields,
+        files: files.isEmpty ? null : files,
       );
 
       // Parse response

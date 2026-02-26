@@ -11,7 +11,7 @@ class ApiEndpoints {
   // For Physical Device: use your computer's IP address (e.g., http://192.168.1.100:8000)
   static String get baseUrl {
     // Live Server URL (Hostinger)
-    return 'https://updated.bidssync.com';
+    return 'https://www.bidssync.com';
   }
 
   static const String apiVersion = 'v1';

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:get/get.dart';
 import '../models/user_model.dart';
 import '../models/wallet_model.dart';
@@ -184,6 +186,8 @@ class AuthState extends GetxController {
     required String password,
     required String passwordConfirmation,
     required String phone,
+    Uint8List? registrationImageFront,
+    Uint8List? registrationImageBack,
   }) async {
     _isLoading.value = true;
     update();
@@ -195,6 +199,8 @@ class AuthState extends GetxController {
         password: password,
         passwordConfirmation: passwordConfirmation,
         phone: phone,
+        registrationImage1: registrationImageFront,
+        registrationImage2: registrationImageBack,
       );
 
       final userData = response['user'] as Map<String, dynamic>;
@@ -228,6 +234,11 @@ class AuthState extends GetxController {
 
   /// Login user
   Future<void> login({required String email, required String password}) async {
+    // Clear any leftover data from previous sessions before logging in.
+    await _storageService.clearAll();
+    _currentUser.value = null;
+    _apiClient.setToken(null);
+
     _isLoading.value = true;
     update();
 

@@ -101,6 +101,73 @@ class ApiClient {
     );
   }
 
+  /// Make a multipart/form-data POST request
+  Future<Map<String, dynamic>> multipartPost(
+    String endpoint, {
+    Map<String, String>? fields,
+    List<http.MultipartFile>? files,
+    Map<String, String>? headers,
+    bool requiresAuth = false,
+  }) async {
+    final urlString = endpoint.startsWith('http')
+        ? endpoint
+        : ApiHelper.buildUrl(endpoint);
+
+    final request = http.MultipartRequest('POST', Uri.parse(urlString));
+
+    request.headers.addAll({
+      'Accept': ApiEndpoints.acceptJson,
+      ...?headers,
+    });
+
+    if (requiresAuth && _token != null && _token!.isNotEmpty) {
+      request.headers['Authorization'] = ApiHelper.getBearerToken(_token!);
+    }
+
+    if (fields != null) {
+      request.fields.addAll(fields);
+    }
+
+    if (files != null) {
+      request.files.addAll(files);
+    }
+
+    print('API Multipart Request: POST $urlString');
+    if (fields != null && fields.isNotEmpty) {
+      print('API Multipart Fields: $fields');
+    }
+    if (files != null) {
+      print('API Multipart Files: ${files.map((f) => f.filename).toList()}');
+    }
+
+    try {
+      final streamed = await request.send();
+      final response = await http.Response.fromStream(streamed);
+
+      print('API Response: ${response.statusCode} ${response.reasonPhrase}');
+      print('API Response Headers: ${response.headers}');
+      print('API Response Body (raw): ${response.body}');
+
+      return _handleResponse(response);
+    } on TimeoutException catch (e) {
+      print('API TimeoutException: ${e.message}');
+      throw ApiException(
+        'Connection timeout. Please check your internet connection and try again.',
+        statusCode: 0,
+      );
+    } on http.ClientException catch (e) {
+      print('API ClientException: ${e.message}');
+      throw ApiException(
+        'Network error. Please check your connection and try again.',
+        statusCode: 0,
+      );
+    } catch (e) {
+      if (e is ApiException) rethrow;
+      print('API Unexpected error (multipart): $e');
+      throw ApiException('An unexpected error occurred. Please try again.');
+    }
+  }
+
   /// Internal request handler
   Future<Map<String, dynamic>> _request(
     String method,

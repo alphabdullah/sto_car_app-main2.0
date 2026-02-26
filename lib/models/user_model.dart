@@ -68,6 +68,8 @@ class UserModel {
   final String? city;
   final String? country;
   final Map<String, dynamic>? wallet; // Wallet data from API
+  final String? registrationImageFront;
+  final String? registrationImageBack;
 
   const UserModel({
     required this.id,
@@ -83,6 +85,8 @@ class UserModel {
     this.city,
     this.country,
     this.wallet,
+    this.registrationImageFront,
+    this.registrationImageBack,
   });
 
   UserModel copyWith({
@@ -99,6 +103,8 @@ class UserModel {
     String? city,
     String? country,
     Map<String, dynamic>? wallet,
+    String? registrationImageFront,
+    String? registrationImageBack,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -114,6 +120,8 @@ class UserModel {
       city: city ?? this.city,
       country: country ?? this.country,
       wallet: wallet ?? this.wallet,
+      registrationImageFront: registrationImageFront ?? this.registrationImageFront,
+      registrationImageBack: registrationImageBack ?? this.registrationImageBack,
     );
   }
 
@@ -154,6 +162,10 @@ class UserModel {
       phone: userData['phone']?.toString(),
       profileImage: userData['profile_image']?.toString() ?? 
                    userData['profileImage']?.toString(),
+    registrationImageFront: userData['registration_image_1']?.toString() ??
+        userData['registrationImage1']?.toString(),
+    registrationImageBack: userData['registration_image_2']?.toString() ??
+        userData['registrationImage2']?.toString(),
       address: userData['address']?.toString(),
       city: userData['city']?.toString(),
       country: userData['country']?.toString(),
@@ -182,6 +194,8 @@ class UserModel {
       'city': city,
       'country': country,
       'wallet': wallet,
+      'registration_image_1': registrationImageFront,
+      'registration_image_2': registrationImageBack,
       // Note: token is stored separately in storage
     };
   }
