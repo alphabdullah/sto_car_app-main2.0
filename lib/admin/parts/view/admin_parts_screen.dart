@@ -13,13 +13,14 @@ class AdminPartsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final partsState = Get.put(PartsState());
     final controller = Get.put(AdminPartsController());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
@@ -71,7 +72,7 @@ class AdminPartsScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   fontFamily: AppTheme.fontFamily,
                                   letterSpacing: -0.5,
                                 ),
@@ -81,7 +82,7 @@ class AdminPartsScreen extends StatelessWidget {
                                 '${soldParts.length} ${soldParts.length == 1 ? 'sale' : 'sales'} recorded',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: AppTheme.textSecondary,
+                                  color: theme.colorScheme.onSurfaceVariant,
                                   fontFamily: AppTheme.fontFamily,
                                 ),
                               ),
@@ -123,7 +124,7 @@ class AdminPartsScreen extends StatelessWidget {
                                 ),
                                 child: Icon(
                                   Icons.add_rounded,
-                                  color: AppTheme.textPrimary,
+                                  color: Colors.white,
                                   size: 24,
                                 ),
                               ),
@@ -201,6 +202,7 @@ class _SoldPartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final categoryColor = _getCategoryColor(soldPart.category);
     final dateStr = _formatDate(soldPart.soldAt);
 
@@ -211,9 +213,9 @@ class _SoldPartCard extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppTheme.border, width: 1.5),
+            border: Border.all(color: theme.dividerColor, width: 1.5),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2),
@@ -298,7 +300,7 @@ class _SoldPartCard extends StatelessWidget {
                               Icon(
                                 Icons.business_rounded,
                                 size: isSmallScreen ? 14 : 16,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                               SizedBox(width: isSmallScreen ? 4 : 6),
                               Flexible(
@@ -306,7 +308,7 @@ class _SoldPartCard extends StatelessWidget {
                                   soldPart.companyName,
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 13 : 15,
-                                    color: AppTheme.textSecondary,
+                                    color: theme.colorScheme.onSurfaceVariant,
                                     fontFamily: AppTheme.fontFamily,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -385,7 +387,7 @@ class _SoldPartCard extends StatelessWidget {
                                         'Quantity',
                                         style: TextStyle(
                                           fontSize: isSmallScreen ? 10 : 11,
-                                          color: AppTheme.textSecondary,
+                                          color: theme.colorScheme.onSurfaceVariant,
                                           fontFamily: AppTheme.fontFamily,
                                         ),
                                       ),
@@ -465,7 +467,7 @@ class _SoldPartCard extends StatelessWidget {
                                         'Total',
                                         style: TextStyle(
                                           fontSize: isSmallScreen ? 10 : 11,
-                                          color: AppTheme.textSecondary,
+                                          color: theme.colorScheme.onSurfaceVariant,
                                           fontFamily: AppTheme.fontFamily,
                                         ),
                                       ),
@@ -495,16 +497,16 @@ class _SoldPartCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(isSmallScreen ? 12 : 14),
                       decoration: BoxDecoration(
-                        color: AppTheme.bgElevated,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppTheme.border, width: 1),
+                        border: Border.all(color: theme.dividerColor, width: 1),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.calendar_today_rounded,
                             size: isSmallScreen ? 16 : 18,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
                           SizedBox(width: isSmallScreen ? 8 : 10),
                           Expanded(
@@ -515,7 +517,7 @@ class _SoldPartCard extends StatelessWidget {
                                   'Sold on',
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 11 : 12,
-                                    color: AppTheme.textSecondary,
+                                    color: theme.colorScheme.onSurfaceVariant,
                                     fontFamily: AppTheme.fontFamily,
                                   ),
                                 ),
@@ -537,7 +539,7 @@ class _SoldPartCard extends StatelessWidget {
                             Icon(
                               Icons.person_rounded,
                               size: isSmallScreen ? 16 : 18,
-                              color: AppTheme.textSecondary,
+                              color: theme.colorScheme.onSurfaceVariant,
                             ),
                             SizedBox(width: isSmallScreen ? 4 : 6),
                             Flexible(
@@ -548,7 +550,7 @@ class _SoldPartCard extends StatelessWidget {
                                     'Buyer',
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 11 : 12,
-                                      color: AppTheme.textSecondary,
+                                      color: theme.colorScheme.onSurfaceVariant,
                                       fontFamily: AppTheme.fontFamily,
                                     ),
                                   ),
@@ -642,6 +644,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -652,12 +655,12 @@ class _EmptyState extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppTheme.bgSecondary, AppTheme.bgElevated],
+                  colors: [theme.colorScheme.surface, theme.colorScheme.surfaceContainerHighest],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 shape: BoxShape.circle,
-                border: Border.all(color: AppTheme.border, width: 1.5),
+                border: Border.all(color: theme.dividerColor, width: 1.5),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
@@ -669,7 +672,7 @@ class _EmptyState extends StatelessWidget {
               child: Icon(
                 Icons.build_circle_outlined,
                 size: 64,
-                color: AppTheme.textMuted,
+                color: theme.colorScheme.outline,
               ),
             ),
             const SizedBox(height: 24),
@@ -678,7 +681,7 @@ class _EmptyState extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -687,7 +690,7 @@ class _EmptyState extends StatelessWidget {
               'No parts have been sold yet',
               style: TextStyle(
                 fontSize: 14,
-                color: AppTheme.textSecondary,
+                color: theme.colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
               textAlign: TextAlign.center,
@@ -725,12 +728,12 @@ class _EmptyState extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: AppTheme.textPrimary.withValues(alpha: 0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.add_rounded,
-                            color: AppTheme.textPrimary,
+                            color: Colors.white,
                             size: 20,
                           ),
                         ),
@@ -740,7 +743,7 @@ class _EmptyState extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: Colors.white,
                             fontFamily: AppTheme.fontFamily,
                             letterSpacing: 0.5,
                           ),

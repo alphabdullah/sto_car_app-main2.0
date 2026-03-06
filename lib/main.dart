@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routing/app_router.dart';
 import 'state/auth_state.dart';
+import 'state/theme_state.dart';
 import 'state/auction_state.dart';
 import 'state/parts_state.dart';
 import 'state/booking_state.dart';
@@ -30,6 +31,7 @@ void main() async {
   // Initialize state management - Get.put will trigger onInit()
   // onInit() will synchronously restore user state from storage
   final authState = Get.put(AuthState());
+  Get.put(ThemeState());
   Get.put(AuctionState());
   Get.put(AuctionController());
   Get.put(AdminAuctionController());
@@ -63,11 +65,16 @@ class STOApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'STO Car Marketplace',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      routerConfig: AppRouter.router,
-    );
+    return Obx(() {
+      final themeState = Get.find<ThemeState>();
+      return MaterialApp.router(
+        title: 'STO Car Marketplace',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeState.themeMode,
+        routerConfig: AppRouter.router,
+      );
+    });
   }
 }

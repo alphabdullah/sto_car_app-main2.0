@@ -40,17 +40,18 @@ class _AdminAuctionsScreenState extends State<AdminAuctionsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final auctionState = Get.find<AuctionState>();
     final controller = Get.find<AdminAuctionController>();
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -101,7 +102,7 @@ class _AdminAuctionsScreenState extends State<AdminAuctionsScreen>
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: theme.colorScheme.onSurface,
                             fontFamily: AppTheme.fontFamily,
                             letterSpacing: -0.5,
                           ),
@@ -111,7 +112,7 @@ class _AdminAuctionsScreenState extends State<AdminAuctionsScreen>
                           'Manage and approve auctions',
                           style: TextStyle(
                             fontSize: 16,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         ),
@@ -314,13 +315,14 @@ class _CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: Row(
         children: [
@@ -359,6 +361,7 @@ class _CustomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
@@ -397,7 +400,7 @@ class _CustomTab extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? AppTheme.textPrimary : AppTheme.textMuted,
+                color: isSelected ? Colors.white : theme.colorScheme.outline,
                 fontFamily: AppTheme.fontFamily,
                 letterSpacing: 0.5,
               ),
@@ -423,14 +426,15 @@ class _AdminAuctionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _getStatusColor(auction.status);
+    final theme = Theme.of(context);
+    final statusColor = _getStatusColor(context, auction.status);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -463,7 +467,7 @@ class _AdminAuctionCard extends StatelessWidget {
                       child: Container(
                         width: 80,
                         height: 80,
-                        color: AppTheme.bgElevated,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         child:
                             (auction.carImageUrl != null ||
                                 auction.images.isNotEmpty)
@@ -471,7 +475,7 @@ class _AdminAuctionCard extends StatelessWidget {
                                 auction.carImageUrl ?? auction.images[0],
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
-                                    _buildImagePlaceholder(),
+                                    _buildImagePlaceholder(context),
                                 loadingBuilder:
                                     (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
@@ -495,7 +499,7 @@ class _AdminAuctionCard extends StatelessWidget {
                                       );
                                     },
                               )
-                            : _buildImagePlaceholder(),
+                            : _buildImagePlaceholder(context),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -513,7 +517,7 @@ class _AdminAuctionCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimary,
+                                    color: theme.colorScheme.onSurface,
                                     fontFamily: AppTheme.fontFamily,
                                   ),
                                   maxLines: 2,
@@ -551,7 +555,7 @@ class _AdminAuctionCard extends StatelessWidget {
                             '${auction.carMake} ${auction.carModel} ${auction.carYear}',
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppTheme.textSecondary,
+                              color: theme.colorScheme.onSurfaceVariant,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -560,7 +564,7 @@ class _AdminAuctionCard extends StatelessWidget {
                             'Lot # ${auction.id.length >= 6 ? auction.id.substring(0, 6) : auction.id}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppTheme.textMuted,
+                              color: theme.colorScheme.outline,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -579,9 +583,9 @@ class _AdminAuctionCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppTheme.bgElevated,
+                          color: theme.colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppTheme.border, width: 1),
+                          border: Border.all(color: theme.dividerColor, width: 1),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -590,7 +594,7 @@ class _AdminAuctionCard extends StatelessWidget {
                               'Starting Bid',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -601,7 +605,7 @@ class _AdminAuctionCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -629,7 +633,7 @@ class _AdminAuctionCard extends StatelessWidget {
                                 'Current Bid',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: AppTheme.textSecondary,
+                                  color: theme.colorScheme.onSurfaceVariant,
                                   fontFamily: AppTheme.fontFamily,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -688,17 +692,18 @@ class _AdminAuctionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImagePlaceholder() {
+  Widget _buildImagePlaceholder(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Icon(
         Icons.directions_car_rounded,
         size: 32,
-        color: AppTheme.textMuted.withValues(alpha: 0.5),
+        color: theme.colorScheme.outline.withValues(alpha: 0.5),
       ),
     );
   }
 
-  Color _getStatusColor(AuctionStatus status) {
+  static Color _getStatusColor(BuildContext context, AuctionStatus status) {
     switch (status) {
       case AuctionStatus.pendingApproval:
         return AppTheme.warning;
@@ -707,7 +712,7 @@ class _AdminAuctionCard extends StatelessWidget {
       case AuctionStatus.live:
         return AppTheme.success;
       case AuctionStatus.closed:
-        return AppTheme.textMuted;
+        return Theme.of(context).colorScheme.outline;
       case AuctionStatus.rejected:
         return AppTheme.error;
     }
@@ -771,14 +776,14 @@ class _ActionButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: AppTheme.textPrimary, size: 20),
+                Icon(icon, color: Colors.white, size: 20),
                 const SizedBox(width: 8),
                 Text(
                   label,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: Colors.white,
                     fontFamily: AppTheme.fontFamily,
                   ),
                 ),
@@ -805,6 +810,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -814,11 +820,11 @@ class _EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppTheme.border, width: 1.5),
+                border: Border.all(color: theme.dividerColor, width: 1.5),
               ),
-              child: Icon(icon, size: 64, color: AppTheme.textMuted),
+              child: Icon(icon, size: 64, color: theme.colorScheme.outline),
             ),
             const SizedBox(height: 24),
             Text(
@@ -826,7 +832,7 @@ class _EmptyState extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -835,7 +841,7 @@ class _EmptyState extends StatelessWidget {
               message,
               style: TextStyle(
                 fontSize: 16,
-                color: AppTheme.textSecondary,
+                color: theme.colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
               textAlign: TextAlign.center,

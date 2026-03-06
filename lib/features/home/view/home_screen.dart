@@ -6,6 +6,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../state/auth_state.dart';
+import '../../../state/theme_state.dart';
 import '../../../state/auction_state.dart';
 import '../../../state/parts_state.dart';
 import '../../../state/notification_state.dart';
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       final partsState = Get.find<PartsState>();
 
       return Scaffold(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: Obx(
           () => authState.isAuthenticated
               ? _buildDrawer(context, authState)
@@ -78,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.displayMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: AppTheme.textPrimary,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     fontSize: isSmallScreen ? 20.0 : null,
                                   ),
                             ),
@@ -176,8 +177,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildDrawer(BuildContext context, AuthState authState) {
+    final theme = Theme.of(context);
     return Drawer(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       width: MediaQuery.of(context).size.width * 0.85,
       child: Column(
         children: [
@@ -238,8 +240,17 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 8),
-                const Divider(
-                  color: AppTheme.border,
+                Divider(
+                  color: theme.dividerColor,
+                  height: 1,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                const SizedBox(height: 8),
+                _DrawerThemeSection(),
+                const SizedBox(height: 8),
+                Divider(
+                  color: theme.dividerColor,
                   height: 1,
                   indent: 20,
                   endIndent: 20,
@@ -295,7 +306,7 @@ class _DrawerHeader extends StatelessWidget {
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: AppTheme.bgPrimary,
+                    color: Colors.white.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -323,7 +334,7 @@ class _DrawerHeader extends StatelessWidget {
                           ),
                           child: Icon(
                             Icons.directions_car,
-                            color: AppTheme.textPrimary,
+                            color: Colors.white,
                             size: 50,
                           ),
                         );
@@ -341,7 +352,7 @@ class _DrawerHeader extends StatelessWidget {
                   child: Text(
                     user?.name ?? 'User',
                     style: const TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       fontFamily: AppTheme.fontFamily,
@@ -359,7 +370,7 @@ class _DrawerHeader extends StatelessWidget {
                   child: Text(
                     user?.email ?? '',
                     style: TextStyle(
-                      color: AppTheme.textPrimary.withValues(alpha: 0.85),
+                      color: Colors.white.withValues(alpha: 0.9),
                       fontSize: 13,
                       fontFamily: AppTheme.fontFamily,
                     ),
@@ -380,10 +391,10 @@ class _DrawerHeader extends StatelessWidget {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: AppTheme.bgPrimary.withValues(alpha: 0.25),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(
-                        color: AppTheme.textPrimary.withValues(alpha: 0.3),
+                        color: Colors.white.withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),
@@ -393,13 +404,13 @@ class _DrawerHeader extends StatelessWidget {
                         Icon(
                           isVerified ? Icons.verified : Icons.pending_outlined,
                           size: 18,
-                          color: AppTheme.textPrimary,
+                          color: Colors.white,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           isVerified ? 'Verified Account' : 'Not Verified',
                           style: const TextStyle(
-                            color: AppTheme.textPrimary,
+                            color: Colors.white,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             fontFamily: AppTheme.fontFamily,
@@ -410,6 +421,114 @@ class _DrawerHeader extends StatelessWidget {
                   ),
                 );
               }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Theme option in drawer: Light, Dark, System
+class _DrawerThemeSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final secondaryColor = theme.colorScheme.onSurfaceVariant;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            child: Text(
+              'Theme',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: secondaryColor,
+                fontFamily: AppTheme.fontFamily,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+          Obx(() {
+            final themeState = Get.find<ThemeState>();
+            final current = themeState.themeMode;
+            return Column(
+              children: [
+                _ThemeOptionTile(
+                  icon: Icons.light_mode_rounded,
+                  title: 'Light',
+                  isSelected: current == ThemeMode.light,
+                  onTap: () => themeState.setLight(),
+                ),
+                _ThemeOptionTile(
+                  icon: Icons.dark_mode_rounded,
+                  title: 'Dark',
+                  isSelected: current == ThemeMode.dark,
+                  onTap: () => themeState.setDark(),
+                ),
+                _ThemeOptionTile(
+                  icon: Icons.settings_brightness_rounded,
+                  title: 'System',
+                  isSelected: current == ThemeMode.system,
+                  onTap: () => themeState.setSystem(),
+                ),
+              ],
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemeOptionTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _ThemeOptionTile({
+    required this.icon,
+    required this.title,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor = theme.colorScheme.onSurface;
+    final primaryColor = theme.colorScheme.primary;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              Icon(icon, size: 22, color: isSelected ? primaryColor : textColor),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    color: textColor,
+                    fontFamily: AppTheme.fontFamily,
+                  ),
+                ),
+              ),
+              if (isSelected)
+                Icon(Icons.check_circle_rounded, color: primaryColor, size: 22),
             ],
           ),
         ),
@@ -434,15 +553,16 @@ class _DrawerMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final iconColor = isDestructive
         ? AppTheme.redPrimary
-        : AppTheme.textPrimary;
+        : theme.colorScheme.onSurface;
     final textColor = isDestructive
         ? AppTheme.redPrimary
-        : AppTheme.textPrimary;
+        : theme.colorScheme.onSurface;
     final bgColor = isDestructive
         ? AppTheme.redPrimary.withValues(alpha: 0.1)
-        : AppTheme.bgSecondary;
+        : theme.colorScheme.surface;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -505,7 +625,7 @@ class _DrawerMenuItem extends StatelessWidget {
                 // Arrow icon
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: AppTheme.textMuted,
+                  color: theme.colorScheme.onSurfaceVariant,
                   size: 16,
                 ),
               ],
@@ -556,7 +676,7 @@ class _CustomHeader extends StatelessWidget {
                       IconButton(
                         icon: Icon(
                           Icons.menu_rounded,
-                          color: AppTheme.textPrimary,
+                          color: Theme.of(context).colorScheme.onSurface,
                           size: menuIconSize,
                         ),
                         padding: EdgeInsets.zero,
@@ -573,7 +693,7 @@ class _CustomHeader extends StatelessWidget {
                         style: TextStyle(
                           fontSize: fontSize,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.textPrimary,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontFamily: AppTheme.fontFamily,
                         ),
                         maxLines: 1,
@@ -615,7 +735,7 @@ class _CustomHeader extends StatelessWidget {
                           errorBuilder: (context, error, stackTrace) {
                             return Icon(
                               Icons.notifications_outlined,
-                              color: AppTheme.textPrimary,
+                              color: Theme.of(context).colorScheme.onSurface,
                               size: iconSize,
                             );
                           },
@@ -636,7 +756,7 @@ class _CustomHeader extends StatelessWidget {
                               color: AppTheme.redPrimary,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppTheme.bgPrimary,
+                                color: Theme.of(context).scaffoldBackgroundColor,
                                 width: 2,
                               ),
                             ),
@@ -647,7 +767,7 @@ class _CustomHeader extends StatelessWidget {
                             child: Text(
                               unreadCount > 9 ? '9+' : '$unreadCount',
                               style: const TextStyle(
-                                color: AppTheme.textPrimary,
+                                color: Colors.white,
                                 fontSize: 9,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: AppTheme.fontFamily,
@@ -690,6 +810,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
   double get iconSize => widget.iconSize;
 
   void _showLanguageDropdown(BuildContext context) {
+    final theme = Theme.of(context);
     final RenderBox button = context.findRenderObject() as RenderBox;
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -704,7 +825,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
         overlay.size.height - position.dy - button.size.height - 8,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: AppTheme.bgElevated,
+      color: theme.colorScheme.surfaceContainerHighest,
       elevation: 8,
       items: _languages.map((language) {
         final isSelected = _selectedLanguage == language['name'];
@@ -714,7 +835,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
           child: Container(
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppTheme.redPrimary.withValues(alpha: 0.1)
+                  ? theme.colorScheme.primary.withValues(alpha: 0.1)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -725,7 +846,9 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: isSelected ? AppTheme.redPrimary : AppTheme.border,
+                    color: isSelected
+                        ? theme.colorScheme.primary
+                        : theme.dividerColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
@@ -733,8 +856,8 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                       language['code']!.toUpperCase(),
                       style: TextStyle(
                         color: isSelected
-                            ? AppTheme.textPrimary
-                            : AppTheme.textSecondary,
+                            ? theme.colorScheme.onPrimary
+                            : theme.colorScheme.onSurfaceVariant,
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                         fontFamily: AppTheme.fontFamily,
@@ -752,8 +875,8 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                         language['name']!,
                         style: TextStyle(
                           color: isSelected
-                              ? AppTheme.textPrimary
-                              : AppTheme.textSecondary,
+                              ? theme.colorScheme.onSurface
+                              : theme.colorScheme.onSurfaceVariant,
                           fontSize: 14,
                           fontWeight: isSelected
                               ? FontWeight.w600
@@ -765,7 +888,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                         Text(
                           language['native']!,
                           style: TextStyle(
-                            color: AppTheme.textMuted,
+                            color: theme.colorScheme.outline,
                             fontSize: 12,
                             fontFamily: AppTheme.fontFamily,
                           ),
@@ -774,9 +897,9 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                   ),
                 ),
                 if (isSelected)
-                  const Icon(
+                  Icon(
                     Icons.check_circle,
-                    color: AppTheme.redPrimary,
+                    color: theme.colorScheme.primary,
                     size: 20,
                   ),
               ],
@@ -794,7 +917,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Language changed to $_selectedLanguage'),
-            backgroundColor: AppTheme.bgSecondary,
+            backgroundColor: theme.colorScheme.surface,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -807,6 +930,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
     final isTablet = screenWidth > 768;
@@ -825,7 +949,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
         errorBuilder: (context, error, stackTrace) {
           return Icon(
             Icons.language_rounded,
-            color: AppTheme.textPrimary,
+            color: theme.colorScheme.onSurface,
             size: iconSize,
           );
         },
@@ -839,14 +963,15 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
 class _SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1),
+        border: Border.all(color: theme.dividerColor, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 2),
             spreadRadius: 0,
@@ -856,14 +981,14 @@ class _SearchBar extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           hintText: 'Search for Vehicles, Parts, Services...',
-          hintStyle: const TextStyle(
-            color: AppTheme.textMuted,
+          hintStyle: TextStyle(
+            color: theme.colorScheme.outline,
             fontSize: 15,
             fontFamily: AppTheme.fontFamily,
           ),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
-            color: AppTheme.textSecondary,
+            color: theme.colorScheme.onSurfaceVariant,
             size: 22,
           ),
           border: OutlineInputBorder(
@@ -877,8 +1002,8 @@ class _SearchBar extends StatelessWidget {
             vertical: 16,
           ),
         ),
-        style: const TextStyle(
-          color: AppTheme.textPrimary,
+        style: TextStyle(
+          color: theme.colorScheme.onSurface,
           fontSize: 15,
           fontFamily: AppTheme.fontFamily,
         ),
@@ -1076,6 +1201,7 @@ class _FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Responsive breakpoints
@@ -1126,9 +1252,9 @@ class _FeatureCard extends StatelessWidget {
           child: Container(
             constraints: const BoxConstraints(minHeight: 220),
             decoration: BoxDecoration(
-              color: AppTheme.bgSecondary,
+              color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppTheme.border, width: 1),
+              border: Border.all(color: theme.dividerColor, width: 1),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.3),
@@ -1193,7 +1319,7 @@ class _FeatureCard extends StatelessWidget {
                                         return Icon(
                                           icon ?? Icons.image_not_supported,
                                           size: iconSize,
-                                          color: AppTheme.textPrimary,
+                                          color: theme.colorScheme.onSurface,
                                         );
                                       },
                                     ),
@@ -1201,7 +1327,7 @@ class _FeatureCard extends StatelessWidget {
                                 : Icon(
                                     icon,
                                     size: iconSize,
-                                    color: AppTheme.textPrimary,
+                                    color: theme.colorScheme.onSurface,
                                   ),
 
                             SizedBox(
@@ -1220,7 +1346,7 @@ class _FeatureCard extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: titleFontSize + 1,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 letterSpacing: -0.3,
                                 height: 1.2,
                                 fontFamily: AppTheme.fontFamily,
@@ -1244,7 +1370,7 @@ class _FeatureCard extends StatelessWidget {
                             Text(
                               subtitle,
                               style: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontSize: subtitleFontSize,
                                 fontWeight: FontWeight.w400,
                                 letterSpacing: 0.1,
@@ -1273,12 +1399,12 @@ class _FeatureCard extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppTheme.bgElevated,
+                          color: theme.colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppTheme.border, width: 1),
+                          border: Border.all(color: theme.dividerColor, width: 1),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
+                              color: Colors.black.withValues(alpha: 0.08),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                               spreadRadius: 0,
@@ -1307,10 +1433,10 @@ class _FeatureCard extends StatelessWidget {
                                     ? 12.0
                                     : 10.0,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.arrow_forward_rounded,
                                 size: 18.0,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
@@ -1361,7 +1487,7 @@ class _FeatureCard extends StatelessWidget {
                       child: Text(
                         badgeText!,
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: Colors.white,
                           fontSize: isTablet
                               ? 12.0
                               : isLargeMobile
@@ -1389,6 +1515,7 @@ class _FeatureCard extends StatelessWidget {
 class _AuthButtonsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         Expanded(
@@ -1433,7 +1560,7 @@ class _AuthButtonsRow extends StatelessWidget {
                       const Icon(
                         Icons.lock_rounded,
                         size: 22,
-                        color: AppTheme.textPrimary,
+                        color: Colors.white,
                       ),
                       const SizedBox(width: 10),
                       const Text(
@@ -1442,7 +1569,7 @@ class _AuthButtonsRow extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           fontFamily: AppTheme.fontFamily,
-                          color: AppTheme.textPrimary,
+                          color: Colors.white,
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -1457,11 +1584,7 @@ class _AuthButtonsRow extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppTheme.bgElevated, AppTheme.bgSecondary],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(color: AppTheme.redPrimary, width: 2),
               boxShadow: [
@@ -1472,7 +1595,7 @@ class _AuthButtonsRow extends StatelessWidget {
                   spreadRadius: 0,
                 ),
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.15),
+                  color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                   spreadRadius: 0,
@@ -1542,7 +1665,7 @@ class _LiveAuctionsPreview extends StatelessWidget {
                 'Live Auctions',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textPrimary,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               TextButton(

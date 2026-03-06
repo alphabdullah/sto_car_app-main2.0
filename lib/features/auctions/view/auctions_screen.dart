@@ -38,6 +38,7 @@ class _AuctionsScreenState extends State<AuctionsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final auctionState = Get.find<AuctionState>();
     final authState = Get.find<AuthState>();
     final controller = Get.find<AuctionController>();
@@ -54,7 +55,7 @@ class _AuctionsScreenState extends State<AuctionsScreen>
     }
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Responsive.constrained(
           Column(
@@ -65,9 +66,9 @@ class _AuctionsScreenState extends State<AuctionsScreen>
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                     ),
                     onPressed: () =>
                         context.push(AppConstants.routeHomeFeature),
@@ -460,13 +461,14 @@ class _CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1),
+        border: Border.all(color: theme.dividerColor, width: 1),
       ),
       child: Row(
         children: [
@@ -513,6 +515,7 @@ class _CustomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
@@ -551,7 +554,7 @@ class _CustomTab extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? AppTheme.textPrimary : AppTheme.textMuted,
+                color: isSelected ? Colors.white : theme.colorScheme.outline,
                 fontFamily: AppTheme.fontFamily,
                 letterSpacing: 0.5,
               ),
@@ -576,6 +579,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -585,25 +589,25 @@ class _EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 64, color: AppTheme.textMuted),
+              child: Icon(icon, size: 64, color: theme.colorScheme.outline),
             ),
             const SizedBox(height: 24),
             Text(
               title,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.textSecondary,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
               textAlign: TextAlign.center,

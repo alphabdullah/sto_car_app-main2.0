@@ -33,6 +33,7 @@ class BookingDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final statusColor = _getStatusColor(booking.status);
     final screenHeight = MediaQuery.of(context).size.height;
     final maxHeight = screenHeight * 0.85;
@@ -43,7 +44,7 @@ class BookingDetailsDialog extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(maxWidth: 600, maxHeight: maxHeight),
         decoration: BoxDecoration(
-          color: AppTheme.bgSecondary,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
@@ -85,7 +86,7 @@ class BookingDetailsDialog extends StatelessWidget {
       case BookingStatus.completed:
         return AppTheme.info;
       case BookingStatus.cancelled:
-        return AppTheme.textMuted;
+        return AppTheme.textMuted; // Keep for dialog; theme not available in static
     }
   }
 }
@@ -104,6 +105,7 @@ class _BookingDetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -138,7 +140,7 @@ class _BookingDetailsHeader extends StatelessWidget {
             ),
             child: const Icon(
               Icons.build_circle_outlined,
-              color: AppTheme.textPrimary,
+              color: Colors.white,
               size: 32,
             ),
           ),
@@ -152,7 +154,7 @@ class _BookingDetailsHeader extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                 ),
@@ -178,12 +180,12 @@ class _BookingDetailsHeader extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(_getStatusIcon(booking.status),
-                          color: AppTheme.textPrimary, size: 18),
+                          color: Colors.white, size: 18),
                       const SizedBox(width: 8),
                       Text(
                         _getStatusText(booking.status),
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                           fontFamily: AppTheme.fontFamily,
@@ -197,14 +199,13 @@ class _BookingDetailsHeader extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: AppTheme.bgElevated,
+              color: theme.colorScheme.surfaceContainerHighest,
               shape: BoxShape.circle,
-              border: Border.all(color: AppTheme.border, width: 1),
+              border: Border.all(color: theme.dividerColor, width: 1),
             ),
             child: IconButton(
-              icon: const Icon(Icons.close_rounded),
+              icon: Icon(Icons.close_rounded, color: theme.colorScheme.onSurfaceVariant),
               onPressed: onClose,
-              color: AppTheme.textSecondary,
             ),
           ),
         ],
@@ -252,6 +253,7 @@ class BookingDetailsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -260,7 +262,7 @@ class BookingDetailsContent extends StatelessWidget {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppTheme.textPrimary,
+            color: theme.colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
           ),
         ),
@@ -327,14 +329,14 @@ class BookingDetailsContent extends StatelessWidget {
         const SizedBox(height: 12),
         _BookingDetailCard(
           icon: Icons.calendar_month_outlined,
-          iconColor: AppTheme.textSecondary,
+          iconColor: theme.colorScheme.onSurfaceVariant,
           label: 'Created At',
           value:
               '${booking.createdAt.year}-${booking.createdAt.month.toString().padLeft(2, '0')}-${booking.createdAt.day.toString().padLeft(2, '0')} ${booking.createdAt.hour.toString().padLeft(2, '0')}:${booking.createdAt.minute.toString().padLeft(2, '0')}',
         ),
         if (booking.adminNotes != null && booking.adminNotes!.isNotEmpty) ...[
           const SizedBox(height: 32),
-          Divider(color: AppTheme.border, height: 1),
+          Divider(color: theme.dividerColor, height: 1),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -355,7 +357,7 @@ class BookingDetailsContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+                  color: theme.colorScheme.onSurface,
                   fontFamily: AppTheme.fontFamily,
                 ),
               ),
@@ -374,7 +376,7 @@ class BookingDetailsContent extends StatelessWidget {
             child: Text(
               booking.adminNotes!,
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontSize: 15,
                 height: 1.5,
                 fontFamily: AppTheme.fontFamily,
@@ -408,12 +410,13 @@ class _BookingDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.bgElevated,
+        color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: Row(
         children: [
@@ -443,7 +446,7 @@ class _BookingDetailCard extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppTheme.textSecondary,
+                    color: theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                     fontFamily: AppTheme.fontFamily,
                   ),
@@ -453,7 +456,7 @@ class _BookingDetailCard extends StatelessWidget {
                   value,
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                     fontFamily: AppTheme.fontFamily,
                   ),

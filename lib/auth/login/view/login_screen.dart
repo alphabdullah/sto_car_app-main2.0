@@ -12,6 +12,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final controller = Get.put(LoginController());
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -46,7 +47,7 @@ class LoginScreen extends StatelessWidget {
         : 20.0;
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -58,9 +59,9 @@ class LoginScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                     ),
                     onPressed: () => context.pop(),
                     padding: EdgeInsets.zero,
@@ -143,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                           ? 15.0
                           : 14.0,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                     ),
                   ),
@@ -166,23 +167,23 @@ class LoginScreen extends StatelessWidget {
                   return TextField(
                     onChanged: controller.setEmail,
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                     ),
                     decoration: InputDecoration(
                       hintText: 'example@email.com',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.email_outlined,
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                       ),
                       errorText: hasEmailError ? errorMsg : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppTheme.border),
+                        borderSide: BorderSide(color: theme.dividerColor),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppTheme.border),
+                        borderSide: BorderSide(color: theme.dividerColor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -192,9 +193,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       filled: true,
-                      fillColor: AppTheme.bgSecondary,
+                      fillColor: theme.colorScheme.surface,
                       hintStyle: TextStyle(
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                         fontFamily: AppTheme.fontFamily,
                       ),
                     ),
@@ -227,7 +228,7 @@ class LoginScreen extends StatelessWidget {
                           ? 15.0
                           : 14.0,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                     ),
                   ),
@@ -252,32 +253,32 @@ class LoginScreen extends StatelessWidget {
                   return TextField(
                     onChanged: controller.setPassword,
                     style: TextStyle(
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                     ),
                     decoration: InputDecoration(
                       hintText: 'Enter your password',
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.lock_outline,
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           isPasswordVisible
                               ? Icons.visibility_outlined
                               : Icons.visibility_off_outlined,
-                          color: AppTheme.textMuted,
+                          color: theme.colorScheme.outline,
                         ),
                         onPressed: controller.togglePasswordVisibility,
                       ),
                       errorText: hasPasswordError ? errorMsg : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppTheme.border),
+                        borderSide: BorderSide(color: theme.dividerColor),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppTheme.border),
+                        borderSide: BorderSide(color: theme.dividerColor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -287,9 +288,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       filled: true,
-                      fillColor: AppTheme.bgSecondary,
+                      fillColor: theme.colorScheme.surface,
                       hintStyle: TextStyle(
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                         fontFamily: AppTheme.fontFamily,
                       ),
                     ),
@@ -362,7 +363,7 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        foregroundColor: AppTheme.textPrimary,
+                        foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(
                           vertical: isTablet
                               ? 18.0
@@ -384,7 +385,7 @@ class LoginScreen extends StatelessWidget {
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor: const AlwaysStoppedAnimation<Color>(
-                                  AppTheme.textPrimary,
+                                  Colors.white,
                                 ),
                               ),
                             )
@@ -438,7 +439,7 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       "Don't have an account? ",
                       style: TextStyle(
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                         fontFamily: AppTheme.fontFamily,
                       ),
                     ),

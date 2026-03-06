@@ -19,6 +19,7 @@ class CompanyPartsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final partsState = Get.put(PartsState());
     final authState = Get.put(AuthState());
     final controller = Get.put(PartsController());
@@ -28,21 +29,21 @@ class CompanyPartsScreen extends StatelessWidget {
     final company = partsState.selectedCompany;
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
           company?.name ?? 'Parts',
           style: TextStyle(
-            color: AppTheme.textPrimary,
+            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.w600,
             fontFamily: AppTheme.fontFamily,
           ),
         ),
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textPrimary),
+          icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
           onPressed: () => context.pop(),
         ),
       ),
@@ -182,13 +183,13 @@ class _CompanyHeader extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: AppTheme.textPrimary.withValues(alpha: 0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
               Icons.business,
               size: 32,
-              color: AppTheme.bgSecondary,
+              color: Colors.white,
             ),
           ),
           const SizedBox(width: 16),
@@ -201,7 +202,7 @@ class _CompanyHeader extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: Colors.white,
                   ),
                 ),
                 if (company.description != null) ...[
@@ -241,12 +242,13 @@ class _PartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isInStock = part.isInStock;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: isInStock ? Colors.green.shade200 : Colors.grey.shade300,
@@ -279,9 +281,9 @@ class _PartCard extends StatelessWidget {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppTheme.bgElevated,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.border, width: 1),
+                        border: Border.all(color: theme.dividerColor, width: 1),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -301,7 +303,7 @@ class _PartCard extends StatelessWidget {
                                       return Icon(
                                         Icons.business,
                                         size: 30,
-                                        color: AppTheme.textMuted,
+                                        color: theme.colorScheme.outline,
                                       );
                                     },
                                   );
@@ -316,7 +318,7 @@ class _PartCard extends StatelessWidget {
                                   return Icon(
                                     Icons.business,
                                     size: 30,
-                                    color: AppTheme.textMuted,
+                                    color: theme.colorScheme.outline,
                                   );
                                 },
                               ),
@@ -410,10 +412,10 @@ class _PartCard extends StatelessWidget {
                 // Part Name
                 Text(
                   part.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                 ),
@@ -452,7 +454,7 @@ class _PartCard extends StatelessWidget {
                               'Price',
                               style: TextStyle(
                                 fontSize: 11,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -487,7 +489,7 @@ class _PartCard extends StatelessWidget {
                                 'Available',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: AppTheme.textSecondary,
+                                  color: theme.colorScheme.onSurfaceVariant,
                                   fontFamily: AppTheme.fontFamily,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -544,7 +546,7 @@ class _PartCard extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
-                          foregroundColor: AppTheme.textPrimary,
+                          foregroundColor: theme.colorScheme.onSurface,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -597,6 +599,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -606,17 +609,17 @@ class _EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 64, color: AppTheme.textMuted),
+              child: Icon(icon, size: 64, color: theme.colorScheme.outline),
             ),
             const SizedBox(height: 24),
             Text(
               title,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),

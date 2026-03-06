@@ -9,6 +9,7 @@ class StorageKeys {
   static const String authToken = 'auth_token';
   static const String isLoggedIn = 'is_logged_in';
   static const String loginApiResponse = 'login_api_response';
+  static const String themeMode = 'theme_mode'; // 'light' | 'dark' | 'system'
 }
 
 /// Storage Service
@@ -163,6 +164,20 @@ class StorageService {
   /// Remove login API response
   Future<bool> removeLoginApiResponse() async {
     return await prefs.remove(StorageKeys.loginApiResponse);
+  }
+
+  // ============================================================================
+  // Theme Mode
+  // ============================================================================
+
+  /// Save theme mode: 'light', 'dark', or 'system'
+  Future<bool> saveThemeMode(String mode) async {
+    return await prefs.setString(StorageKeys.themeMode, mode);
+  }
+
+  /// Get theme mode, default 'system'
+  String getThemeMode() {
+    return prefs.getString(StorageKeys.themeMode) ?? 'system';
   }
 
   // ============================================================================

@@ -17,12 +17,13 @@ class PartsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final partsState = Get.put(PartsState());
     final authState = Get.put(AuthState());
     final controller = Get.put(PartsController());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Responsive.constrained(
           RefreshIndicator(
@@ -65,12 +66,12 @@ class PartsScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Featured Marketplace',
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   letterSpacing: -0.5,
                                 ),
                               ),
@@ -79,9 +80,9 @@ class PartsScreen extends StatelessWidget {
                                 partsState.selectedCompany != null
                                     ? 'Viewing products from ${partsState.selectedCompany!.name}'
                                     : 'Showing ${partsState.parts.length} specialized components',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 13,
-                                  color: AppTheme.textSecondary,
+                                  color: theme.colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
@@ -213,11 +214,12 @@ class _FilterSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
-      decoration: const BoxDecoration(
-        color: AppTheme.bgSecondary,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(32),
           topRight: Radius.circular(32),
         ),
@@ -232,7 +234,7 @@ class _FilterSheet extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
-                color: AppTheme.border,
+                color: theme.dividerColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -240,12 +242,12 @@ class _FilterSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Advanced Filters',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
               TextButton(
@@ -258,12 +260,12 @@ class _FilterSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'CONDITION',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textMuted,
+              color: theme.colorScheme.outline,
               letterSpacing: 1.2,
             ),
           ),
@@ -279,11 +281,11 @@ class _FilterSheet extends StatelessWidget {
                   onSelected: (val) => state.setCondition(val ? cond : null),
                   selectedColor: AppTheme.redPrimary,
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : AppTheme.textSecondary,
+                    color: isSelected ? Colors.white : theme.colorScheme.onSurfaceVariant,
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: AppTheme.bgElevated,
+                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -292,12 +294,12 @@ class _FilterSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'PRICE RANGE (AED)',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textMuted,
+              color: theme.colorScheme.outline,
               letterSpacing: 1.2,
             ),
           ),
@@ -307,13 +309,13 @@ class _FilterSheet extends StatelessWidget {
               Expanded(
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  style: const TextStyle(color: AppTheme.textPrimary),
+                  style: TextStyle(color: theme.colorScheme.onSurface),
                   decoration: InputDecoration(
                     labelText: 'Min',
                     hintText: '0',
-                    hintStyle: const TextStyle(color: AppTheme.textMuted),
+                    hintStyle: TextStyle(color: theme.colorScheme.outline),
                     filled: true,
-                    fillColor: AppTheme.bgElevated,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -327,13 +329,13 @@ class _FilterSheet extends StatelessWidget {
               Expanded(
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  style: const TextStyle(color: AppTheme.textPrimary),
+                  style: TextStyle(color: theme.colorScheme.onSurface),
                   decoration: InputDecoration(
                     labelText: 'Max',
                     hintText: '10000+',
-                    hintStyle: const TextStyle(color: AppTheme.textMuted),
+                    hintStyle: TextStyle(color: theme.colorScheme.outline),
                     filled: true,
-                    fillColor: AppTheme.bgElevated,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -388,6 +390,7 @@ class _HeroHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -472,12 +475,12 @@ class _HeroHeader extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              const Text(
+                              Text(
                                 'Parts Store',
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   letterSpacing: -0.5,
                                 ),
                               ),
@@ -498,11 +501,11 @@ class _HeroHeader extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Explore Premium Components',
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppTheme.textSecondary,
+                    color: theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -512,10 +515,10 @@ class _HeroHeader extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Search parts, brands, OEM...',
-                    hintStyle: TextStyle(color: AppTheme.textMuted),
-                    prefixIcon: const Icon(
+                    hintStyle: TextStyle(color: theme.colorScheme.outline),
+                    prefixIcon: Icon(
                       Icons.search,
-                      color: AppTheme.textMuted,
+                      color: theme.colorScheme.outline,
                     ),
                     filled: true,
                     fillColor: AppTheme.bgSecondary.withOpacity(0.8),
@@ -530,7 +533,7 @@ class _HeroHeader extends StatelessWidget {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(
-                        color: AppTheme.border.withOpacity(0.5),
+                        color: theme.dividerColor.withOpacity(0.5),
                       ),
                     ),
                   ),
@@ -581,12 +584,13 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary.withOpacity(0.5),
+        color: theme.colorScheme.surface.withOpacity(0.5),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border.withOpacity(0.5)),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -595,15 +599,15 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 10, color: AppTheme.textSecondary),
+            style: TextStyle(fontSize: 10, color: theme.colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -619,6 +623,7 @@ class _PartGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -626,9 +631,9 @@ class _PartGridCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppTheme.border.withOpacity(0.5)),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.5)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -649,15 +654,15 @@ class _PartGridCard extends StatelessWidget {
                       flex: 5,
                       child: Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(color: AppTheme.bgElevated),
+                        decoration: BoxDecoration(color: theme.colorScheme.surfaceContainerHighest),
                         child: part.imageUrl != null
                             ? Image.network(
                                 part.imageUrl!,
                                 fit: BoxFit.cover,
-                                errorBuilder: (c, e, s) => const Center(
+                                errorBuilder: (c, e, s) => Center(
                                   child: Icon(
                                     Icons.image_not_supported_outlined,
-                                    color: AppTheme.textMuted,
+                                    color: theme.colorScheme.outline,
                                     size: 32,
                                   ),
                                 ),
@@ -730,7 +735,7 @@ class _PartGridCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: isCompact ? 13 : 14,
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimary,
+                                    color: theme.colorScheme.onSurface,
                                     height: 1.2,
                                   ),
                                   maxLines: isCompact ? 1 : 2,
@@ -741,7 +746,7 @@ class _PartGridCard extends StatelessWidget {
                                   part.brand ?? part.companyName,
                                   style: TextStyle(
                                     fontSize: isCompact ? 10 : 11,
-                                    color: AppTheme.textSecondary,
+                                    color: theme.colorScheme.onSurfaceVariant,
                                     fontWeight: FontWeight.w500,
                                   ),
                                   maxLines: 1,
@@ -778,9 +783,9 @@ class _PartGridCard extends StatelessWidget {
                                         if (part.hasDiscount && !isCompact)
                                           Text(
                                             '${part.price.toStringAsFixed(0)} ${part.currency}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 10,
-                                              color: AppTheme.textMuted,
+                                              color: theme.colorScheme.outline,
                                               decoration:
                                                   TextDecoration.lineThrough,
                                             ),
@@ -790,7 +795,7 @@ class _PartGridCard extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: isCompact ? 14 : 16,
                                             fontWeight: FontWeight.w900,
-                                            color: AppTheme.textPrimary,
+                                            color: theme.colorScheme.onSurface,
                                           ),
                                         ),
                                       ],
@@ -894,13 +899,14 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 60, color: AppTheme.textMuted),
+            Icon(icon, size: 60, color: theme.colorScheme.outline),
             const SizedBox(height: 16),
             Text(
               title,
@@ -910,7 +916,7 @@ class _EmptyState extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppTheme.textSecondary),
+              style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
             ),
           ],
         ),
@@ -932,17 +938,18 @@ class _BrandSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(24, 8, 24, 12),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
           child: Text(
             'SHOP BY BRAND',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textMuted,
+              color: theme.colorScheme.outline,
               letterSpacing: 1.5,
             ),
           ),
@@ -997,6 +1004,7 @@ class _BrandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: GestureDetector(

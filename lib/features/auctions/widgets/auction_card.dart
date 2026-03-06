@@ -33,6 +33,7 @@ class AuctionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     if (auction.carImageUrl != null) {
       print(
         'AuctionCard: Loading image for Lot #${auction.id}: ${auction.carImageUrl}',
@@ -79,9 +80,9 @@ class AuctionCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: cardMargin),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(borderRadius),
-        border: Border.all(color: AppTheme.border, width: 1),
+        border: Border.all(color: theme.dividerColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.3),
@@ -128,7 +129,7 @@ class AuctionCard extends StatelessWidget {
                                 : isMediumMobile
                                     ? 11
                                     : 10,
-                        color: AppTheme.textMuted,
+                        color: theme.colorScheme.outline,
                         fontWeight: FontWeight.w500,
                         fontFamily: AppTheme.fontFamily,
                       ),
@@ -145,7 +146,7 @@ class AuctionCard extends StatelessWidget {
                                     ? 15
                                     : 14,
                         fontWeight: FontWeight.w600,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         height: 1.2,
                         fontFamily: AppTheme.fontFamily,
                       ),
@@ -198,13 +199,13 @@ class AuctionCard extends StatelessWidget {
                             : 36.0,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppTheme.bgElevated, AppTheme.bgSecondary],
+                        colors: [theme.colorScheme.surfaceContainerHighest, theme.colorScheme.surface],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: AppTheme.border,
+                        color: theme.dividerColor,
                         width: 1.5,
                       ),
                       boxShadow: [
@@ -223,7 +224,7 @@ class AuctionCard extends StatelessWidget {
                           : isLargeMobile
                               ? 19.0
                               : 18.0,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -279,6 +280,7 @@ class AuctionCard extends StatelessWidget {
     double imageSize,
     double borderRadius,
   ) {
+    final theme = Theme.of(context);
     return ClipRRect(
       borderRadius: BorderRadius.horizontal(
         left: Radius.circular(borderRadius),
@@ -289,7 +291,7 @@ class AuctionCard extends StatelessWidget {
           Container(
             width: imageSize,
             height: imageSize,
-            color: AppTheme.bgElevated,
+            color: theme.colorScheme.surfaceContainerHighest,
             child: auction.images.isNotEmpty
                 ? PageView.builder(
                     itemCount: auction.images.length,
@@ -301,12 +303,12 @@ class AuctionCard extends StatelessWidget {
                           print(
                             'AuctionCard: Error loading image: ${auction.images[index]}, Error: $error',
                           );
-                          return _buildImagePlaceholder(imageSize);
+                          return _buildImagePlaceholder(context, imageSize);
                         },
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return Container(
-                            color: AppTheme.bgElevated,
+                            color: theme.colorScheme.surfaceContainerHighest,
                             child: Center(
                               child: CircularProgressIndicator(
                                 value:
@@ -325,7 +327,7 @@ class AuctionCard extends StatelessWidget {
                       );
                     },
                   )
-                : _buildImagePlaceholder(imageSize),
+                : _buildImagePlaceholder(context, imageSize),
           ),
 
           // Image Count Badge
@@ -376,16 +378,17 @@ class AuctionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImagePlaceholder(double imageSize) {
+  Widget _buildImagePlaceholder(BuildContext context, double imageSize) {
+    final theme = Theme.of(context);
     return Container(
       width: imageSize,
       height: imageSize,
-      color: AppTheme.bgElevated,
+      color: theme.colorScheme.surfaceContainerHighest,
       child: Center(
         child: Icon(
           Icons.directions_car_rounded,
           size: imageSize * 0.3,
-          color: AppTheme.textMuted.withValues(alpha: 0.5),
+          color: theme.colorScheme.outline.withValues(alpha: 0.6),
         ),
       ),
     );
@@ -413,7 +416,7 @@ class AuctionCard extends StatelessWidget {
         children: [
           Icon(
             isOutbid ? Icons.trending_down : Icons.trending_up,
-            color: AppTheme.textPrimary,
+            color: Colors.white,
             size: imageSize * 0.07,
           ),
           SizedBox(width: imageSize * 0.015),
@@ -421,7 +424,7 @@ class AuctionCard extends StatelessWidget {
             isOutbid ? 'Outbid' : 'Winning',
             style: TextStyle(
               fontSize: imageSize * 0.065,
-              color: AppTheme.textPrimary,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -438,6 +441,7 @@ class AuctionCard extends StatelessWidget {
     bool isLargeMobile,
     bool isMediumMobile,
   ) {
+    final theme = Theme.of(context);
     final spacing = isTablet
         ? 8.0
         : isLargeMobile
@@ -450,6 +454,7 @@ class AuctionCard extends StatelessWidget {
       children: [
         // Bid Count
         _buildInfoChip(
+          context: context,
           icon: Icons.person_outline,
           value: '$bidCount Bids',
           color: AppTheme.info,
@@ -460,6 +465,7 @@ class AuctionCard extends StatelessWidget {
         // Time Remaining
         if (auction.isLive)
           _buildInfoChip(
+            context: context,
             icon: Icons.access_time,
             value: _formatTimeRemaining(timeRemaining),
             color: AppTheme.warning,
@@ -469,6 +475,7 @@ class AuctionCard extends StatelessWidget {
           ),
         // Current Bid Price
         _buildInfoChip(
+          context: context,
           icon: null,
           value: '${auction.currentBid ?? auction.startingBid} AED',
           color: AppTheme.redPrimary,
@@ -481,6 +488,7 @@ class AuctionCard extends StatelessWidget {
   }
 
   Widget _buildInfoChip({
+    required BuildContext context,
     IconData? icon,
     required String value,
     required Color color,
@@ -488,6 +496,7 @@ class AuctionCard extends StatelessWidget {
     required bool isLargeMobile,
     required bool isMediumMobile,
   }) {
+    final theme = Theme.of(context);
     final iconSize = isTablet
         ? 14.0
         : isLargeMobile
@@ -534,7 +543,7 @@ class AuctionCard extends StatelessWidget {
               value,
               style: TextStyle(
                 fontSize: fontSize,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
                 fontWeight: FontWeight.w600,
               ),
@@ -612,7 +621,7 @@ class AuctionCard extends StatelessWidget {
             Icon(
               isVerified ? Icons.gavel_rounded : Icons.verified_user_outlined,
               size: iconSize,
-              color: AppTheme.textPrimary,
+              color: Colors.white,
             ),
             SizedBox(width: isTablet ? 8 : 6),
             Flexible(
@@ -623,7 +632,7 @@ class AuctionCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textPrimary,
+                  color: Colors.white,
                   fontFamily: AppTheme.fontFamily,
                   letterSpacing: 0.3,
                 ),
@@ -692,7 +701,7 @@ class AuctionCard extends StatelessWidget {
             Icon(
               Icons.visibility_rounded,
               size: iconSize,
-              color: AppTheme.textPrimary,
+              color: Colors.white,
             ),
             SizedBox(width: isTablet ? 8 : 6),
             Flexible(
@@ -701,7 +710,7 @@ class AuctionCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textPrimary,
+                  color: Colors.white,
                   fontFamily: AppTheme.fontFamily,
                   letterSpacing: 0.3,
                 ),

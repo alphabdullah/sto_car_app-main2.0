@@ -120,6 +120,7 @@ class _GlassmorphicNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.all(16),
       height: 70,
@@ -127,10 +128,10 @@ class _GlassmorphicNavBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: AppTheme.border,
+              color: theme.dividerColor,
               width: 1,
             ),
             boxShadow: [
@@ -175,6 +176,8 @@ class _NavItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final iconColor = isSelected ? Colors.white : theme.colorScheme.onSurfaceVariant;
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -197,17 +200,18 @@ class _NavItemWidget extends StatelessWidget {
                       width: isSelected ? 24 : 22,
                       height: isSelected ? 24 : 22,
                       fit: BoxFit.contain,
+                      color: iconColor,
                       errorBuilder: (context, error, stackTrace) {
                         return Icon(
                           Icons.gavel,
-                          color: isSelected ? AppTheme.textPrimary : AppTheme.textSecondary,
+                          color: iconColor,
                           size: isSelected ? 24 : 22,
                         );
                       },
                     )
                   : Icon(
                       item.icon,
-                      color: isSelected ? AppTheme.textPrimary : AppTheme.textSecondary,
+                      color: iconColor,
                       size: isSelected ? 24 : 22,
                     ),
             ),

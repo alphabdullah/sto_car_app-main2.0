@@ -56,13 +56,14 @@ class AdminPartsController extends GetxController {
         insetPadding: const EdgeInsets.symmetric(horizontal: 16),
         child: LayoutBuilder(
           builder: (context, constraints) {
+            final theme = Theme.of(context);
             final isSmallScreen = constraints.maxWidth < 400;
             return Container(
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height * 0.9,
               ),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
@@ -113,7 +114,7 @@ class AdminPartsController extends GetxController {
                             style: TextStyle(
                               fontSize: isSmallScreen ? 20 : 24,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -121,7 +122,7 @@ class AdminPartsController extends GetxController {
                         IconButton(
                           icon: Icon(
                             Icons.close_rounded,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             size: 24,
                           ),
                           onPressed: () {
@@ -147,18 +148,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Company',
                               prefixIcon: Icon(
                                 Icons.business_rounded,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -168,13 +169,13 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
-                            dropdownColor: AppTheme.bgSecondary,
+                            dropdownColor: theme.colorScheme.surface,
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                             items: companies
@@ -194,18 +195,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Part Name',
                               prefixIcon: Icon(
                                 Icons.label_outline_rounded,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -215,12 +216,12 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -231,18 +232,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Description',
                               prefixIcon: Icon(
                                 Icons.description_outlined,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -252,12 +253,12 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                             maxLines: 3,
@@ -269,18 +270,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Category',
                               prefixIcon: Icon(
                                 Icons.category_outlined,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -290,12 +291,12 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -306,18 +307,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Price (AED)',
                               prefixIcon: Icon(
                                 Icons.attach_money_rounded,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -327,12 +328,12 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                             keyboardType: TextInputType.number,
@@ -344,18 +345,18 @@ class AdminPartsController extends GetxController {
                               labelText: 'Stock Quantity',
                               prefixIcon: Icon(
                                 Icons.inventory_2_outlined,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                               filled: true,
-                              fillColor: AppTheme.bgElevated,
+                              fillColor: theme.colorScheme.surfaceContainerHighest,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(color: AppTheme.border),
+                                borderSide: BorderSide(color: theme.dividerColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -365,12 +366,12 @@ class AdminPartsController extends GetxController {
                                 ),
                               ),
                               labelStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
                             style: TextStyle(
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                             ),
                             keyboardType: TextInputType.number,
@@ -384,7 +385,7 @@ class AdminPartsController extends GetxController {
                   Container(
                     padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
                     decoration: BoxDecoration(
-                      color: AppTheme.bgElevated,
+                      color: theme.colorScheme.surfaceContainerHighest,
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(24),
                         bottomRight: Radius.circular(24),
@@ -405,7 +406,7 @@ class AdminPartsController extends GetxController {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 side: BorderSide(
-                                  color: AppTheme.border,
+                                  color: theme.dividerColor,
                                   width: 1.5,
                                 ),
                               ),
@@ -415,7 +416,7 @@ class AdminPartsController extends GetxController {
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 14 : 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -460,7 +461,7 @@ class AdminPartsController extends GetxController {
                                       style: TextStyle(
                                         fontSize: isSmallScreen ? 14 : 16,
                                         fontWeight: FontWeight.bold,
-                                        color: AppTheme.textPrimary,
+                                        color: theme.colorScheme.onSurface,
                                         fontFamily: AppTheme.fontFamily,
                                       ),
                                     ),

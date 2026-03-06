@@ -16,16 +16,17 @@ class BookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final authState = Get.put(AuthState());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: AuthGuardWidget(
         actionDescription: 'Login to view and create bookings',
@@ -112,7 +113,7 @@ class _BookingsContentState extends State<_BookingsContent> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.textPrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontFamily: AppTheme.fontFamily,
                         letterSpacing: -0.5,
                       ),
@@ -122,7 +123,7 @@ class _BookingsContentState extends State<_BookingsContent> {
                       '$bookingsCount ${bookingsCount == 1 ? 'booking' : 'bookings'}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontFamily: AppTheme.fontFamily,
                       ),
                     ),
@@ -157,9 +158,9 @@ class _BookingsContentState extends State<_BookingsContent> {
                           height: 24,
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
+                            return Icon(
                               Icons.add_rounded,
-                              color: AppTheme.textPrimary,
+                              color: Colors.white,
                               size: 24,
                             );
                           },
@@ -248,6 +249,7 @@ class _EmptyBookingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -257,13 +259,13 @@ class _EmptyBookingsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.calendar_today_outlined,
                 size: 64,
-                color: AppTheme.textMuted,
+                color: theme.colorScheme.outline,
               ),
             ),
             const SizedBox(height: 24),
@@ -272,7 +274,7 @@ class _EmptyBookingsView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -281,7 +283,7 @@ class _EmptyBookingsView extends StatelessWidget {
               'Book your first service appointment',
               style: TextStyle(
                 fontSize: 16,
-                color: AppTheme.textSecondary,
+                color: theme.colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
               textAlign: TextAlign.center,
@@ -322,7 +324,7 @@ class _EmptyBookingsView extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
-                  foregroundColor: AppTheme.textPrimary,
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -347,7 +349,8 @@ class _BookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _getStatusColor(booking.status);
+    final theme = Theme.of(context);
+    final statusColor = _getStatusColor(context, booking.status);
     final carInfo = _getCarInfo(booking);
     final time = booking.formData['time']?.toString() ?? '';
     final phone = booking.formData['phoneNumber']?.toString() ?? '';
@@ -359,9 +362,9 @@ class _BookingCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1),
+        border: Border.all(color: theme.dividerColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.2),
@@ -477,7 +480,7 @@ class _BookingCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                       letterSpacing: -0.3,
                     ),
@@ -546,7 +549,7 @@ class _BookingCard extends StatelessWidget {
                             icon: Icons.confirmation_number_outlined,
                             label: 'Booking #',
                             value: bookingNumber,
-                            iconColor: AppTheme.textSecondary,
+                            iconColor: theme.colorScheme.onSurfaceVariant,
                           ),
                         ],
                       ],
@@ -559,12 +562,12 @@ class _BookingCard extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppTheme.bgElevated, AppTheme.bgSecondary],
+                        colors: [theme.colorScheme.surfaceContainerHighest, theme.colorScheme.surface],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: AppTheme.border, width: 1.5),
+                      border: Border.all(color: theme.dividerColor, width: 1.5),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
@@ -588,7 +591,7 @@ class _BookingCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   fontFamily: AppTheme.fontFamily,
                                   letterSpacing: 0.3,
                                 ),
@@ -597,7 +600,7 @@ class _BookingCard extends StatelessWidget {
                               Icon(
                                 Icons.arrow_forward_rounded,
                                 size: 20,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ],
                           ),
@@ -646,7 +649,7 @@ class _BookingCard extends StatelessWidget {
     }
   }
 
-  Color _getStatusColor(BookingStatus status) {
+  Color _getStatusColor(BuildContext context, BookingStatus status) {
     switch (status) {
       case BookingStatus.pending:
         return AppTheme.warning;
@@ -657,7 +660,7 @@ class _BookingCard extends StatelessWidget {
       case BookingStatus.completed:
         return AppTheme.info;
       case BookingStatus.cancelled:
-        return AppTheme.textMuted;
+        return Theme.of(context).colorScheme.outline;
     }
   }
 
@@ -693,6 +696,7 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         Container(
@@ -723,7 +727,7 @@ class _InfoRow extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 12,
-                  color: AppTheme.textSecondary,
+                  color: theme.colorScheme.onSurfaceVariant,
                   fontWeight: FontWeight.w500,
                   fontFamily: AppTheme.fontFamily,
                   letterSpacing: 0.2,
@@ -734,7 +738,7 @@ class _InfoRow extends StatelessWidget {
                 value,
                 style: TextStyle(
                   fontSize: 15,
-                  color: AppTheme.textPrimary,
+                  color: theme.colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
                   fontFamily: AppTheme.fontFamily,
                 ),

@@ -11,16 +11,17 @@ class NewBookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final controller = Get.put(BookingController());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SafeArea(
         child: Responsive.constrained(
@@ -32,9 +33,9 @@ class NewBookingScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_back_ios_rounded,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         size: 24,
                       ),
                       onPressed: () => context.pop(),
@@ -52,7 +53,7 @@ class NewBookingScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: theme.colorScheme.onSurface,
                           fontFamily: AppTheme.fontFamily,
                           letterSpacing: -0.5,
                         ),
@@ -184,13 +185,14 @@ class _BookingForm extends StatelessWidget {
                 firstDate: DateTime.now(),
                 lastDate: DateTime.now().add(const Duration(days: 365)),
                 builder: (context, child) {
+                  final t = Theme.of(context);
                   return Theme(
-                    data: Theme.of(context).copyWith(
-                      colorScheme: ColorScheme.dark(
+                    data: t.copyWith(
+                      colorScheme: t.colorScheme.copyWith(
                         primary: AppTheme.redPrimary,
-                        onPrimary: AppTheme.textPrimary,
-                        surface: AppTheme.bgSecondary,
-                        onSurface: AppTheme.textPrimary,
+                        onPrimary: Colors.white,
+                        surface: t.colorScheme.surface,
+                        onSurface: t.colorScheme.onSurface,
                       ),
                     ),
                     child: child!,
@@ -213,13 +215,14 @@ class _BookingForm extends StatelessWidget {
                 context: context,
                 initialTime: controller.selectedTime.value ?? TimeOfDay.now(),
                 builder: (context, child) {
+                  final t = Theme.of(context);
                   return Theme(
-                    data: Theme.of(context).copyWith(
-                      colorScheme: ColorScheme.dark(
+                    data: t.copyWith(
+                      colorScheme: t.colorScheme.copyWith(
                         primary: AppTheme.redPrimary,
-                        onPrimary: AppTheme.textPrimary,
-                        surface: AppTheme.bgSecondary,
-                        onSurface: AppTheme.textPrimary,
+                        onPrimary: Colors.white,
+                        surface: t.colorScheme.surface,
+                        onSurface: t.colorScheme.onSurface,
                       ),
                     ),
                     child: child!,
@@ -336,7 +339,7 @@ class _FormField extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             letterSpacing: 0.2,
           ),
@@ -346,14 +349,14 @@ class _FormField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           style: TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             fontSize: 16,
           ),
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(
-              color: AppTheme.textMuted,
+              color: Theme.of(context).colorScheme.outline,
               fontFamily: AppTheme.fontFamily,
             ),
             prefixIcon: Container(
@@ -366,14 +369,14 @@ class _FormField extends StatelessWidget {
               child: Icon(icon, color: AppTheme.redPrimary, size: 22),
             ),
             filled: true,
-            fillColor: AppTheme.bgSecondary,
+            fillColor: Theme.of(context).colorScheme.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppTheme.border, width: 1.5),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppTheme.border, width: 1.5),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -406,7 +409,7 @@ class _DescriptionField extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             letterSpacing: 0.2,
           ),
@@ -417,14 +420,14 @@ class _DescriptionField extends StatelessWidget {
           maxLines: 4,
           keyboardType: TextInputType.multiline,
           style: TextStyle(
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             fontSize: 16,
           ),
           decoration: InputDecoration(
             hintText: 'Enter service description or additional notes',
             hintStyle: TextStyle(
-              color: AppTheme.textMuted,
+              color: Theme.of(context).colorScheme.outline,
               fontFamily: AppTheme.fontFamily,
             ),
             prefixIcon: Padding(
@@ -444,14 +447,14 @@ class _DescriptionField extends StatelessWidget {
               ),
             ),
             filled: true,
-            fillColor: AppTheme.bgSecondary,
+            fillColor: Theme.of(context).colorScheme.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppTheme.border, width: 1.5),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppTheme.border, width: 1.5),
+              borderSide: BorderSide(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -485,7 +488,7 @@ class _DatePickerField extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             letterSpacing: 0.2,
           ),
@@ -497,9 +500,9 @@ class _DatePickerField extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             decoration: BoxDecoration(
-              color: AppTheme.bgSecondary,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppTheme.border, width: 1.5),
+              border: Border.all(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             child: Row(
               children: [
@@ -532,7 +535,7 @@ class _DatePickerField extends StatelessWidget {
                 ),
                 Icon(
                   Icons.arrow_drop_down_rounded,
-                  color: AppTheme.textSecondary,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   size: 28,
                 ),
               ],
@@ -561,7 +564,7 @@ class _TimePickerField extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
             letterSpacing: 0.2,
           ),
@@ -573,9 +576,9 @@ class _TimePickerField extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             decoration: BoxDecoration(
-              color: AppTheme.bgSecondary,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppTheme.border, width: 1.5),
+              border: Border.all(color: Theme.of(context).dividerColor, width: 1.5),
             ),
             child: Row(
               children: [
@@ -608,7 +611,7 @@ class _TimePickerField extends StatelessWidget {
                 ),
                 Icon(
                   Icons.arrow_drop_down_rounded,
-                  color: AppTheme.textSecondary,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   size: 28,
                 ),
               ],

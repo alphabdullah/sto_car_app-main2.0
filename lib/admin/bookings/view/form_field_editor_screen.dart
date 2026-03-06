@@ -99,17 +99,18 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
       'Form fields updated successfully',
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppTheme.success,
-      colorText: AppTheme.textPrimary,
+      colorText: Colors.white,
     );
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
@@ -138,9 +139,9 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_back_ios_rounded,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         size: 20,
                       ),
                       onPressed: () => Navigator.pop(context),
@@ -158,7 +159,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                               letterSpacing: -0.5,
                             ),
@@ -168,7 +169,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                             'Customize booking form fields',
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppTheme.textSecondary,
+                              color: theme.colorScheme.onSurfaceVariant,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -206,7 +207,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -258,7 +259,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                       'Customize the booking form fields. Users will see these fields when creating a booking.',
                       style: TextStyle(
                         fontSize: 13,
-                        color: AppTheme.textSecondary,
+                        color: theme.colorScheme.onSurfaceVariant,
                         fontFamily: AppTheme.fontFamily,
                         height: 1.4,
                       ),
@@ -300,14 +301,14 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                           Container(
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: AppTheme.textPrimary.withValues(
+                              color: theme.colorScheme.onSurface.withValues(
                                 alpha: 0.2,
                               ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(
                               Icons.add_rounded,
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               size: 20,
                             ),
                           ),
@@ -317,7 +318,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                               letterSpacing: 0.5,
                             ),
@@ -346,22 +347,22 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    AppTheme.bgSecondary,
-                                    AppTheme.bgElevated,
+                                    theme.colorScheme.surface,
+                                    theme.colorScheme.surfaceContainerHighest,
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppTheme.border,
+                                  color: theme.dividerColor,
                                   width: 1.5,
                                 ),
                               ),
                               child: Icon(
                                 Icons.add_circle_outline_rounded,
                                 size: 64,
-                                color: AppTheme.textMuted,
+                                color: theme.colorScheme.outline,
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -370,7 +371,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -379,7 +380,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                               'Tap "Add New Field" to create your first field',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                               textAlign: TextAlign.center,
@@ -480,14 +481,15 @@ class _FormFieldItemState extends State<_FormFieldItem> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final typeColor = _getTypeColor(_currentField.type);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -586,7 +588,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                         padding: const EdgeInsets.all(10),
                         child: Icon(
                           Icons.delete_outline_rounded,
-                          color: AppTheme.textPrimary,
+                          color: theme.colorScheme.onSurface,
                           size: 20,
                         ),
                       ),
@@ -610,18 +612,18 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                     hintText: 'Enter field label',
                     prefixIcon: Icon(
                       Icons.label_outline_rounded,
-                      color: AppTheme.textSecondary,
+                      color: theme.colorScheme.onSurfaceVariant,
                       size: 20,
                     ),
                     filled: true,
-                    fillColor: AppTheme.bgElevated,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppTheme.border),
+                      borderSide: BorderSide(color: theme.dividerColor),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppTheme.border),
+                      borderSide: BorderSide(color: theme.dividerColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -631,16 +633,16 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                       ),
                     ),
                     labelStyle: TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: theme.colorScheme.onSurfaceVariant,
                       fontFamily: AppTheme.fontFamily,
                     ),
                     hintStyle: TextStyle(
-                      color: AppTheme.textMuted,
+                      color: theme.colorScheme.outline,
                       fontFamily: AppTheme.fontFamily,
                     ),
                   ),
                   style: TextStyle(
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                 ),
@@ -654,18 +656,18 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                     labelText: 'Field Type',
                     prefixIcon: Icon(
                       Icons.category_outlined,
-                      color: AppTheme.textSecondary,
+                      color: theme.colorScheme.onSurfaceVariant,
                       size: 20,
                     ),
                     filled: true,
-                    fillColor: AppTheme.bgElevated,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppTheme.border),
+                      borderSide: BorderSide(color: theme.dividerColor),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: AppTheme.border),
+                      borderSide: BorderSide(color: theme.dividerColor),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -675,13 +677,13 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                       ),
                     ),
                     labelStyle: TextStyle(
-                      color: AppTheme.textSecondary,
+                      color: theme.colorScheme.onSurfaceVariant,
                       fontFamily: AppTheme.fontFamily,
                     ),
                   ),
-                  dropdownColor: AppTheme.bgSecondary,
+                  dropdownColor: theme.colorScheme.surface,
                   style: TextStyle(
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                   items: BookingFieldType.values.map((type) {
@@ -730,18 +732,18 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                           hintText: 'Enter placeholder text',
                           prefixIcon: Icon(
                             Icons.place_outlined,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             size: 20,
                           ),
                           filled: true,
-                          fillColor: AppTheme.bgElevated,
+                          fillColor: theme.colorScheme.surfaceContainerHighest,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.border),
+                            borderSide: BorderSide(color: theme.dividerColor),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.border),
+                            borderSide: BorderSide(color: theme.dividerColor),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -751,16 +753,16 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             ),
                           ),
                           labelStyle: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             fontFamily: AppTheme.fontFamily,
                           ),
                           hintStyle: TextStyle(
-                            color: AppTheme.textMuted,
+                            color: theme.colorScheme.outline,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         ),
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: theme.colorScheme.onSurface,
                           fontFamily: AppTheme.fontFamily,
                         ),
                       ),
@@ -782,18 +784,18 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                           hintText: 'Option 1, Option 2, Option 3',
                           prefixIcon: Icon(
                             Icons.list_rounded,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             size: 20,
                           ),
                           filled: true,
-                          fillColor: AppTheme.bgElevated,
+                          fillColor: theme.colorScheme.surfaceContainerHighest,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.border),
+                            borderSide: BorderSide(color: theme.dividerColor),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: AppTheme.border),
+                            borderSide: BorderSide(color: theme.dividerColor),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -803,16 +805,16 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             ),
                           ),
                           labelStyle: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             fontFamily: AppTheme.fontFamily,
                           ),
                           hintStyle: TextStyle(
-                            color: AppTheme.textMuted,
+                            color: theme.colorScheme.outline,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         ),
                         style: TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: theme.colorScheme.onSurface,
                           fontFamily: AppTheme.fontFamily,
                         ),
                       ),
@@ -824,12 +826,12 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.bgElevated,
+                    color: theme.colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: _currentField.isRequired
                           ? AppTheme.redPrimary.withValues(alpha: 0.3)
-                          : AppTheme.border,
+                          : theme.dividerColor,
                       width: 1.5,
                     ),
                   ),
@@ -839,7 +841,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                         decoration: BoxDecoration(
                           color: _currentField.isRequired
                               ? AppTheme.redPrimary.withValues(alpha: 0.2)
-                              : AppTheme.bgSecondary,
+                              : theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Checkbox(
@@ -853,7 +855,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             });
                           },
                           activeColor: AppTheme.redPrimary,
-                          checkColor: AppTheme.textPrimary,
+                          checkColor: theme.colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -866,7 +868,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -875,7 +877,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                               'Users must fill this field',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: AppTheme.textMuted,
+                                color: theme.colorScheme.outline,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),

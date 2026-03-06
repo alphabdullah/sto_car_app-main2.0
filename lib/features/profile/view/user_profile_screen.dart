@@ -14,16 +14,17 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final authState = Get.put(AuthState());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SafeArea(
         child: Responsive.constrained(
@@ -92,7 +93,7 @@ class UserProfileScreen extends StatelessWidget {
                                     margin: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: AppTheme.bgSecondary,
+                                      color: theme.colorScheme.surface,
                                     ),
                                     child: Icon(
                                       Icons.person_rounded,
@@ -113,7 +114,7 @@ class UserProfileScreen extends StatelessWidget {
                                           ? AppTheme.success
                                           : AppTheme.warning,
                                       border: Border.all(
-                                        color: AppTheme.bgSecondary,
+                                        color: theme.colorScheme.surface,
                                         width: 3,
                                       ),
                                       boxShadow: [
@@ -131,7 +132,7 @@ class UserProfileScreen extends StatelessWidget {
                                           ? Icons.verified_rounded
                                           : Icons.warning_rounded,
                                       size: 20,
-                                      color: AppTheme.textPrimary,
+                                      color: theme.colorScheme.onSurface,
                                     ),
                                   ),
                                 ),
@@ -145,7 +146,7 @@ class UserProfileScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: theme.colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                                 letterSpacing: -0.5,
                               ),
@@ -157,7 +158,7 @@ class UserProfileScreen extends StatelessWidget {
                               user?.email ?? '',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                             ),
@@ -208,7 +209,7 @@ class UserProfileScreen extends StatelessWidget {
                                         ? Icons.verified_rounded
                                         : Icons.warning_rounded,
                                     size: 20,
-                                    color: AppTheme.textPrimary,
+                                    color: theme.colorScheme.onSurface,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
@@ -218,7 +219,7 @@ class UserProfileScreen extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      color: AppTheme.textPrimary,
+                                      color: theme.colorScheme.onSurface,
                                       fontFamily: AppTheme.fontFamily,
                                     ),
                                   ),
@@ -242,7 +243,7 @@ class UserProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: theme.colorScheme.onSurface,
                             fontFamily: AppTheme.fontFamily,
                             letterSpacing: -0.3,
                           ),
@@ -304,7 +305,7 @@ class UserProfileScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: theme.colorScheme.onSurface,
                               fontFamily: AppTheme.fontFamily,
                               letterSpacing: -0.3,
                             ),
@@ -367,7 +368,7 @@ class UserProfileScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.logout_rounded,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   size: 22,
                                 ),
                                 const SizedBox(width: 12),
@@ -376,7 +377,7 @@ class UserProfileScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimary,
+                                    color: theme.colorScheme.onSurface,
                                     fontFamily: AppTheme.fontFamily,
                                     letterSpacing: 0.5,
                                   ),
@@ -401,11 +402,13 @@ class UserProfileScreen extends StatelessWidget {
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
+      builder: (dialogContext) {
+        final dialogTheme = Theme.of(dialogContext);
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: dialogTheme.colorScheme.surface,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
@@ -452,7 +455,7 @@ class UserProfileScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: dialogTheme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                 ),
@@ -463,7 +466,7 @@ class UserProfileScreen extends StatelessWidget {
                   'Are you sure you want to logout?',
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppTheme.textSecondary,
+                    color: dialogTheme.colorScheme.onSurfaceVariant,
                     fontFamily: AppTheme.fontFamily,
                   ),
                   textAlign: TextAlign.center,
@@ -476,10 +479,10 @@ class UserProfileScreen extends StatelessWidget {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.bgElevated,
+                          color: dialogTheme.colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: AppTheme.border,
+                            color: dialogTheme.dividerColor,
                             width: 1.5,
                           ),
                         ),
@@ -496,7 +499,7 @@ class UserProfileScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: AppTheme.textPrimary,
+                                  color: dialogTheme.colorScheme.onSurface,
                                   fontFamily: AppTheme.fontFamily,
                                 ),
                               ),
@@ -543,7 +546,7 @@ class UserProfileScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: Colors.white,
                                   fontFamily: AppTheme.fontFamily,
                                 ),
                               ),
@@ -558,7 +561,8 @@ class UserProfileScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      );
+      },
     );
   }
 
@@ -567,12 +571,13 @@ class UserProfileScreen extends StatelessWidget {
     required String label,
     String? imageUrl,
   }) {
+    final theme = Theme.of(context);
     return Container(
       height: 180,
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border),
+        border: Border.all(color: theme.dividerColor),
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -589,7 +594,7 @@ class UserProfileScreen extends StatelessWidget {
                       loadingBuilder: (context, child, progress) {
                         if (progress == null) return child;
                         return Container(
-                          color: AppTheme.bgElevated,
+                          color: theme.colorScheme.surfaceContainerHighest,
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
@@ -604,10 +609,10 @@ class UserProfileScreen extends StatelessWidget {
                         );
                       },
                       errorBuilder: (context, error, stackTrace) {
-                        return _buildIdImagePlaceholder();
+                        return _buildIdImagePlaceholder(context);
                       },
                     )
-                  : _buildIdImagePlaceholder(),
+                  : _buildIdImagePlaceholder(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -616,7 +621,7 @@ class UserProfileScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: AppTheme.textPrimary,
+              color: theme.colorScheme.onSurface,
               fontFamily: AppTheme.fontFamily,
             ),
           ),
@@ -625,14 +630,15 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIdImagePlaceholder() {
+  Widget _buildIdImagePlaceholder(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      color: AppTheme.bgElevated,
+      color: theme.colorScheme.surfaceContainerHighest,
       child: Center(
         child: Icon(
           Icons.document_scanner_outlined,
           size: 36,
-          color: AppTheme.textMuted,
+          color: theme.colorScheme.outline,
         ),
       ),
     );
@@ -655,12 +661,13 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -699,7 +706,7 @@ class _InfoCard extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppTheme.textSecondary,
+                    color: theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                     fontFamily: AppTheme.fontFamily,
                     letterSpacing: 0.2,
@@ -710,7 +717,7 @@ class _InfoCard extends StatelessWidget {
                   value,
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                     fontFamily: AppTheme.fontFamily,
                   ),

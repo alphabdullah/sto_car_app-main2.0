@@ -15,13 +15,14 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final authState = Get.put(AuthState());
     final notificationState = Get.put(NotificationState());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
@@ -87,6 +88,7 @@ class _HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
 
@@ -98,8 +100,8 @@ class _HeaderSection extends StatelessWidget {
         8,
       ),
       decoration: BoxDecoration(
-        color: AppTheme.bgPrimary,
-        border: Border(bottom: BorderSide(color: AppTheme.border, width: 1)),
+        color: theme.scaffoldBackgroundColor,
+        border: Border(bottom: BorderSide(color: theme.dividerColor, width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,9 +110,9 @@ class _HeaderSection extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_ios_rounded,
-                  color: AppTheme.textPrimary,
+                  color: theme.colorScheme.onSurface,
                   size: 24,
                 ),
                 padding: EdgeInsets.zero,
@@ -127,7 +129,7 @@ class _HeaderSection extends StatelessWidget {
                     style: TextStyle(
                       fontSize: isSmallScreen ? 24 : 28,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontFamily: AppTheme.fontFamily,
                       letterSpacing: -0.5,
                     ),
@@ -141,7 +143,7 @@ class _HeaderSection extends StatelessWidget {
                           : 'All caught up!',
                       style: TextStyle(
                         fontSize: 13,
-                        color: AppTheme.textSecondary,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontFamily: AppTheme.fontFamily,
                       ),
                     );
@@ -196,14 +198,15 @@ class _NotificationCard extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
 
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: notification.isRead ? AppTheme.bgSecondary : AppTheme.bgElevated,
+        color: notification.isRead ? theme.colorScheme.surface : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: notification.isRead
-              ? AppTheme.border
+              ? theme.dividerColor
               : AppTheme.redPrimary.withValues(alpha: 0.3),
           width: notification.isRead ? 1 : 1.5,
         ),
@@ -238,7 +241,7 @@ class _NotificationCard extends StatelessWidget {
                   height: isSmallScreen ? 44 : 48,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: _getGradientColors(notification.type),
+                      colors: _getGradientColors(context, notification.type),
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -246,6 +249,7 @@ class _NotificationCard extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: _getGradientColors(
+                          context,
                           notification.type,
                         )[0].withValues(alpha: 0.3),
                         blurRadius: 8,
@@ -255,7 +259,7 @@ class _NotificationCard extends StatelessWidget {
                   ),
                   child: Icon(
                     _getIcon(notification.type),
-                    color: AppTheme.textPrimary,
+                    color: Theme.of(context).colorScheme.onSurface,
                     size: isSmallScreen ? 22 : 24,
                   ),
                 ),
@@ -277,7 +281,7 @@ class _NotificationCard extends StatelessWidget {
                                 fontWeight: notification.isRead
                                     ? FontWeight.w600
                                     : FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                               maxLines: 1,
@@ -304,7 +308,7 @@ class _NotificationCard extends StatelessWidget {
                         notification.message,
                         style: TextStyle(
                           fontSize: isSmallScreen ? 13 : 14,
-                          color: AppTheme.textSecondary,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontFamily: AppTheme.fontFamily,
                           height: 1.4,
                         ),
@@ -319,14 +323,14 @@ class _NotificationCard extends StatelessWidget {
                           Icon(
                             Icons.access_time,
                             size: 12,
-                            color: AppTheme.textMuted,
+                            color: Theme.of(context).colorScheme.outline,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             _formatTime(notification.createdAt),
                             style: TextStyle(
                               fontSize: 11,
-                              color: AppTheme.textMuted,
+                              color: Theme.of(context).colorScheme.outline,
                               fontFamily: AppTheme.fontFamily,
                             ),
                           ),
@@ -338,7 +342,7 @@ class _NotificationCard extends StatelessWidget {
 
                 // Delete button
                 IconButton(
-                  icon: Icon(Icons.close, size: 18, color: AppTheme.textMuted),
+                  icon: Icon(Icons.close, size: 18, color: Theme.of(context).colorScheme.outline),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(
                     minWidth: 32,
@@ -357,7 +361,7 @@ class _NotificationCard extends StatelessWidget {
     );
   }
 
-  List<Color> _getGradientColors(NotificationType type) {
+  List<Color> _getGradientColors(BuildContext context, NotificationType type) {
     switch (type) {
       case NotificationType.auction:
         return [AppTheme.redPrimary, AppTheme.redPressed];
@@ -370,7 +374,8 @@ class _NotificationCard extends StatelessWidget {
       case NotificationType.parts:
         return [Colors.purple.shade400, Colors.purple.shade600];
       case NotificationType.system:
-        return [AppTheme.textMuted, AppTheme.textMuted.withValues(alpha: 0.8)];
+        final outline = Theme.of(context).colorScheme.outline;
+        return [outline, outline.withValues(alpha: 0.8)];
     }
   }
 
@@ -422,13 +427,13 @@ class _EmptyNotificationsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: Theme.of(context).colorScheme.surface,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.notifications_none,
                 size: 64,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.outline,
               ),
             ),
             const SizedBox(height: 24),
@@ -437,7 +442,7 @@ class _EmptyNotificationsView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -447,7 +452,7 @@ class _EmptyNotificationsView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
                 height: 1.5,
               ),
@@ -469,14 +474,14 @@ class _NotAuthenticatedView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.lock_outline, size: 64, color: AppTheme.textMuted),
+            Icon(Icons.lock_outline, size: 64, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 24),
             Text(
               'Login Required',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -485,7 +490,7 @@ class _NotAuthenticatedView extends StatelessWidget {
               'Please login to view your notifications',
               style: TextStyle(
                 fontSize: 14,
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),

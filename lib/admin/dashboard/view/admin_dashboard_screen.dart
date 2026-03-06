@@ -45,17 +45,18 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // Use Get.find instead of Get.put to avoid recreating on every build
     final statsState = Get.find<AdminStatsState>();
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -104,7 +105,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 26 : 32,
                                       fontWeight: FontWeight.bold,
-                                      color: AppTheme.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontFamily: AppTheme.fontFamily,
                                       letterSpacing: -0.5,
                                     ),
@@ -116,7 +117,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                     'Admin Overview',
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 14 : 16,
-                                      color: AppTheme.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                                       fontFamily: AppTheme.fontFamily,
                                     ),
                                     maxLines: 1,
@@ -129,10 +130,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                             // Refresh Button
                             Container(
                               decoration: BoxDecoration(
-                                color: AppTheme.bgSecondary,
+                                color: Theme.of(context).colorScheme.surface,
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: AppTheme.border,
+                                  color: Theme.of(context).dividerColor,
                                   width: 1.5,
                                 ),
                               ),
@@ -194,7 +195,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                     ),
                                     child: Icon(
                                       Icons.logout_rounded,
-                                      color: AppTheme.textPrimary,
+                                      color: Colors.white,
                                       size: isSmallScreen ? 20 : 24,
                                     ),
                                   ),
@@ -211,6 +212,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 // Content Area
                 Expanded(
                   child: _buildContentArea(
+                    context,
                     isLoading,
                     errorMessage,
                     stats,
@@ -227,11 +229,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   Widget _buildContentArea(
+    BuildContext context,
     bool isLoading,
     String? errorMessage,
     dynamic stats,
     dynamic statsState,
   ) {
+    final theme = Theme.of(context);
     if (isLoading) {
       return Center(
         child: CircularProgressIndicator(
@@ -251,7 +255,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               const SizedBox(height: 16),
               Text(
                 errorMessage,
-                style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
+                style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -290,7 +294,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       style: TextStyle(
                         fontSize: isSmallScreen ? 20 : 22,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         fontFamily: AppTheme.fontFamily,
                         letterSpacing: -0.3,
                       ),
@@ -435,7 +439,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       style: TextStyle(
                         fontSize: isSmallScreen ? 20 : 22,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         fontFamily: AppTheme.fontFamily,
                         letterSpacing: -0.3,
                       ),
@@ -551,142 +555,145 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Icon
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppTheme.redPrimary.withValues(alpha: 0.2),
-                        AppTheme.redPressed.withValues(alpha: 0.1),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+      builder: (dialogContext) {
+        final theme = Theme.of(dialogContext);
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppTheme.redPrimary.withValues(alpha: 0.2),
+                          AppTheme.redPressed.withValues(alpha: 0.1),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppTheme.redPrimary.withValues(alpha: 0.3),
+                        width: 2,
+                      ),
                     ),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppTheme.redPrimary.withValues(alpha: 0.3),
-                      width: 2,
+                    child: const Icon(
+                      Icons.logout_rounded,
+                      size: 32,
+                      color: AppTheme.redPrimary,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.logout_rounded,
-                    size: 32,
-                    color: AppTheme.redPrimary,
-                  ),
-                ),
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                // Title
-                Text(
-                  AppStrings.logout,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
-                    fontFamily: AppTheme.fontFamily,
+                  // Title
+                  Text(
+                    AppStrings.logout,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                      fontFamily: AppTheme.fontFamily,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
-                // Message
-                Text(
-                  'Are you sure you want to logout?',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppTheme.textSecondary,
-                    fontFamily: AppTheme.fontFamily,
+                  // Message
+                  Text(
+                    'Are you sure you want to logout?',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontFamily: AppTheme.fontFamily,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                // Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              color: AppTheme.border,
-                              width: 1.5,
+                  // Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () => Navigator.pop(dialogContext),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                color: theme.dividerColor,
+                                width: 1.5,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Text(
-                          AppStrings.cancel,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.textSecondary,
-                            fontFamily: AppTheme.fontFamily,
+                          child: Text(
+                            AppStrings.cancel,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontFamily: AppTheme.fontFamily,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [AppTheme.redPrimary, AppTheme.redPressed],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.redPrimary.withValues(alpha: 0.4),
-                              blurRadius: 12,
-                              offset: const Offset(0, 6),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [AppTheme.redPrimary, AppTheme.redPressed],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                          ],
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () async {
-                              final authState = Get.find<AuthState>();
-                              await authState.logout();
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                context.go(AppConstants.routeHomeFeature);
-                              }
-                            },
                             borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              child: Center(
-                                child: Text(
-                                  AppStrings.logout,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimary,
-                                    fontFamily: AppTheme.fontFamily,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.redPrimary.withValues(alpha: 0.4),
+                                blurRadius: 12,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () async {
+                                final authState = Get.find<AuthState>();
+                                await authState.logout();
+                                if (dialogContext.mounted) {
+                                  Navigator.pop(dialogContext);
+                                  context.go(AppConstants.routeHomeFeature);
+                                }
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                child: Center(
+                                  child: Text(
+                                    AppStrings.logout,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontFamily: AppTheme.fontFamily,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -694,14 +701,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -727,20 +734,21 @@ class _MetricFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: DropdownButton<String>(
         value: selectedMetric,
         isExpanded: true,
         underline: const SizedBox(),
-        dropdownColor: AppTheme.bgSecondary,
+        dropdownColor: theme.colorScheme.surface,
         style: TextStyle(
-          color: AppTheme.textPrimary,
+          color: theme.colorScheme.onSurface,
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
@@ -797,20 +805,21 @@ class _GraphTimePeriodFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: DropdownButton<String>(
         value: selectedTimePeriod,
         isExpanded: true,
         underline: const SizedBox(),
-        dropdownColor: AppTheme.bgSecondary,
+        dropdownColor: theme.colorScheme.surface,
         style: TextStyle(
-          color: AppTheme.textPrimary,
+          color: theme.colorScheme.onSurface,
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
@@ -844,20 +853,21 @@ class _GraphTypeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: DropdownButton<String>(
         value: selectedGraphType,
         isExpanded: true,
         underline: const SizedBox(),
-        dropdownColor: AppTheme.bgSecondary,
+        dropdownColor: theme.colorScheme.surface,
         style: TextStyle(
-          color: AppTheme.textPrimary,
+          color: theme.colorScheme.onSurface,
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
@@ -893,12 +903,13 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -961,7 +972,7 @@ class _StatCard extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: isSmallScreen ? 12 : 14,
-              color: AppTheme.textSecondary,
+              color: theme.colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w500,
               fontFamily: AppTheme.fontFamily,
             ),
@@ -1107,6 +1118,7 @@ class _StatsBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final chartData = _getChartData();
     final maxValue = chartData.isEmpty
         ? 10.0
@@ -1117,9 +1129,9 @@ class _StatsBarChart extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -1142,7 +1154,7 @@ class _StatsBarChart extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isSmallScreen ? 16 : 18,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                   maxLines: 1,
@@ -1184,7 +1196,7 @@ class _StatsBarChart extends StatelessWidget {
                 barTouchData: BarTouchData(
                   enabled: true,
                   touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (group) => AppTheme.bgSecondary,
+                    getTooltipColor: (group) => theme.colorScheme.surface,
                     tooltipRoundedRadius: 8,
                     tooltipPadding: const EdgeInsets.all(8),
                     tooltipMargin: 8,
@@ -1192,7 +1204,7 @@ class _StatsBarChart extends StatelessWidget {
                       return BarTooltipItem(
                         rod.toY.toInt().toString(),
                         TextStyle(
-                          color: AppTheme.textPrimary,
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
                           fontFamily: AppTheme.fontFamily,
                         ),
@@ -1224,7 +1236,7 @@ class _StatsBarChart extends StatelessWidget {
                               labels[value.toInt()],
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 9 : 11,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                               textAlign: TextAlign.center,
@@ -1245,7 +1257,7 @@ class _StatsBarChart extends StatelessWidget {
                           value.toInt().toString(),
                           style: TextStyle(
                             fontSize: isSmallScreen ? 10 : 12,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         );
@@ -1265,14 +1277,14 @@ class _StatsBarChart extends StatelessWidget {
                   horizontalInterval: maxValue > 0 ? maxValue / 5 : 2,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
-                      color: AppTheme.border.withValues(alpha: 0.3),
+                      color: theme.dividerColor.withValues(alpha: 0.3),
                       strokeWidth: 1,
                     );
                   },
                 ),
                 borderData: FlBorderData(
                   show: true,
-                  border: Border.all(color: AppTheme.border, width: 1),
+                  border: Border.all(color: theme.dividerColor, width: 1),
                 ),
                 barGroups: chartData.asMap().entries.map((entry) {
                   final index = entry.key;
@@ -1433,14 +1445,15 @@ class _StatsPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final chartData = _getChartData();
 
     return Container(
       padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -1460,7 +1473,7 @@ class _StatsPieChart extends StatelessWidget {
                 style: TextStyle(
                   fontSize: isSmallScreen ? 16 : 18,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+                  color: theme.colorScheme.onSurface,
                   fontFamily: AppTheme.fontFamily,
                 ),
               ),
@@ -1512,7 +1525,7 @@ class _StatsPieChart extends StatelessWidget {
                           titleStyle: TextStyle(
                             fontSize: isSmallScreen ? 12 : 14,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: theme.colorScheme.onSurface,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         );
@@ -1683,6 +1696,7 @@ class _StatsLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final chartData = _getChartData();
     final maxValue = chartData.isEmpty
         ? 10.0
@@ -1693,9 +1707,9 @@ class _StatsLineChart extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -1718,7 +1732,7 @@ class _StatsLineChart extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isSmallScreen ? 16 : 18,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: theme.colorScheme.onSurface,
                     fontFamily: AppTheme.fontFamily,
                   ),
                   maxLines: 1,
@@ -1761,7 +1775,7 @@ class _StatsLineChart extends StatelessWidget {
                   horizontalInterval: maxValue > 0 ? maxValue / 5 : 2,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
-                      color: AppTheme.border.withValues(alpha: 0.3),
+                      color: theme.dividerColor.withValues(alpha: 0.3),
                       strokeWidth: 1,
                     );
                   },
@@ -1782,7 +1796,7 @@ class _StatsLineChart extends StatelessWidget {
                               label,
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 9 : 11,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                               textAlign: TextAlign.center,
@@ -1805,7 +1819,7 @@ class _StatsLineChart extends StatelessWidget {
                           value.toInt().toString(),
                           style: TextStyle(
                             fontSize: isSmallScreen ? 10 : 12,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                             fontFamily: AppTheme.fontFamily,
                           ),
                         );
@@ -1821,7 +1835,7 @@ class _StatsLineChart extends StatelessWidget {
                 ),
                 borderData: FlBorderData(
                   show: true,
-                  border: Border.all(color: AppTheme.border, width: 1),
+                  border: Border.all(color: theme.dividerColor, width: 1),
                 ),
                 lineBarsData: chartData.isEmpty
                     ? []
@@ -1843,7 +1857,7 @@ class _StatsLineChart extends StatelessWidget {
                                 radius: 4,
                                 color: chartData[0]['color'] as Color,
                                 strokeWidth: 2,
-                                strokeColor: AppTheme.bgSecondary,
+                                strokeColor: theme.colorScheme.surface,
                               );
                             },
                           ),
@@ -1880,6 +1894,7 @@ class _LegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         Container(
@@ -1893,7 +1908,7 @@ class _LegendItem extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 11,
-              color: AppTheme.textSecondary,
+              color: theme.colorScheme.onSurfaceVariant,
               fontFamily: AppTheme.fontFamily,
             ),
             maxLines: 1,
@@ -1905,7 +1920,7 @@ class _LegendItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.bold,
-            color: AppTheme.textPrimary,
+            color: theme.colorScheme.onSurface,
             fontFamily: AppTheme.fontFamily,
           ),
         ),

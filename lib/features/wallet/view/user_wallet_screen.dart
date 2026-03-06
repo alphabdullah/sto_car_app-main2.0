@@ -304,7 +304,7 @@ class _TransactionItem extends StatelessWidget {
                 Text(
                   '$date at $time',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.textSecondary,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

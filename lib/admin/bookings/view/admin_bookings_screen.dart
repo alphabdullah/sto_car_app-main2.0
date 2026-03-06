@@ -36,17 +36,18 @@ class _AdminBookingsScreenState extends State<AdminBookingsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // final bookingState = Get.put(BookingState()); // Removed
     final controller = Get.put(AdminBookingController());
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.bgPrimary,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         toolbarHeight: 0,
         automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SafeArea(
         child: Obx(() {
@@ -104,7 +105,7 @@ class _AdminBookingsScreenState extends State<AdminBookingsScreen>
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 24 : 32,
                                       fontWeight: FontWeight.bold,
-                                      color: AppTheme.textPrimary,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontFamily: AppTheme.fontFamily,
                                       letterSpacing: -0.5,
                                     ),
@@ -116,7 +117,7 @@ class _AdminBookingsScreenState extends State<AdminBookingsScreen>
                                     'Manage and approve bookings',
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 13 : 16,
-                                      color: AppTheme.textSecondary,
+                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                                       fontFamily: AppTheme.fontFamily,
                                     ),
                                     maxLines: 1,
@@ -377,13 +378,14 @@ class _CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppTheme.bgSecondary,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border, width: 1.5),
+        border: Border.all(color: theme.dividerColor, width: 1.5),
       ),
       child: Row(
         children: [
@@ -422,6 +424,7 @@ class _CustomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
@@ -460,7 +463,7 @@ class _CustomTab extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? AppTheme.textPrimary : AppTheme.textMuted,
+                color: isSelected ? Colors.white : theme.colorScheme.outline,
                 fontFamily: AppTheme.fontFamily,
                 letterSpacing: 0.5,
               ),
@@ -488,7 +491,8 @@ class _AdminBookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _getStatusColor(booking.status);
+    final theme = Theme.of(context);
+    final statusColor = _getStatusColor(context, booking.status);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -497,9 +501,9 @@ class _AdminBookingCard extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
-            color: AppTheme.bgSecondary,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppTheme.border, width: 1.5),
+            border: Border.all(color: theme.dividerColor, width: 1.5),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.1),
@@ -535,7 +539,7 @@ class _AdminBookingCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: isSmallScreen ? 18 : 20,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: theme.colorScheme.onSurface,
                                   fontFamily: AppTheme.fontFamily,
                                 ),
                                 maxLines: 2,
@@ -547,7 +551,7 @@ class _AdminBookingCard extends StatelessWidget {
                                   Icon(
                                     Icons.person_rounded,
                                     size: isSmallScreen ? 14 : 16,
-                                    color: AppTheme.textSecondary,
+                                    color: theme.colorScheme.onSurfaceVariant,
                                   ),
                                   SizedBox(width: isSmallScreen ? 4 : 4),
                                   Flexible(
@@ -555,7 +559,7 @@ class _AdminBookingCard extends StatelessWidget {
                                       booking.userName,
                                       style: TextStyle(
                                         fontSize: isSmallScreen ? 12 : 14,
-                                        color: AppTheme.textSecondary,
+                                        color: theme.colorScheme.onSurfaceVariant,
                                         fontFamily: AppTheme.fontFamily,
                                       ),
                                       maxLines: 1,
@@ -600,16 +604,16 @@ class _AdminBookingCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
                       decoration: BoxDecoration(
-                        color: AppTheme.bgElevated,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.border, width: 1),
+                        border: Border.all(color: theme.dividerColor, width: 1),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.calendar_today_rounded,
                             size: isSmallScreen ? 14 : 16,
-                            color: AppTheme.textSecondary,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
                           SizedBox(width: isSmallScreen ? 6 : 8),
                           Flexible(
@@ -617,7 +621,7 @@ class _AdminBookingCard extends StatelessWidget {
                               'Created: ${booking.createdAt.toString().split(' ')[0]}',
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 12 : 14,
-                                color: AppTheme.textSecondary,
+                                color: theme.colorScheme.onSurfaceVariant,
                                 fontFamily: AppTheme.fontFamily,
                               ),
                               maxLines: 1,
@@ -736,7 +740,7 @@ class _AdminBookingCard extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(BookingStatus status) {
+  static Color _getStatusColor(BuildContext context, BookingStatus status) {
     switch (status) {
       case BookingStatus.pending:
         return AppTheme.warning;
@@ -747,7 +751,7 @@ class _AdminBookingCard extends StatelessWidget {
       case BookingStatus.completed:
         return AppTheme.info;
       case BookingStatus.cancelled:
-        return AppTheme.textMuted;
+        return Theme.of(context).colorScheme.outline;
     }
   }
 
@@ -817,7 +821,7 @@ class _ActionButton extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: AppTheme.textPrimary,
+                  color: Colors.white,
                   size: isSmallScreen ? 16 : 18,
                 ),
                 SizedBox(width: isSmallScreen ? 4 : 6),
@@ -827,7 +831,7 @@ class _ActionButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: isSmallScreen ? 12 : 14,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: Colors.white,
                       fontFamily: AppTheme.fontFamily,
                     ),
                     maxLines: 1,
@@ -857,6 +861,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -866,11 +871,11 @@ class _EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.bgSecondary,
+                color: theme.colorScheme.surface,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppTheme.border, width: 1.5),
+                border: Border.all(color: theme.dividerColor, width: 1.5),
               ),
-              child: Icon(icon, size: 64, color: AppTheme.textMuted),
+              child: Icon(icon, size: 64, color: theme.colorScheme.outline),
             ),
             const SizedBox(height: 24),
             Text(
@@ -878,7 +883,7 @@ class _EmptyState extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: theme.colorScheme.onSurface,
                 fontFamily: AppTheme.fontFamily,
               ),
             ),
@@ -887,7 +892,7 @@ class _EmptyState extends StatelessWidget {
               message,
               style: TextStyle(
                 fontSize: 16,
-                color: AppTheme.textSecondary,
+                color: theme.colorScheme.onSurfaceVariant,
                 fontFamily: AppTheme.fontFamily,
               ),
               textAlign: TextAlign.center,
