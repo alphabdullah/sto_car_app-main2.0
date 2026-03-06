@@ -96,28 +96,40 @@ class _SplashScreenState extends State<SplashScreen>
     final spacing = (screenHeight * 0.08).clamp(40.0, 80.0);
 
     return Scaffold(
-      backgroundColor: AppTheme.bgPrimary,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // App Logo with Animation
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: _AppLogo(size: logoSize),
-                ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/videos/sto.gif',
+                // fit: BoxFit.cover,
               ),
-              SizedBox(height: spacing),
-              // Car-themed Progress Indicator
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: _CarProgressIndicator(size: progressSize),
-              ),
-            ],
-          ),
+            ),
+            // Center(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       // App Logo with Animation
+            //       FadeTransition(
+            //         opacity: _fadeAnimation,
+            //         child: ScaleTransition(
+            //           scale: _scaleAnimation,
+            //           child: _AppLogo(size: logoSize),
+            //         ),
+            //       ),
+            //       SizedBox(height: spacing),
+            //       // Car-themed Progress Indicator
+            //       FadeTransition(
+            //         opacity: _fadeAnimation,
+            //         child: _CarProgressIndicator(size: progressSize),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          
+          ],
         ),
       ),
     );
@@ -125,67 +137,67 @@ class _SplashScreenState extends State<SplashScreen>
 }
 
 /// App Logo Widget
-class _AppLogo extends StatelessWidget {
-  final double size;
+// class _AppLogo extends StatelessWidget {
+//   final double size;
 
-  const _AppLogo({required this.size});
+//   const _AppLogo({required this.size});
 
-  @override
-  Widget build(BuildContext context) {
-    // Calculate responsive shadow and icon sizes
-    final shadowBlur = size * 0.17;
-    final shadowSpread = size * 0.05;
-    final iconSize = size * 0.4;
+//   @override
+//   Widget build(BuildContext context) {
+//     // Calculate responsive shadow and icon sizes
+//     final shadowBlur = size * 0.17;
+//     final shadowSpread = size * 0.05;
+//     final iconSize = size * 0.4;
 
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.redPrimary.withValues(alpha: 0.4),
-            blurRadius: shadowBlur,
-            spreadRadius: shadowSpread,
-          ),
-          BoxShadow(
-            color: AppTheme.redPrimary.withValues(alpha: 0.2),
-            blurRadius: shadowBlur * 1.6,
-            spreadRadius: shadowSpread * 1.9,
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: Image.asset(
-          'assets/images/rwlogo.png',
-          width: size,
-          height: size,
-          fit: BoxFit.cover,
-          cacheWidth: size.toInt(),
-          cacheHeight: size.toInt(),
-          errorBuilder: (context, error, stackTrace) {
-            // Fallback to icon if image fails to load
-            return Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [AppTheme.redPrimary, AppTheme.redPressed],
-                ),
-              ),
-              child: Icon(
-                Icons.directions_car,
-                size: iconSize,
-                color: AppTheme.textPrimary,
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
+//     return Container(
+//       width: size,
+//       height: size,
+//       decoration: BoxDecoration(
+//         shape: BoxShape.circle,
+//         boxShadow: [
+//           BoxShadow(
+//             color: AppTheme.redPrimary.withValues(alpha: 0.4),
+//             blurRadius: shadowBlur,
+//             spreadRadius: shadowSpread,
+//           ),
+//           BoxShadow(
+//             color: AppTheme.redPrimary.withValues(alpha: 0.2),
+//             blurRadius: shadowBlur * 1.6,
+//             spreadRadius: shadowSpread * 1.9,
+//           ),
+//         ],
+//       ),
+//       child: ClipOval(
+//         child: Image.asset(
+//           'assets/images/rwlogo.png',
+//           width: size,
+//           height: size,
+//           fit: BoxFit.cover,
+//           cacheWidth: size.toInt(),
+//           cacheHeight: size.toInt(),
+//           errorBuilder: (context, error, stackTrace) {
+//             // Fallback to icon if image fails to load
+//             return Container(
+//               decoration: const BoxDecoration(
+//                 shape: BoxShape.circle,
+//                 gradient: LinearGradient(
+//                   begin: Alignment.topLeft,
+//                   end: Alignment.bottomRight,
+//                   colors: [AppTheme.redPrimary, AppTheme.redPressed],
+//                 ),
+//               ),
+//               child: Icon(
+//                 Icons.directions_car,
+//                 size: iconSize,
+//                 color: AppTheme.textPrimary,
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 /// Car-themed Circular Progress Indicator
 class _CarProgressIndicator extends StatefulWidget {

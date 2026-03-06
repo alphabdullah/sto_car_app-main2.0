@@ -104,14 +104,156 @@ class AuctionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              // Ensure image doesn't take more than 40% of width on small screens
+              final textScale = MediaQuery.textScaleFactorOf(context);
+              final isCompactLayout =
+                  constraints.maxWidth <= 360 || textScale > 1.25;
               final maxImageWidth = constraints.maxWidth * 0.4;
-              final actualImageSize = imageSize.clamp(0.0, maxImageWidth);
+              final actualImageSize = isCompactLayout
+                  ? constraints.maxWidth
+                  : imageSize.clamp(0.0, maxImageWidth);
+
+              final cardContent = Padding(
+                padding: EdgeInsets.all(cardPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Lot # ${auction.id.length >= 6 ? auction.id.substring(0, 6) : auction.id}',
+                      style: TextStyle(
+                        fontSize: isTablet
+                            ? 12
+                            : isLargeMobile
+                                ? 11.5
+                                : isMediumMobile
+                                    ? 11
+                                    : 10,
+                        color: AppTheme.textMuted,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppTheme.fontFamily,
+                      ),
+                    ),
+                    SizedBox(height: isTablet ? 6 : 4),
+                    Text(
+                      '${auction.carMake} ${auction.carModel} ${auction.carYear}',
+                      style: TextStyle(
+                        fontSize: isTablet
+                            ? 17
+                            : isLargeMobile
+                                ? 16
+                                : isMediumMobile
+                                    ? 15
+                                    : 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textPrimary,
+                        height: 1.2,
+                        fontFamily: AppTheme.fontFamily,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: isTablet ? 10 : 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildInfoRow(
+                          context,
+                          timeRemaining,
+                          bidCount,
+                          isTablet,
+                          isLargeMobile,
+                          isMediumMobile,
+                        ),
+                        if (auction.isLive) ...[
+                          SizedBox(height: isTablet ? 12 : 10),
+                          if (isAuthenticated && showBidButton)
+                            _buildBidButton(context, isTablet, isLargeMobile)
+                          else if (!isAuthenticated)
+                            _buildViewButton(context, isTablet, isLargeMobile),
+                        ],
+                      ],
+                    ),
+                  ],
+                ),
+              );
+
+              final arrowWidget = Padding(
+                padding: EdgeInsets.only(
+                  right: cardPadding,
+                  top: cardPadding,
+                ),
+                child: InkWell(
+                  onTap: onView ?? onTap,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    width: isTablet
+                        ? 40.0
+                        : isLargeMobile
+                            ? 38.0
+                            : 36.0,
+                    height: isTablet
+                        ? 40.0
+                        : isLargeMobile
+                            ? 38.0
+                            : 36.0,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppTheme.bgElevated, AppTheme.bgSecondary],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppTheme.border,
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.arrow_forward_rounded,
+                      size: isTablet
+                          ? 20.0
+                          : isLargeMobile
+                              ? 19.0
+                              : 18.0,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                ),
+              );
+
+              if (isCompactLayout) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: actualImageSize,
+                      child: _buildImageSection(
+                        context,
+                        actualImageSize,
+                        borderRadius,
+                      ),
+                    ),
+                    cardContent,
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: arrowWidget,
+                    // ),
+                  ],
+                );
+              }
 
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image on Left - Constrained to prevent overflow
                   SizedBox(
                     width: actualImageSize,
                     height: actualImageSize,
@@ -121,142 +263,8 @@ class AuctionCard extends StatelessWidget {
                       borderRadius,
                     ),
                   ),
-
-                  // Content in Middle
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(cardPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Lot Number
-                          Text(
-                            'Lot # ${auction.id.length >= 6 ? auction.id.substring(0, 6) : auction.id}',
-                            style: TextStyle(
-                              fontSize: isTablet
-                                  ? 12
-                                  : isLargeMobile
-                                  ? 11.5
-                                  : isMediumMobile
-                                  ? 11
-                                  : 10,
-                              color: AppTheme.textMuted,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: AppTheme.fontFamily,
-                            ),
-                          ),
-                          SizedBox(height: isTablet ? 6 : 4),
-
-                          // Car Model and Year
-                          Text(
-                            '${auction.carMake} ${auction.carModel} ${auction.carYear}',
-                            style: TextStyle(
-                              fontSize: isTablet
-                                  ? 17
-                                  : isLargeMobile
-                                  ? 16
-                                  : isMediumMobile
-                                  ? 15
-                                  : 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.textPrimary,
-                              height: 1.2,
-                              fontFamily: AppTheme.fontFamily,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: isTablet ? 10 : 8),
-
-                          // Information Row with Icons and Action
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Info chips row
-                              _buildInfoRow(
-                                context,
-                                timeRemaining,
-                                bidCount,
-                                isTablet,
-                                isLargeMobile,
-                                isMediumMobile,
-                              ),
-                              // Action button row - always show for consistent layout
-                              if (auction.isLive) ...[
-                                SizedBox(height: isTablet ? 12 : 10),
-                                if (isAuthenticated && showBidButton)
-                                  _buildBidButton(
-                                    context,
-                                    isTablet,
-                                    isLargeMobile,
-                                  )
-                                else if (!isAuthenticated)
-                                  _buildViewButton(
-                                    context,
-                                    isTablet,
-                                    isLargeMobile,
-                                  ),
-                              ],
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Arrow Icon on Right End
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: cardPadding,
-                      top: cardPadding,
-                    ),
-                    child: InkWell(
-                      onTap: onView ?? onTap,
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(
-                        width: isTablet
-                            ? 40.0
-                            : isLargeMobile
-                            ? 38.0
-                            : 36.0,
-                        height: isTablet
-                            ? 40.0
-                            : isLargeMobile
-                            ? 38.0
-                            : 36.0,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [AppTheme.bgElevated, AppTheme.bgSecondary],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: AppTheme.border,
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.arrow_forward_rounded,
-                          size: isTablet
-                              ? 20.0
-                              : isLargeMobile
-                              ? 19.0
-                              : 18.0,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: cardContent),
+                  arrowWidget,
                 ],
               );
             },
