@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auction_state.dart';
 import '../../../state/auth_state.dart';
 import '../controller/auction_controller.dart';
@@ -140,8 +141,8 @@ class _LiveAuctionsTab extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: _EmptyState(
                       icon: Icons.gavel_outlined,
-                      title: 'No Live Auctions',
-                      message: 'There are currently no live auctions available',
+                      title: AppLocalizations.of(context)!.noLiveAuctions,
+                      message: AppLocalizations.of(context)!.noLiveAuctionsMessage,
                     ),
                   ),
                 ],
@@ -252,8 +253,8 @@ class _BiddedAuctionsTabState extends State<_BiddedAuctionsTab> {
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: _EmptyState(
                   icon: Icons.gavel_outlined,
-                  title: 'No Bids Yet',
-                  message: 'Login to view your bidded auctions',
+                  title: AppLocalizations.of(context)!.noBidsYet,
+                  message: AppLocalizations.of(context)!.loginToViewBiddedAuctions,
                 ),
               ),
             ],
@@ -297,8 +298,8 @@ class _BiddedAuctionsTabState extends State<_BiddedAuctionsTab> {
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: _EmptyState(
                       icon: Icons.gavel_outlined,
-                      title: 'No Bids Yet',
-                      message: 'You haven\'t placed any bids on live auctions',
+                      title: AppLocalizations.of(context)!.noBidsYet,
+                      message: AppLocalizations.of(context)!.noBidsYetMessage,
                     ),
                   ),
                 ],
@@ -401,8 +402,8 @@ class _ClosedAuctionsTab extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: _EmptyState(
                   icon: Icons.history,
-                  title: 'No Closed Auctions',
-                  message: 'Login to view your closed auctions',
+                  title: AppLocalizations.of(context)!.noClosedAuctions,
+                  message: AppLocalizations.of(context)!.loginToViewClosedAuctions,
                 ),
               ),
             ],
@@ -425,9 +426,8 @@ class _ClosedAuctionsTab extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: _EmptyState(
                       icon: Icons.history,
-                      title: 'No Closed Auctions',
-                      message:
-                          'You don\'t have any closed auctions where you were outbid',
+                      title: AppLocalizations.of(context)!.noClosedAuctions,
+                      message: AppLocalizations.of(context)!.noClosedAuctionsMessage,
                     ),
                   ),
                 ],
@@ -474,7 +474,7 @@ class _CustomTabBar extends StatelessWidget {
         children: [
           Expanded(
             child: _CustomTab(
-              label: 'Live Auctions',
+              label: AppLocalizations.of(context)!.liveAuctions,
               index: 0,
               controller: controller,
             ),
@@ -482,7 +482,7 @@ class _CustomTabBar extends StatelessWidget {
           const SizedBox(width: 4),
           Expanded(
             child: _CustomTab(
-              label: 'My Bids',
+              label: AppLocalizations.of(context)!.myBids,
               index: 1,
               controller: controller,
             ),
@@ -490,7 +490,7 @@ class _CustomTabBar extends StatelessWidget {
           const SizedBox(width: 4),
           Expanded(
             child: _CustomTab(
-              label: 'Closed',
+              label: AppLocalizations.of(context)!.closed,
               index: 2,
               controller: controller,
             ),

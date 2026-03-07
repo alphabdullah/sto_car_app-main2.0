@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../controller/forgot_password_controller.dart';
 
 /// Forgot password screen (MVC pattern - View layer)
@@ -119,7 +119,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Forgot Password',
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: TextStyle(
                         fontSize: titleFontSize * 1.2, // Bigger size
                         fontWeight: FontWeight.w700,
@@ -143,7 +143,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
               // Description Text
               Text(
-                'Enter your email address and we\'ll send you a link to reset your password.',
+                AppLocalizations.of(context)!.forgotPasswordDescription,
                 style: TextStyle(
                   fontSize: isTablet
                       ? 16.0
@@ -172,7 +172,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Email Address',
+                  AppLocalizations.of(context)!.emailAddress,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -208,7 +208,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     fontFamily: AppTheme.fontFamily,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'example@email.com',
+                    hintText: AppLocalizations.of(context)!.emailHint,
                     prefixIcon: Icon(
                       Icons.email_outlined,
                       color: theme.colorScheme.outline,
@@ -318,7 +318,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                     : 6.0,
                               ),
                               Text(
-                                'Send Reset Link',
+                                AppLocalizations.of(context)!.sendResetLink,
                                 style: TextStyle(
                                   fontSize: isTablet
                                       ? 18.0
@@ -352,7 +352,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Remember your password? ",
+                    AppLocalizations.of(context)!.rememberPassword,
                     style: TextStyle(
                       color: theme.colorScheme.outline,
                       fontFamily: AppTheme.fontFamily,
@@ -363,7 +363,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       context.pop();
                     },
                     child: Text(
-                      AppStrings.login,
+                      AppLocalizations.of(context)!.login,
                       style: TextStyle(
                         color: AppTheme.redPrimary,
                         fontFamily: AppTheme.fontFamily,

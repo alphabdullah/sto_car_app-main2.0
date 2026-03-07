@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/notification_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../models/notification_model.dart';
@@ -118,14 +119,14 @@ class _HeaderSection extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                 onPressed: () => context.pop(),
-                tooltip: 'Back',
+                tooltip: AppLocalizations.of(context)!.back,
               ),
               const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Notifications',
+                    AppLocalizations.of(context)!.notifications,
                     style: TextStyle(
                       fontSize: isSmallScreen ? 24 : 28,
                       fontWeight: FontWeight.bold,
@@ -137,10 +138,13 @@ class _HeaderSection extends StatelessWidget {
                   const SizedBox(height: 4),
                   Obx(() {
                     final unreadCount = notificationState.unreadCount;
+                    final l10n = AppLocalizations.of(context)!;
                     return Text(
                       unreadCount > 0
-                          ? '$unreadCount unread ${unreadCount == 1 ? 'notification' : 'notifications'}'
-                          : 'All caught up!',
+                          ? (unreadCount == 1
+                              ? l10n.unreadNotificationCount(1)
+                              : l10n.unreadNotificationsCount(unreadCount))
+                          : l10n.allCaughtUp,
                       style: TextStyle(
                         fontSize: 13,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -168,7 +172,7 @@ class _HeaderSection extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Mark all read',
+                AppLocalizations.of(context)!.markAllRead,
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -327,7 +331,7 @@ class _NotificationCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            _formatTime(notification.createdAt),
+                            _formatTime(context, notification.createdAt),
                             style: TextStyle(
                               fontSize: 11,
                               color: Theme.of(context).colorScheme.outline,
@@ -351,7 +355,7 @@ class _NotificationCard extends StatelessWidget {
                   onPressed: () {
                     notificationState.deleteNotification(notification.id);
                   },
-                  tooltip: 'Delete',
+                  tooltip: AppLocalizations.of(context)!.delete,
                 ),
               ],
             ),
@@ -396,18 +400,19 @@ class _NotificationCard extends StatelessWidget {
     }
   }
 
-  String _formatTime(DateTime dateTime) {
+  String _formatTime(BuildContext context, DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
+    final l10n = AppLocalizations.of(context)!;
 
     if (difference.inMinutes < 1) {
-      return 'Just now';
+      return l10n.justNow;
     } else if (difference.inHours < 1) {
-      return '${difference.inMinutes}m ago';
+      return l10n.minutesAgo(difference.inMinutes);
     } else if (difference.inDays < 1) {
-      return '${difference.inHours}h ago';
+      return l10n.hoursAgo(difference.inHours);
     } else if (difference.inDays < 7) {
-      return '${difference.inDays}d ago';
+      return l10n.daysAgo(difference.inDays);
     } else {
       return DateFormat('MMM d, yyyy').format(dateTime);
     }
@@ -438,7 +443,7 @@ class _EmptyNotificationsView extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Notifications',
+              AppLocalizations.of(context)!.noNotifications,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -448,7 +453,7 @@ class _EmptyNotificationsView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'You\'re all caught up!\nWe\'ll notify you when something important happens.',
+              AppLocalizations.of(context)!.emptyNotificationsMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -477,7 +482,7 @@ class _NotAuthenticatedView extends StatelessWidget {
             Icon(Icons.lock_outline, size: 64, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 24),
             Text(
-              'Login Required',
+              AppLocalizations.of(context)!.loginRequired,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -487,7 +492,7 @@ class _NotAuthenticatedView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Please login to view your notifications',
+              AppLocalizations.of(context)!.pleaseLoginToViewNotifications,
               style: TextStyle(
                 fontSize: 14,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -508,9 +513,9 @@ class _NotAuthenticatedView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
-                'Login',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.login,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontFamily: AppTheme.fontFamily,

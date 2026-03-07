@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auction_state.dart';
 import '../../../models/auction_model.dart';
 import '../controller/admin_auction_controller.dart';
@@ -98,7 +98,7 @@ class _AdminAuctionsScreenState extends State<AdminAuctionsScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppStrings.manageAuctions,
+                          AppLocalizations.of(context)!.manageAuctions,
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class _AdminAuctionsScreenState extends State<AdminAuctionsScreen>
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Manage and approve auctions',
+                          AppLocalizations.of(context)!.manageAndApproveAuctions,
                           style: TextStyle(
                             fontSize: 16,
                             color: theme.colorScheme.onSurfaceVariant,
@@ -167,8 +167,8 @@ class _PendingApprovalTab extends StatelessWidget {
     if (pendingAuctions.isEmpty) {
       return _EmptyState(
         icon: Icons.pending_actions_rounded,
-        title: 'No Pending Auctions',
-        message: 'All auctions have been reviewed',
+        title: AppLocalizations.of(context)!.noPendingAuctions,
+        message: AppLocalizations.of(context)!.allAuctionsReviewed,
       );
     }
 
@@ -237,8 +237,8 @@ class _AllAuctionsTab extends StatelessWidget {
     if (allAuctions.isEmpty) {
       return _EmptyState(
         icon: Icons.gavel_rounded,
-        title: 'No Auctions',
-        message: 'No auctions have been created yet',
+        title: AppLocalizations.of(context)!.noAuctions,
+        message: AppLocalizations.of(context)!.noAuctionsCreatedYet,
       );
     }
 
@@ -328,7 +328,7 @@ class _CustomTabBar extends StatelessWidget {
         children: [
           Expanded(
             child: _CustomTab(
-              label: 'Pending Approval',
+              label: AppLocalizations.of(context)!.pendingApprovalTab,
               index: 0,
               controller: controller,
             ),
@@ -336,7 +336,7 @@ class _CustomTabBar extends StatelessWidget {
           const SizedBox(width: 4),
           Expanded(
             child: _CustomTab(
-              label: 'All Auctions',
+              label: AppLocalizations.of(context)!.allAuctionsTab,
               index: 1,
               controller: controller,
             ),
@@ -539,7 +539,7 @@ class _AdminAuctionCard extends StatelessWidget {
                                   ),
                                 ),
                                 child: Text(
-                                  _getStatusText(auction.status),
+                                  _getStatusText(context, auction.status),
                                   style: TextStyle(
                                     color: statusColor,
                                     fontSize: 10,
@@ -561,7 +561,7 @@ class _AdminAuctionCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Lot # ${auction.id.length >= 6 ? auction.id.substring(0, 6) : auction.id}',
+                            '${AppLocalizations.of(context)!.lotNumber} ${auction.id.length >= 6 ? auction.id.substring(0, 6) : auction.id}',
                             style: TextStyle(
                               fontSize: 12,
                               color: theme.colorScheme.outline,
@@ -591,7 +591,7 @@ class _AdminAuctionCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Starting Bid',
+                              AppLocalizations.of(context)!.startingBid,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -630,7 +630,7 @@ class _AdminAuctionCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Current Bid',
+                                AppLocalizations.of(context)!.currentBid,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: theme.colorScheme.onSurfaceVariant,
@@ -664,7 +664,7 @@ class _AdminAuctionCard extends StatelessWidget {
                       if (onApprove != null)
                         Expanded(
                           child: _ActionButton(
-                            label: AppStrings.approve,
+                            label: AppLocalizations.of(context)!.approve,
                             icon: Icons.check_circle_rounded,
                             color: AppTheme.success,
                             onPressed: onApprove!,
@@ -675,7 +675,7 @@ class _AdminAuctionCard extends StatelessWidget {
                       if (onReject != null)
                         Expanded(
                           child: _ActionButton(
-                            label: AppStrings.reject,
+                            label: AppLocalizations.of(context)!.reject,
                             icon: Icons.cancel_rounded,
                             color: AppTheme.error,
                             onPressed: onReject!,
@@ -718,18 +718,19 @@ class _AdminAuctionCard extends StatelessWidget {
     }
   }
 
-  String _getStatusText(AuctionStatus status) {
+  static String _getStatusText(BuildContext context, AuctionStatus status) {
+    final l = AppLocalizations.of(context)!;
     switch (status) {
       case AuctionStatus.pendingApproval:
-        return 'PENDING';
+        return l.statusPending;
       case AuctionStatus.approved:
-        return 'APPROVED';
+        return l.statusApproved;
       case AuctionStatus.live:
-        return 'LIVE';
+        return l.statusLive;
       case AuctionStatus.closed:
-        return 'CLOSED';
+        return l.statusClosed;
       case AuctionStatus.rejected:
-        return 'REJECTED';
+        return l.statusRejected;
     }
   }
 }

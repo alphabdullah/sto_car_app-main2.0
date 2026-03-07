@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../controller/signup_controller.dart';
 
 /// Signup screen (MVC pattern - View layer)
@@ -108,7 +108,7 @@ class SignupScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  'Tap to upload',
+                                  AppLocalizations.of(context)!.tapToUpload,
                                   style: TextStyle(
                                     color: theme.colorScheme.outline,
                                     fontFamily: AppTheme.fontFamily,
@@ -200,7 +200,7 @@ class SignupScreen extends StatelessWidget {
                         : 10.0,
                   ),
                   Text(
-                    'Create Account',
+                    AppLocalizations.of(context)!.createAccount,
                     style: TextStyle(
                       fontSize: titleFontSize * 1.2, // Bigger size
                       fontWeight: FontWeight.w700,
@@ -225,7 +225,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Full Name',
+                  AppLocalizations.of(context)!.fullName,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -259,7 +259,7 @@ class SignupScreen extends StatelessWidget {
                   fontFamily: AppTheme.fontFamily,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Enter your full name',
+                  hintText: AppLocalizations.of(context)!.fullNameHint,
                   prefixIcon: Icon(
                     Icons.person,
                     color: theme.colorScheme.outline,
@@ -303,7 +303,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Email Address',
+                  AppLocalizations.of(context)!.emailAddress,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -340,7 +340,7 @@ class SignupScreen extends StatelessWidget {
                     fontFamily: AppTheme.fontFamily,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'example@email.com',
+                    hintText: AppLocalizations.of(context)!.emailHint,
                     prefixIcon: Icon(
                       Icons.email_outlined,
                       color: theme.colorScheme.outline,
@@ -387,7 +387,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Phone Number',
+                  AppLocalizations.of(context)!.phoneNumber,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -424,7 +424,7 @@ class SignupScreen extends StatelessWidget {
                     fontFamily: AppTheme.fontFamily,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Enter your phone number',
+                    hintText: AppLocalizations.of(context)!.phoneNumberHint,
                     prefixIcon: Icon(
                       Icons.phone_outlined,
                       color: theme.colorScheme.outline,
@@ -471,7 +471,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Password',
+                  AppLocalizations.of(context)!.password,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -509,7 +509,7 @@ class SignupScreen extends StatelessWidget {
                     fontFamily: AppTheme.fontFamily,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Enter your password',
+                    hintText: AppLocalizations.of(context)!.passwordHint,
                     prefixIcon: Icon(
                       Icons.lock_outline,
                       color: theme.colorScheme.outline,
@@ -565,7 +565,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Confirm Password',
+                  AppLocalizations.of(context)!.confirmPassword,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -604,7 +604,7 @@ class SignupScreen extends StatelessWidget {
                     fontFamily: AppTheme.fontFamily,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Confirm your password',
+                    hintText: AppLocalizations.of(context)!.confirmPasswordHint,
                     prefixIcon: Icon(
                       Icons.lock_outline,
                       color: theme.colorScheme.outline,
@@ -660,7 +660,7 @@ class SignupScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Upload Emirates ID',
+                  AppLocalizations.of(context)!.uploadEmiratesId,
                   style: TextStyle(
                     fontSize: isTablet
                         ? 18.0
@@ -677,7 +677,7 @@ class SignupScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Please upload both the front and back of your Emirates Card for verification.',
+                AppLocalizations.of(context)!.uploadEmiratesIdDescription,
                 style: TextStyle(
                   fontSize: isTablet
                       ? 16.0
@@ -709,7 +709,7 @@ class SignupScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: buildDocumentUploadCard(
-                          label: 'Front Side',
+                          label: AppLocalizations.of(context)!.frontSide,
                           imageData: controller.registrationImageFront,
                           onTap: () => controller.pickRegistrationImageFront(),
                         ),
@@ -717,7 +717,7 @@ class SignupScreen extends StatelessWidget {
                       SizedBox(width: uploadSpacing),
                       Expanded(
                         child: buildDocumentUploadCard(
-                          label: 'Back Side',
+                          label: AppLocalizations.of(context)!.backSide,
                           imageData: controller.registrationImageBack,
                           onTap: () => controller.pickRegistrationImageBack(),
                         ),
@@ -802,7 +802,7 @@ class SignupScreen extends StatelessWidget {
                                     : 6.0,
                               ),
                               Text(
-                                AppStrings.signup,
+                                AppLocalizations.of(context)!.signup,
                                 style: TextStyle(
                                   fontSize: isTablet
                                       ? 18.0
@@ -836,7 +836,7 @@ class SignupScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Already have an account? ",
+                    AppLocalizations.of(context)!.alreadyHaveAccount,
                     style: TextStyle(
                       color: theme.colorScheme.outline,
                       fontFamily: AppTheme.fontFamily,
@@ -847,7 +847,7 @@ class SignupScreen extends StatelessWidget {
                       context.pop();
                     },
                     child: Text(
-                      AppStrings.login,
+                      AppLocalizations.of(context)!.login,
                       style: TextStyle(
                         color: AppTheme.redPrimary,
                         fontFamily: AppTheme.fontFamily,

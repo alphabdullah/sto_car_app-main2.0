@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/parts_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../models/part_model.dart';
@@ -67,7 +68,7 @@ class PartsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Featured Marketplace',
+                                AppLocalizations.of(context)!.featuredMarketplace,
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -78,8 +79,8 @@ class PartsScreen extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 partsState.selectedCompany != null
-                                    ? 'Viewing products from ${partsState.selectedCompany!.name}'
-                                    : 'Showing ${partsState.parts.length} specialized components',
+                                    ? AppLocalizations.of(context)!.viewingProductsFrom(partsState.selectedCompany!.name)
+                                    : AppLocalizations.of(context)!.showingSpecializedComponents(partsState.parts.length),
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: theme.colorScheme.onSurfaceVariant,
@@ -97,7 +98,7 @@ class PartsScreen extends StatelessWidget {
                                     Icons.tune_rounded,
                                     color: AppTheme.redPrimary,
                                   ),
-                                  tooltip: 'Advanced Filters',
+                                  tooltip: AppLocalizations.of(context)!.advancedFilters,
                                 ),
                                 const SizedBox(width: 8),
                                 Container(
@@ -112,16 +113,17 @@ class PartsScreen extends StatelessWidget {
                                       color: AppTheme.success.withOpacity(0.2),
                                     ),
                                   ),
-                                  child: const Row(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.bolt,
                                         color: AppTheme.success,
                                         size: 14,
                                       ),
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Text(
-                                        'Live',
+                                        AppLocalizations.of(context)!.live,
                                         style: TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,
@@ -154,8 +156,8 @@ class PartsScreen extends StatelessWidget {
                     return SliverFillRemaining(
                       child: _EmptyState(
                         icon: Icons.search_off_rounded,
-                        title: 'No Parts Found',
-                        message: 'Try adjusting your filters or search query',
+                        title: AppLocalizations.of(context)!.noPartsFound,
+                        message: AppLocalizations.of(context)!.noPartsFoundMessage,
                       ),
                     );
                   }
@@ -243,7 +245,7 @@ class _FilterSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Advanced Filters',
+                AppLocalizations.of(context)!.advancedFilters,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -255,13 +257,13 @@ class _FilterSheet extends StatelessWidget {
                   state.clearAllFilters();
                   Navigator.pop(context);
                 },
-                child: const Text('Reset All'),
+                child: Text(AppLocalizations.of(context)!.resetAll),
               ),
             ],
           ),
           const SizedBox(height: 24),
           Text(
-            'CONDITION',
+            AppLocalizations.of(context)!.condition,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
@@ -295,7 +297,7 @@ class _FilterSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'PRICE RANGE (AED)',
+            AppLocalizations.of(context)!.priceRangeAed,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
@@ -311,7 +313,7 @@ class _FilterSheet extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   style: TextStyle(color: theme.colorScheme.onSurface),
                   decoration: InputDecoration(
-                    labelText: 'Min',
+                    labelText: AppLocalizations.of(context)!.min,
                     hintText: '0',
                     hintStyle: TextStyle(color: theme.colorScheme.outline),
                     filled: true,
@@ -331,7 +333,7 @@ class _FilterSheet extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   style: TextStyle(color: theme.colorScheme.onSurface),
                   decoration: InputDecoration(
-                    labelText: 'Max',
+                    labelText: AppLocalizations.of(context)!.max,
                     hintText: '10000+',
                     hintStyle: TextStyle(color: theme.colorScheme.outline),
                     filled: true,
@@ -358,9 +360,9 @@ class _FilterSheet extends StatelessWidget {
               ),
               elevation: 0,
             ),
-            child: const Text(
-              'Apply Filters',
-              style: TextStyle(
+            child: Text(
+              AppLocalizations.of(context)!.applyFilters,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 fontSize: 16,
@@ -476,7 +478,7 @@ class _HeroHeader extends StatelessWidget {
                               ),
                               const SizedBox(width: 12),
                               Text(
-                                'Parts Store',
+                                AppLocalizations.of(context)!.partsStore,
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -502,7 +504,7 @@ class _HeroHeader extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Explore Premium Components',
+                  AppLocalizations.of(context)!.explorePremiumComponents,
                   style: TextStyle(
                     fontSize: 16,
                     color: theme.colorScheme.onSurfaceVariant,
@@ -514,7 +516,7 @@ class _HeroHeader extends StatelessWidget {
                   onChanged: onSearch,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: 'Search parts, brands, OEM...',
+                    hintText: AppLocalizations.of(context)!.searchPartsHint,
                     hintStyle: TextStyle(color: theme.colorScheme.outline),
                     prefixIcon: Icon(
                       Icons.search,
@@ -544,7 +546,7 @@ class _HeroHeader extends StatelessWidget {
                     Expanded(
                       child: _StatCard(
                         icon: Icons.business_rounded,
-                        label: 'Verified Brands',
+                        label: AppLocalizations.of(context)!.verifiedBrands,
                         value: totalCompanies.toString(),
                         color: AppTheme.info,
                       ),
@@ -553,7 +555,7 @@ class _HeroHeader extends StatelessWidget {
                     Expanded(
                       child: _StatCard(
                         icon: Icons.inventory_2_rounded,
-                        label: 'Total Parts',
+                        label: AppLocalizations.of(context)!.totalParts,
                         value: totalParts.toString(),
                         color: AppTheme.success,
                       ),
@@ -848,12 +850,13 @@ class _PartGridCard extends StatelessWidget {
                           color: Colors.white.withOpacity(0.2),
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.bolt, color: AppTheme.warning, size: 12),
-                          SizedBox(width: 4),
+                          const Icon(Icons.bolt, color: AppTheme.warning, size: 12),
+                          const SizedBox(width: 4),
                           Text(
-                            'FEATURED',
+                            AppLocalizations.of(context)!.featured,
                             style: TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w900,
@@ -945,7 +948,7 @@ class _BrandSelector extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
           child: Text(
-            'SHOP BY BRAND',
+            AppLocalizations.of(context)!.shopByBrand,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.bold,
@@ -964,7 +967,7 @@ class _BrandSelector extends StatelessWidget {
               if (index == 0) {
                 final isSelected = selectedCompanyId == null;
                 return _BrandCard(
-                  name: 'All Brands',
+                  name: AppLocalizations.of(context)!.allBrands,
                   isSelected: isSelected,
                   onTap: () => onSelected(null),
                   icon: Icons.apps_rounded,

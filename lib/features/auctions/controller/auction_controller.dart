@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/custom_button.dart';
 import '../../../core/api/api_client.dart' as api;
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auction_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../models/auction_model.dart';
@@ -59,8 +59,8 @@ class AuctionController extends GetxController {
         'AuctionController.showBidDialog: User not verified, showing snackbar',
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please verify your account to place bids'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseVerifyToPlaceBids),
           backgroundColor: Colors.orange,
         ),
       );
@@ -76,20 +76,21 @@ class AuctionController extends GetxController {
         AppConstants.minBidIncrement;
     _bidAmount.value = minBid;
 
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Place Bid - ${auction.title}'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.placeBidTitle(auction.title)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${AppStrings.currentBid}: ${auction.currentBid ?? auction.startingBid} AED',
+                '${l10n.currentBid}: ${auction.currentBid ?? auction.startingBid} AED',
               ),
               const SizedBox(height: 8),
-              Text('${AppStrings.minimumBid}: $minBid AED'),
+              Text('${l10n.minimumBid}: $minBid AED'),
               const SizedBox(height: 16),
               Obx(
                 () => TextField(
@@ -98,10 +99,10 @@ class AuctionController extends GetxController {
                     setBidAmount(amount);
                   },
                   decoration: InputDecoration(
-                    labelText: AppStrings.bidAmount,
+                    labelText: l10n.bidAmount,
                     prefixText: 'AED ',
                     errorText: _bidAmount.value < minBid
-                        ? 'Minimum bid is $minBid AED'
+                        ? l10n.minimumBidIs(minBid.toString())
                         : null,
                   ),
                   keyboardType: TextInputType.number,
@@ -113,11 +114,11 @@ class AuctionController extends GetxController {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(AppStrings.cancel),
+            child: Text(l10n.cancel),
           ),
           Obx(
             () => CustomButton(
-              text: AppStrings.placeBid,
+              text: l10n.placeBid,
               onPressed: _bidAmount.value >= minBid
                   ? () {
                       print('AuctionController: Place Bid button pressed!');
@@ -166,18 +167,18 @@ class AuctionController extends GetxController {
         Navigator.pop(context);
         if (success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Bid placed successfully!'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.bidPlacedSuccess),
               backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
             ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to place bid. Please try again.'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.bidFailedTryAgain),
               backgroundColor: Colors.red,
-              duration: Duration(seconds: 3),
+              duration: const Duration(seconds: 3),
             ),
           );
         }
@@ -200,7 +201,9 @@ class AuctionController extends GetxController {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to place bid: ${e.toString()}'),
+            content: Text(
+              AppLocalizations.of(context)!.bidFailedWithError(e.toString()),
+            ),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),

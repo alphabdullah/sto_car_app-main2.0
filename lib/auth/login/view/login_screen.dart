@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../controller/login_controller.dart';
 
 /// Login screen (MVC pattern - View layer)
@@ -109,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                           : 10.0,
                     ),
                     Text(
-                      'Welcome back',
+                      AppLocalizations.of(context)!.welcomeBack,
                       style: TextStyle(
                         fontSize: titleFontSize * 1.2, // Bigger size
                         fontWeight: FontWeight.w700,
@@ -134,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Email Address',
+                    AppLocalizations.of(context)!.emailAddress,
                     style: TextStyle(
                       fontSize: isTablet
                           ? 18.0
@@ -171,7 +171,7 @@ class LoginScreen extends StatelessWidget {
                       fontFamily: AppTheme.fontFamily,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'example@email.com',
+                      hintText: AppLocalizations.of(context)!.emailHint,
                       prefixIcon: Icon(
                         Icons.email_outlined,
                         color: theme.colorScheme.outline,
@@ -218,7 +218,7 @@ class LoginScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Password',
+                    AppLocalizations.of(context)!.password,
                     style: TextStyle(
                       fontSize: isTablet
                           ? 18.0
@@ -257,7 +257,7 @@ class LoginScreen extends StatelessWidget {
                       fontFamily: AppTheme.fontFamily,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Enter your password',
+                      hintText: AppLocalizations.of(context)!.passwordHint,
                       prefixIcon: Icon(
                         Icons.lock_outline,
                         color: theme.colorScheme.outline,
@@ -318,7 +318,7 @@ class LoginScreen extends StatelessWidget {
                       context.push(AppConstants.routeForgotPassword);
                     },
                     child: Text(
-                      AppStrings.forgotPassword,
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: TextStyle(
                         color: AppTheme.redPrimary,
                         fontFamily: AppTheme.fontFamily,
@@ -403,7 +403,7 @@ class LoginScreen extends StatelessWidget {
                                       : 6.0,
                                 ),
                                 Text(
-                                  AppStrings.login,
+                                  AppLocalizations.of(context)!.login,
                                   style: TextStyle(
                                     fontSize: isTablet
                                         ? 18.0
@@ -437,7 +437,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      AppLocalizations.of(context)!.dontHaveAccount,
                       style: TextStyle(
                         color: theme.colorScheme.outline,
                         fontFamily: AppTheme.fontFamily,
@@ -448,7 +448,7 @@ class LoginScreen extends StatelessWidget {
                         context.push(AppConstants.routeSignup);
                       },
                       child: Text(
-                        AppStrings.signup,
+                        AppLocalizations.of(context)!.signup,
                         style: TextStyle(
                           color: AppTheme.redPrimary,
                           fontWeight: FontWeight.w600,

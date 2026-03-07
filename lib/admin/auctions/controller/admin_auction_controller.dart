@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/constants/app_strings.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../services/admin_service.dart';
 import '../../../core/api/api_client.dart' as api;
 import '../../../models/auction_model.dart';
@@ -82,63 +82,84 @@ class AdminAuctionController extends GetxController {
       print('AdminAuctionController: Parsed ${auctions.length} auctions');
     } on api.ApiException catch (e) {
       print('AdminAuctionController: API error - ${e.message}');
-      Get.snackbar(
-        'Error',
-        e.message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      _showErrorSnackbar(e.message);
     } catch (e) {
       print('AdminAuctionController: Unexpected error - $e');
-      Get.snackbar(
-        'Error',
-        'Failed to load pending auctions. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      _showErrorSnackbar(null);
     } finally {
       _isLoadingPending.value = false;
     }
   }
 
+  void _showErrorSnackbar(String? message) {
+    final ctx = Get.context;
+    final title = ctx != null ? AppLocalizations.of(ctx)!.error : 'Error';
+    final text = message ??
+        (ctx != null
+            ? AppLocalizations.of(ctx)!.failedToLoadPendingAuctions
+            : 'Failed to load pending auctions. Please try again.');
+    Get.snackbar(
+      title,
+      text,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 3),
+    );
+  }
+
   Future<void> approveAuction(String auctionId) async {
     _isLoading.value = true;
+    final ctx = Get.context;
     try {
       await _adminService.approveAuction(auctionId);
-      Get.snackbar(
-        AppStrings.success,
-        'Auction approved successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 2),
-      );
+      if (ctx != null) {
+        final l = AppLocalizations.of(ctx)!;
+        Get.snackbar(
+          l.success,
+          l.auctionApprovedSuccessfully,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+      } else {
+        Get.snackbar(
+          'Success',
+          'Auction approved successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+      }
       // Remove from pending list and refresh
       _pendingAuctions.removeWhere((a) => a.id == auctionId);
       // Reload to get fresh data
       await loadPendingAuctions(forceRefresh: true);
     } on api.ApiException catch (e) {
-      Get.snackbar(
-        'Error',
-        e.message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      _showErrorSnackbar(e.message);
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to approve auction. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      if (ctx != null) {
+        final l = AppLocalizations.of(ctx)!;
+        Get.snackbar(
+          l.error,
+          l.failedToApproveAuction,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to approve auction. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      }
     } finally {
       _isLoading.value = false;
     }
@@ -146,38 +167,56 @@ class AdminAuctionController extends GetxController {
 
   Future<void> rejectAuction(String auctionId) async {
     _isLoading.value = true;
+    final ctx = Get.context;
     try {
       await _adminService.rejectAuction(auctionId);
-      Get.snackbar(
-        AppStrings.success,
-        'Auction rejected',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 2),
-      );
+      if (ctx != null) {
+        final l = AppLocalizations.of(ctx)!;
+        Get.snackbar(
+          l.success,
+          l.auctionRejected,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+      } else {
+        Get.snackbar(
+          'Success',
+          'Auction rejected',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        );
+      }
       // Remove from pending list and refresh
       _pendingAuctions.removeWhere((a) => a.id == auctionId);
       // Reload to get fresh data
       await loadPendingAuctions(forceRefresh: true);
     } on api.ApiException catch (e) {
-      Get.snackbar(
-        'Error',
-        e.message,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      _showErrorSnackbar(e.message);
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to reject auction. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        duration: const Duration(seconds: 3),
-      );
+      if (ctx != null) {
+        final l = AppLocalizations.of(ctx)!;
+        Get.snackbar(
+          l.error,
+          l.failedToRejectAuction,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          'Failed to reject auction. Please try again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      }
     } finally {
       _isLoading.value = false;
     }

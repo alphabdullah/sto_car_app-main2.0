@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../../state/auth_state.dart';
 import '../../../../services/stripe_service.dart';
 import '../../../../services/wallet_service.dart';
@@ -52,7 +54,7 @@ class UserWalletController extends GetxController {
 
   Future<void> deposit(BuildContext context) async {
     if (_depositAmount.value <= 0) {
-      _errorMessage.value = 'Please enter a valid amount';
+      _errorMessage.value = AppLocalizations.of(context)!.pleaseEnterValidAmount;
       return;
     }
 
@@ -70,10 +72,11 @@ class UserWalletController extends GetxController {
         await loadWalletSummary();
 
         if (context.mounted) {
+          final l = AppLocalizations.of(context)!;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Deposit of ${_depositAmount.value} AED successful!',
+                l.depositSuccess(_depositAmount.value),
               ),
               backgroundColor: Colors.green,
             ),
@@ -82,22 +85,25 @@ class UserWalletController extends GetxController {
           // Check if wallet is now verified
           if (_authState.wallet?.isVerified ?? false) {
              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account verified! You can now bid and purchase parts.'),
-                backgroundColor: Colors.blue,
+              SnackBar(
+                content: Text(l.accountVerifiedMessage),
+                backgroundColor: AppTheme.redPrimary,
               ),
             );
           }
         }
         _depositAmount.value = 0.0;
       } else {
-        _errorMessage.value = response['message'] ?? 'Deposit failed';
+        final ctx = Get.context;
+        _errorMessage.value = response['message'] ??
+            (ctx != null ? AppLocalizations.of(ctx)!.depositFailed : 'Deposit failed');
       }
     } catch (e) {
       print('UserWalletController.deposit error: $e');
-      _errorMessage.value = e.toString().contains('Exception:') 
+      final ctx = Get.context;
+      _errorMessage.value = e.toString().contains('Exception:')
           ? e.toString().split('Exception:')[1].trim()
-          : 'Deposit failed. Please try again.';
+          : (ctx != null ? AppLocalizations.of(ctx)!.depositFailedTryAgain : 'Deposit failed. Please try again.');
     } finally {
       _isLoading.value = false;
     }

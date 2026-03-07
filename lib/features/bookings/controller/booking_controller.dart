@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/booking_state.dart';
 import '../../../services/booking_service.dart';
 import '../../../core/api/api_client.dart' as api;
@@ -49,28 +50,29 @@ class BookingController extends GetxController {
 
   Future<void> submitBooking(BuildContext context) async {
     // Validate form
+    final l10n = AppLocalizations.of(context)!;
     if (nameController.text.trim().isEmpty) {
-      _showError(context, 'Please enter your name');
+      _showError(context, l10n.pleaseEnterName);
       return;
     }
     if (phoneController.text.trim().isEmpty) {
-      _showError(context, 'Please enter your phone number');
+      _showError(context, l10n.pleaseEnterPhone);
       return;
     }
     if (carModelController.text.trim().isEmpty) {
-      _showError(context, 'Please enter car model');
+      _showError(context, l10n.pleaseEnterCarModel);
       return;
     }
     if (carNameController.text.trim().isEmpty) {
-      _showError(context, 'Please enter car name');
+      _showError(context, l10n.pleaseEnterCarName);
       return;
     }
     if (selectedDate.value == null) {
-      _showError(context, 'Please select a date');
+      _showError(context, l10n.pleaseSelectDate);
       return;
     }
     if (selectedTime.value == null) {
-      _showError(context, 'Please select a time');
+      _showError(context, l10n.pleaseSelectTime);
       return;
     }
 
@@ -116,7 +118,7 @@ class BookingController extends GetxController {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Booking submitted successfully!'),
+            content: Text(AppLocalizations.of(context)!.bookingSubmittedSuccess),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -133,7 +135,10 @@ class BookingController extends GetxController {
     } catch (e) {
       _isLoading.value = false;
       if (context.mounted) {
-        _showError(context, 'Failed to submit booking: ${e.toString()}');
+        _showError(
+          context,
+          AppLocalizations.of(context)!.failedToSubmitBooking(e.toString()),
+        );
       }
     }
   }

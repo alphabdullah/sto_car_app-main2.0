@@ -5,6 +5,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/guards/verification_guard_widget.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auction_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../models/auction_model.dart';
@@ -116,7 +117,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Auction not found',
+                            AppLocalizations.of(context)!.auctionNotFound,
                             style: TextStyle(
                               fontSize: 18,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -127,7 +128,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                           ElevatedButton(
                             onPressed: () =>
                                 context.push(AppConstants.routeAuctions),
-                            child: const Text('Back to Auctions'),
+                            child: Text(AppLocalizations.of(context)!.backToAuctions),
                           ),
                         ],
                       ),
@@ -154,7 +155,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Auction not found',
+                            AppLocalizations.of(context)!.auctionNotFound,
                             style: TextStyle(
                               fontSize: 18,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -165,7 +166,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                           ElevatedButton(
                             onPressed: () =>
                                 context.push(AppConstants.routeAuctions),
-                            child: const Text('Back to Auctions'),
+                            child: Text(AppLocalizations.of(context)!.backToAuctions),
                           ),
                         ],
                       ),
@@ -275,7 +276,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                                         .description
                                         .isNotEmpty) ...[
                                       Text(
-                                        'Description',
+                                        AppLocalizations.of(context)!.description,
                                         style: TextStyle(
                                           fontSize: isTablet
                                               ? 22
@@ -565,7 +566,9 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
           ),
           const SizedBox(width: 6),
           Text(
-            isWinning ? 'Winning Bid' : 'Outbid',
+            isWinning
+                ? AppLocalizations.of(context)!.winningBid
+                : AppLocalizations.of(context)!.outbid,
             style: const TextStyle(
               fontSize: 13,
               color: Colors.white,
@@ -598,7 +601,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
               child: _buildStatCard(
                 context: context,
                 iconImage: 'assets/images/money.png',
-                label: 'Current Bid',
+                label: AppLocalizations.of(context)!.currentBid,
                 value: '${auction.currentBid ?? auction.startingBid}',
                 currency: 'AED',
                 color: theme.colorScheme.onSurface,
@@ -612,8 +615,8 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
               child: _buildStatCard(
                 context: context,
                 iconImage: 'assets/images/calendar.png',
-                label: 'Time Left',
-                value: _formatTimeRemaining(timeRemaining),
+                label: AppLocalizations.of(context)!.timeLeft,
+                value: _formatTimeRemaining(context, timeRemaining),
                 color: theme.colorScheme.onSurface,
                 isTablet: isTablet,
                 isLargeMobile: isLargeMobile,
@@ -626,7 +629,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
         _buildStatCard(
           context: context,
           iconImage: 'assets/images/auction.png',
-          label: 'Total Bids',
+          label: AppLocalizations.of(context)!.totalBids,
           value: '$bidCount',
           color: theme.colorScheme.onSurface,
           isTablet: isTablet,
@@ -637,7 +640,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
     );
   }
 
-  String _formatTimeRemaining(Duration duration) {
+  String _formatTimeRemaining(BuildContext context, Duration duration) {
     if (duration.inDays > 0) {
       return '${duration.inDays}d ${duration.inHours.remainder(24)}h';
     } else if (duration.inHours > 0) {
@@ -645,7 +648,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
     } else if (duration.inMinutes > 0) {
       return '${duration.inMinutes}m';
     } else {
-      return 'Ending soon';
+      return AppLocalizations.of(context)!.endingSoon;
     }
   }
 
@@ -851,7 +854,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      'Login to Place Bid',
+                      AppLocalizations.of(context)!.loginToPlaceBid,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -906,7 +909,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Verification Required',
+                      AppLocalizations.of(context)!.verificationRequired,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -919,7 +922,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Please verify your account to place bids',
+                AppLocalizations.of(context)!.pleaseVerifyToPlaceBids,
                 style: TextStyle(
                   fontSize: 14,
                   color: AppTheme.warning,
@@ -960,7 +963,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Verify Now',
+                            AppLocalizations.of(context)!.verifyNow,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -980,7 +983,7 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
       }
 
       return VerificationGuardWidget(
-        actionDescription: 'Verify your account to place bids',
+        actionDescription: AppLocalizations.of(context)!.verifyAccountToPlaceBids,
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -1042,8 +1045,8 @@ class _AuctionDetailsScreenState extends State<AuctionDetailsScreen> {
                                 (bid) =>
                                     bid.userId == authState.currentUser?.id,
                               )
-                          ? 'Update Bid'
-                          : AppStrings.placeBid,
+                          ? AppLocalizations.of(context)!.updateBid
+                          : AppLocalizations.of(context)!.placeBid,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routing/app_router.dart';
+import 'l10n/app_localizations.dart';
 import 'state/auth_state.dart';
 import 'state/theme_state.dart';
+import 'state/locale_state.dart';
 import 'state/auction_state.dart';
 import 'state/parts_state.dart';
 import 'state/booking_state.dart';
@@ -32,6 +35,7 @@ void main() async {
   // onInit() will synchronously restore user state from storage
   final authState = Get.put(AuthState());
   Get.put(ThemeState());
+  Get.put(LocaleState());
   Get.put(AuctionState());
   Get.put(AuctionController());
   Get.put(AdminAuctionController());
@@ -67,12 +71,21 @@ class STOApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final themeState = Get.find<ThemeState>();
+      final localeState = Get.find<LocaleState>();
       return MaterialApp.router(
         title: 'STO Car Marketplace',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeState.themeMode,
+        locale: localeState.locale,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         routerConfig: AppRouter.router,
       );
     });

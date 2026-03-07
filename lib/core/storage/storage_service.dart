@@ -10,6 +10,7 @@ class StorageKeys {
   static const String isLoggedIn = 'is_logged_in';
   static const String loginApiResponse = 'login_api_response';
   static const String themeMode = 'theme_mode'; // 'light' | 'dark' | 'system'
+  static const String locale = 'locale'; // e.g. 'en', 'ar'
 }
 
 /// Storage Service
@@ -178,6 +179,20 @@ class StorageService {
   /// Get theme mode, default 'system'
   String getThemeMode() {
     return prefs.getString(StorageKeys.themeMode) ?? 'system';
+  }
+
+  // ============================================================================
+  // Locale
+  // ============================================================================
+
+  /// Save locale language code (e.g. 'en', 'ar')
+  Future<bool> saveLocale(String languageCode) async {
+    return await prefs.setString(StorageKeys.locale, languageCode);
+  }
+
+  /// Get saved locale, default null (use system)
+  String? getLocale() {
+    return prefs.getString(StorageKeys.locale);
   }
 
   // ============================================================================

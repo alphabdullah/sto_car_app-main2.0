@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/auction_model.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../state/auth_state.dart';
 
@@ -456,7 +456,7 @@ class AuctionCard extends StatelessWidget {
         _buildInfoChip(
           context: context,
           icon: Icons.person_outline,
-          value: '$bidCount Bids',
+          value: AppLocalizations.of(context)!.bidsCount(bidCount),
           color: AppTheme.info,
           isTablet: isTablet,
           isLargeMobile: isLargeMobile,
@@ -467,7 +467,7 @@ class AuctionCard extends StatelessWidget {
           _buildInfoChip(
             context: context,
             icon: Icons.access_time,
-            value: _formatTimeRemaining(timeRemaining),
+            value: _formatTimeRemaining(context, timeRemaining),
             color: AppTheme.warning,
             isTablet: isTablet,
             isLargeMobile: isLargeMobile,
@@ -627,8 +627,10 @@ class AuctionCard extends StatelessWidget {
             Flexible(
               child: Text(
                 isVerified
-                    ? (isBidded ? 'Update Bid' : AppStrings.placeBid)
-                    : 'Verify to Bid',
+                    ? (isBidded
+                        ? AppLocalizations.of(context)!.updateBid
+                        : AppLocalizations.of(context)!.placeBid)
+                    : AppLocalizations.of(context)!.verifyToBid,
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w600,
@@ -706,7 +708,7 @@ class AuctionCard extends StatelessWidget {
             SizedBox(width: isTablet ? 8 : 6),
             Flexible(
               child: Text(
-                'View Details',
+                AppLocalizations.of(context)!.viewDetails,
                 style: TextStyle(
                   fontSize: fontSize,
                   fontWeight: FontWeight.w600,
@@ -725,7 +727,7 @@ class AuctionCard extends StatelessWidget {
     );
   }
 
-  String _formatTimeRemaining(Duration duration) {
+  String _formatTimeRemaining(BuildContext context, Duration duration) {
     if (duration.inDays > 0) {
       return '${duration.inDays}d ${duration.inHours.remainder(24)}h';
     } else if (duration.inHours > 0) {
@@ -733,7 +735,7 @@ class AuctionCard extends StatelessWidget {
     } else if (duration.inMinutes > 0) {
       return '${duration.inMinutes}m';
     } else {
-      return 'Ending soon';
+      return AppLocalizations.of(context)!.endingSoon;
     }
   }
 }

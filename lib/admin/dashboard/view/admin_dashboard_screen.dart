@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/admin_stats_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../core/utils/responsive.dart';
@@ -101,7 +101,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Dashboard',
+                                    AppLocalizations.of(context)!.dashboard,
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 26 : 32,
                                       fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                   ),
                                   SizedBox(height: isSmallScreen ? 2 : 4),
                                   Text(
-                                    'Admin Overview',
+                                    AppLocalizations.of(context)!.adminOverview,
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 14 : 16,
                                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -261,7 +261,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () => statsState.refresh(),
-                child: const Text('Retry'),
+                child: Text(AppLocalizations.of(context)!.retry),
               ),
             ],
           ),
@@ -290,7 +290,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Statistics Overview',
+                      AppLocalizations.of(context)!.statisticsOverview,
                       style: TextStyle(
                         fontSize: isSmallScreen ? 20 : 22,
                         fontWeight: FontWeight.bold,
@@ -306,7 +306,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: 'Auction Revenue',
+                            title: AppLocalizations.of(context)!.auctionRevenue,
                             value:
                                 '${AppConstants.currency} ${stats.totalAuctionValue.toStringAsFixed(0)}',
                             icon: Icons.payments_rounded,
@@ -317,7 +317,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         SizedBox(width: isSmallScreen ? 8 : 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Parts Revenue',
+                            title: AppLocalizations.of(context)!.partsRevenue,
                             value:
                                 '${AppConstants.currency} ${stats.totalPartsSold.toStringAsFixed(0)}',
                             icon: Icons.shopping_bag_rounded,
@@ -334,7 +334,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: AppStrings.totalAuctions,
+                            title: AppLocalizations.of(context)!.totalAuctions,
                             value: stats.totalAuctions.toString(),
                             icon: Icons.gavel_rounded,
                             color: AppTheme.info,
@@ -344,7 +344,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         SizedBox(width: isSmallScreen ? 8 : 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Live Auctions',
+                            title: AppLocalizations.of(context)!.liveAuctions,
                             value: stats.liveAuctions.toString(),
                             icon: Icons.trending_up_rounded,
                             color: AppTheme.success,
@@ -360,7 +360,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: 'Pending Auctions',
+                            title: AppLocalizations.of(context)!.pendingAuctions,
                             value: stats.pendingApprovalAuctions.toString(),
                             icon: Icons.pending_rounded,
                             color: AppTheme.warning,
@@ -370,7 +370,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         SizedBox(width: isSmallScreen ? 8 : 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Parts Available',
+                            title: AppLocalizations.of(context)!.partsAvailable,
                             value: stats.availableParts.toString(),
                             icon: Icons.inventory_2_outlined,
                             color: AppTheme.redPrimary,
@@ -386,7 +386,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: 'Bookings Today',
+                            title: AppLocalizations.of(context)!.bookingsToday,
                             value: stats.todayBookings.toString(),
                             icon: Icons.today_rounded,
                             color: AppTheme.success,
@@ -396,7 +396,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         SizedBox(width: isSmallScreen ? 8 : 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Pending Bookings',
+                            title: AppLocalizations.of(context)!.pendingBookings,
                             value: stats.pendingBookings.toString(),
                             icon: Icons.pending_actions_rounded,
                             color: AppTheme.warning,
@@ -412,7 +412,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: AppStrings.totalUsers,
+                            title: AppLocalizations.of(context)!.totalUsers,
                             value: stats.totalUsers.toString(),
                             icon: Icons.people_rounded,
                             color: AppTheme.info,
@@ -422,7 +422,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         SizedBox(width: isSmallScreen ? 8 : 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Verified Users',
+                            title: AppLocalizations.of(context)!.verifiedUsers,
                             value: stats.verifiedUsers.toString(),
                             icon: Icons.verified_user_rounded,
                             color: AppTheme.success,
@@ -435,7 +435,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
                     // Statistics Graphs Section
                     Text(
-                      'Visual Analytics',
+                      AppLocalizations.of(context)!.visualAnalytics,
                       style: TextStyle(
                         fontSize: isSmallScreen ? 20 : 22,
                         fontWeight: FontWeight.bold,
@@ -604,7 +604,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
                   // Title
                   Text(
-                    AppStrings.logout,
+                    AppLocalizations.of(dialogContext)!.logout,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -616,7 +616,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
                   // Message
                   Text(
-                    'Are you sure you want to logout?',
+                    AppLocalizations.of(dialogContext)!.logoutConfirmMessage,
                     style: TextStyle(
                       fontSize: 16,
                       color: theme.colorScheme.onSurfaceVariant,
@@ -643,7 +643,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                             ),
                           ),
                           child: Text(
-                            AppStrings.cancel,
+                            AppLocalizations.of(dialogContext)!.cancel,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -687,7 +687,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                 child: Center(
                                   child: Text(
-                                    AppStrings.logout,
+                                    AppLocalizations.of(dialogContext)!.logout,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -720,6 +720,64 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 }
 
+String _localizedMetric(BuildContext context, String key) {
+  final l = AppLocalizations.of(context)!;
+  switch (key) {
+    case 'All Metrics':
+      return l.allMetrics;
+    case 'Total Auctions':
+      return l.totalAuctions;
+    case 'Live Auctions':
+      return l.liveAuctions;
+    case 'Pending Approval':
+      return l.pendingApproval;
+    case 'Total Parts':
+      return l.totalParts;
+    case 'Total Bookings':
+      return l.totalBookings;
+    case 'Pending Bookings':
+      return l.pendingBookings;
+    case 'Total Users':
+      return l.totalUsers;
+    case 'Verified Users':
+      return l.verifiedUsers;
+    case 'Auctions':
+      return l.chartAuctions;
+    case 'Live':
+      return l.chartLive;
+    case 'Pending':
+      return l.chartPending;
+    case 'Parts':
+      return l.chartParts;
+    case 'Bookings':
+      return l.chartBookings;
+    case 'Pending B':
+      return l.chartPendingB;
+    case 'Users':
+      return l.chartUsers;
+    case 'Verified':
+      return l.chartVerified;
+    default:
+      return key;
+  }
+}
+
+String _localizedTimePeriod(BuildContext context, String key) {
+  final l = AppLocalizations.of(context)!;
+  switch (key) {
+    case 'All Time':
+      return l.allTime;
+    case 'This Week':
+      return l.thisWeek;
+    case 'This Month':
+      return l.thisMonth;
+    case 'This Year':
+      return l.thisYear;
+    default:
+      return key;
+  }
+}
+
 /// Metric Filter Widget for Graphs
 class _MetricFilter extends StatelessWidget {
   final String selectedMetric;
@@ -735,6 +793,7 @@ class _MetricFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
@@ -752,34 +811,16 @@ class _MetricFilter extends StatelessWidget {
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
-        items: const [
-          DropdownMenuItem(value: 'All Metrics', child: Text('All Metrics')),
-          DropdownMenuItem(
-            value: 'Total Auctions',
-            child: Text('Total Auctions'),
-          ),
-          DropdownMenuItem(
-            value: 'Live Auctions',
-            child: Text('Live Auctions'),
-          ),
-          DropdownMenuItem(
-            value: 'Pending Approval',
-            child: Text('Pending Approval'),
-          ),
-          DropdownMenuItem(value: 'Total Parts', child: Text('Total Parts')),
-          DropdownMenuItem(
-            value: 'Total Bookings',
-            child: Text('Total Bookings'),
-          ),
-          DropdownMenuItem(
-            value: 'Pending Bookings',
-            child: Text('Pending Bookings'),
-          ),
-          DropdownMenuItem(value: 'Total Users', child: Text('Total Users')),
-          DropdownMenuItem(
-            value: 'Verified Users',
-            child: Text('Verified Users'),
-          ),
+        items: [
+          DropdownMenuItem(value: 'All Metrics', child: Text(l.allMetrics)),
+          DropdownMenuItem(value: 'Total Auctions', child: Text(l.totalAuctions)),
+          DropdownMenuItem(value: 'Live Auctions', child: Text(l.liveAuctions)),
+          DropdownMenuItem(value: 'Pending Approval', child: Text(l.pendingApproval)),
+          DropdownMenuItem(value: 'Total Parts', child: Text(l.totalParts)),
+          DropdownMenuItem(value: 'Total Bookings', child: Text(l.totalBookings)),
+          DropdownMenuItem(value: 'Pending Bookings', child: Text(l.pendingBookings)),
+          DropdownMenuItem(value: 'Total Users', child: Text(l.totalUsers)),
+          DropdownMenuItem(value: 'Verified Users', child: Text(l.verifiedUsers)),
         ],
         onChanged: (value) {
           if (value != null) {
@@ -823,11 +864,11 @@ class _GraphTimePeriodFilter extends StatelessWidget {
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
-        items: const [
-          DropdownMenuItem(value: 'All Time', child: Text('All Time')),
-          DropdownMenuItem(value: 'This Week', child: Text('This Week')),
-          DropdownMenuItem(value: 'This Month', child: Text('This Month')),
-          DropdownMenuItem(value: 'This Year', child: Text('This Year')),
+        items: [
+          DropdownMenuItem(value: 'All Time', child: Text(AppLocalizations.of(context)!.allTime)),
+          DropdownMenuItem(value: 'This Week', child: Text(AppLocalizations.of(context)!.thisWeek)),
+          DropdownMenuItem(value: 'This Month', child: Text(AppLocalizations.of(context)!.thisMonth)),
+          DropdownMenuItem(value: 'This Year', child: Text(AppLocalizations.of(context)!.thisYear)),
         ],
         onChanged: (value) {
           if (value != null) {
@@ -871,10 +912,10 @@ class _GraphTypeFilter extends StatelessWidget {
           fontSize: isSmallScreen ? 13 : 14,
           fontFamily: AppTheme.fontFamily,
         ),
-        items: const [
-          DropdownMenuItem(value: 'Bar Chart', child: Text('Bar Chart')),
-          DropdownMenuItem(value: 'Pie Chart', child: Text('Pie Chart')),
-          DropdownMenuItem(value: 'Line Chart', child: Text('Line Chart')),
+        items: [
+          DropdownMenuItem(value: 'Bar Chart', child: Text(AppLocalizations.of(context)!.barChart)),
+          DropdownMenuItem(value: 'Pie Chart', child: Text(AppLocalizations.of(context)!.pieChart)),
+          DropdownMenuItem(value: 'Line Chart', child: Text(AppLocalizations.of(context)!.lineChart)),
         ],
         onChanged: (value) {
           if (value != null) {
@@ -1149,8 +1190,8 @@ class _StatsBarChart extends StatelessWidget {
               Flexible(
                 child: Text(
                   selectedMetric == 'All Metrics'
-                      ? 'Statistics Comparison'
-                      : selectedMetric,
+                      ? AppLocalizations.of(context)!.statisticsComparison
+                      : _localizedMetric(context, selectedMetric),
                   style: TextStyle(
                     fontSize: isSmallScreen ? 16 : 18,
                     fontWeight: FontWeight.bold,
@@ -1175,7 +1216,7 @@ class _StatsBarChart extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  timePeriod,
+                  _localizedTimePeriod(context, timePeriod),
                   style: TextStyle(
                     fontSize: isSmallScreen ? 10 : 12,
                     color: AppTheme.redPrimary,
@@ -1218,15 +1259,16 @@ class _StatsBarChart extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const labels = [
-                          'Auctions',
-                          'Live',
-                          'Pending',
-                          'Parts',
-                          'Bookings',
-                          'Pending B',
-                          'Users',
-                          'Verified',
+                        final l = AppLocalizations.of(context)!;
+                        final labels = [
+                          l.chartAuctions,
+                          l.chartLive,
+                          l.chartPending,
+                          l.chartParts,
+                          l.chartBookings,
+                          l.chartPendingB,
+                          l.chartUsers,
+                          l.chartVerified,
                         ];
                         if (value.toInt() >= 0 &&
                             value.toInt() < labels.length) {
@@ -1469,7 +1511,7 @@ class _StatsPieChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Distribution Overview',
+                AppLocalizations.of(context)!.distributionOverview,
                 style: TextStyle(
                   fontSize: isSmallScreen ? 16 : 18,
                   fontWeight: FontWeight.bold,
@@ -1491,7 +1533,7 @@ class _StatsPieChart extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  timePeriod,
+                  _localizedTimePeriod(context, timePeriod),
                   style: TextStyle(
                     fontSize: isSmallScreen ? 10 : 12,
                     color: AppTheme.redPrimary,
@@ -1547,7 +1589,7 @@ class _StatsPieChart extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: _LegendItem(
                             color: data['color'] as Color,
-                            label: data['label'] as String,
+                            label: _localizedMetric(context, data['label'] as String),
                             value: (data['value'] as double).toInt(),
                           ),
                         );
@@ -1727,8 +1769,8 @@ class _StatsLineChart extends StatelessWidget {
               Flexible(
                 child: Text(
                   selectedMetric == 'All Metrics'
-                      ? 'Trend Analysis'
-                      : selectedMetric,
+                      ? AppLocalizations.of(context)!.trendAnalysis
+                      : _localizedMetric(context, selectedMetric),
                   style: TextStyle(
                     fontSize: isSmallScreen ? 16 : 18,
                     fontWeight: FontWeight.bold,
@@ -1753,7 +1795,7 @@ class _StatsLineChart extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  timePeriod,
+                  _localizedTimePeriod(context, timePeriod),
                   style: TextStyle(
                     fontSize: isSmallScreen ? 10 : 12,
                     color: AppTheme.redPrimary,
@@ -1793,7 +1835,7 @@ class _StatsLineChart extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
-                              label,
+                              _localizedMetric(context, label),
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 9 : 11,
                                 color: theme.colorScheme.onSurfaceVariant,

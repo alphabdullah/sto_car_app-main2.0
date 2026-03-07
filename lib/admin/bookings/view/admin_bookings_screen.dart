@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:go_router/go_router.dart';
-// import '../../../core/constants/app_constants.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
-// import '../../../state/booking_state.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/booking_model.dart';
 import '../controller/admin_booking_controller.dart';
 import '../../../core/utils/responsive.dart';
@@ -101,7 +98,7 @@ class _AdminBookingsScreenState extends State<AdminBookingsScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppStrings.manageBookings,
+                                    AppLocalizations.of(context)!.manageBookings,
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 24 : 32,
                                       fontWeight: FontWeight.bold,
@@ -114,7 +111,7 @@ class _AdminBookingsScreenState extends State<AdminBookingsScreen>
                                   ),
                                   SizedBox(height: isSmallScreen ? 2 : 4),
                                   Text(
-                                    'Manage and approve bookings',
+                                    AppLocalizations.of(context)!.manageAndApproveBookings,
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 13 : 16,
                                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -187,8 +184,8 @@ class _PendingBookingsTab extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.7,
             child: _EmptyState(
               icon: Icons.pending_actions_rounded,
-              title: 'No Pending Bookings',
-              message: 'All bookings have been reviewed',
+              title: AppLocalizations.of(context)!.noPendingBookings,
+              message: AppLocalizations.of(context)!.allBookingsReviewed,
             ),
           ),
         ),
@@ -282,8 +279,8 @@ class _AllBookingsTab extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.7,
             child: _EmptyState(
               icon: Icons.calendar_today_rounded,
-              title: 'No Bookings',
-              message: 'No bookings have been created yet',
+              title: AppLocalizations.of(context)!.noBookings,
+              message: AppLocalizations.of(context)!.noBookingsCreatedYet,
             ),
           ),
         ),
@@ -391,7 +388,7 @@ class _CustomTabBar extends StatelessWidget {
         children: [
           Expanded(
             child: _CustomTab(
-              label: 'Pending',
+              label: AppLocalizations.of(context)!.pendingTab,
               index: 0,
               controller: controller,
             ),
@@ -399,7 +396,7 @@ class _CustomTabBar extends StatelessWidget {
           const SizedBox(width: 4),
           Expanded(
             child: _CustomTab(
-              label: 'All Bookings',
+              label: AppLocalizations.of(context)!.allBookingsTab,
               index: 1,
               controller: controller,
             ),
@@ -586,7 +583,7 @@ class _AdminBookingCard extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            _getStatusText(booking.status),
+                            _getStatusText(context, booking.status),
                             style: TextStyle(
                               color: statusColor,
                               fontSize: isSmallScreen ? 11 : 12,
@@ -618,7 +615,7 @@ class _AdminBookingCard extends StatelessWidget {
                           SizedBox(width: isSmallScreen ? 6 : 8),
                           Flexible(
                             child: Text(
-                              'Created: ${booking.createdAt.toString().split(' ')[0]}',
+                              '${AppLocalizations.of(context)!.createdLabel}: ${booking.createdAt.toString().split(' ')[0]}',
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 12 : 14,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -649,7 +646,7 @@ class _AdminBookingCard extends StatelessWidget {
                               SizedBox(
                                 width: double.infinity,
                                 child: _ActionButton(
-                                  label: 'View Details',
+                                  label: AppLocalizations.of(context)!.viewDetails,
                                   icon: Icons.visibility_rounded,
                                   color: AppTheme.info,
                                   onPressed: onView,
@@ -663,7 +660,7 @@ class _AdminBookingCard extends StatelessWidget {
                                     if (onApprove != null)
                                       Expanded(
                                         child: _ActionButton(
-                                          label: AppStrings.approve,
+                                          label: AppLocalizations.of(context)!.approve,
                                           icon: Icons.check_circle_rounded,
                                           color: AppTheme.success,
                                           onPressed: onApprove!,
@@ -675,7 +672,7 @@ class _AdminBookingCard extends StatelessWidget {
                                     if (onReject != null)
                                       Expanded(
                                         child: _ActionButton(
-                                          label: AppStrings.reject,
+                                          label: AppLocalizations.of(context)!.reject,
                                           icon: Icons.cancel_rounded,
                                           color: AppTheme.error,
                                           onPressed: onReject!,
@@ -693,7 +690,7 @@ class _AdminBookingCard extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: _ActionButton(
-                                  label: 'View Details',
+                                  label: AppLocalizations.of(context)!.viewDetails,
                                   icon: Icons.visibility_rounded,
                                   color: AppTheme.info,
                                   onPressed: onView,
@@ -705,7 +702,7 @@ class _AdminBookingCard extends StatelessWidget {
                                 if (onApprove != null)
                                   Expanded(
                                     child: _ActionButton(
-                                      label: AppStrings.approve,
+                                      label: AppLocalizations.of(context)!.approve,
                                       icon: Icons.check_circle_rounded,
                                       color: AppTheme.success,
                                       onPressed: onApprove!,
@@ -717,7 +714,7 @@ class _AdminBookingCard extends StatelessWidget {
                                 if (onReject != null)
                                   Expanded(
                                     child: _ActionButton(
-                                      label: AppStrings.reject,
+                                      label: AppLocalizations.of(context)!.reject,
                                       icon: Icons.cancel_rounded,
                                       color: AppTheme.error,
                                       onPressed: onReject!,
@@ -755,18 +752,19 @@ class _AdminBookingCard extends StatelessWidget {
     }
   }
 
-  String _getStatusText(BookingStatus status) {
+  static String _getStatusText(BuildContext context, BookingStatus status) {
+    final l = AppLocalizations.of(context)!;
     switch (status) {
       case BookingStatus.pending:
-        return AppStrings.pending;
+        return l.pending;
       case BookingStatus.approved:
-        return AppStrings.approved;
+        return l.approved;
       case BookingStatus.rejected:
-        return AppStrings.rejected;
+        return l.rejected;
       case BookingStatus.completed:
-        return AppStrings.completed;
+        return l.completed;
       case BookingStatus.cancelled:
-        return 'Cancelled';
+        return l.cancelled;
     }
   }
 }

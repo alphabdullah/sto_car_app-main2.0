@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/booking_model.dart';
 import '../../../state/booking_state.dart';
 
@@ -56,17 +57,18 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
   }
 
   void _addField() {
+    final l = AppLocalizations.of(context)!;
     setState(() {
       final newId = 'field_${DateTime.now().millisecondsSinceEpoch}';
       _formFields.add(
         BookingField(
           id: newId,
-          label: 'New Field',
+          label: l.newField,
           type: BookingFieldType.text,
           isRequired: false,
         ),
       );
-      _controllers[newId] = TextEditingController(text: 'New Field');
+      _controllers[newId] = TextEditingController(text: l.newField);
       // Initialize placeholder controller for text fields
       _controllers['${newId}_placeholder'] = TextEditingController();
     });
@@ -92,11 +94,10 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
   }
 
   void _saveFields() {
-    // Update the form fields template in booking state
-    // In a real app, this would save to backend
+    final l = AppLocalizations.of(context)!;
     Get.snackbar(
-      'Success',
-      'Form fields updated successfully',
+      l.success,
+      l.formFieldsUpdatedSuccess,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppTheme.success,
       colorText: Colors.white,
@@ -155,7 +156,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Edit Form Fields',
+                            AppLocalizations.of(context)!.editFormFields,
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
@@ -166,7 +167,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Customize booking form fields',
+                            AppLocalizations.of(context)!.customizeBookingFormFields,
                             style: TextStyle(
                               fontSize: 14,
                               color: theme.colorScheme.onSurfaceVariant,
@@ -203,7 +204,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                               vertical: 12,
                             ),
                             child: Text(
-                              'Save',
+                              AppLocalizations.of(context)!.save,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -256,7 +257,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Customize the booking form fields. Users will see these fields when creating a booking.',
+                      AppLocalizations.of(context)!.formFieldsCustomizeInfo,
                       style: TextStyle(
                         fontSize: 13,
                         color: theme.colorScheme.onSurfaceVariant,
@@ -314,7 +315,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            'Add New Field',
+                            AppLocalizations.of(context)!.addNewField,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -367,7 +368,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                             ),
                             const SizedBox(height: 24),
                             Text(
-                              'No fields added yet',
+                              AppLocalizations.of(context)!.noFieldsAddedYet,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -377,7 +378,7 @@ class _FormFieldEditorScreenState extends State<FormFieldEditorScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Tap "Add New Field" to create your first field',
+                              AppLocalizations.of(context)!.tapAddNewFieldHint,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -548,7 +549,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        _getFieldTypeName(_currentField.type),
+                        _getFieldTypeName(context, _currentField.type),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -653,7 +654,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                 DropdownButtonFormField<BookingFieldType>(
                   initialValue: _currentField.type,
                   decoration: InputDecoration(
-                    labelText: 'Field Type',
+                    labelText: AppLocalizations.of(context)!.fieldType,
                     prefixIcon: Icon(
                       Icons.category_outlined,
                       color: theme.colorScheme.onSurfaceVariant,
@@ -694,7 +695,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                         children: [
                           Icon(_getTypeIcon(type), size: 18, color: typeColor),
                           const SizedBox(width: 12),
-                          Text(_getFieldTypeName(type)),
+                          Text(_getFieldTypeName(context, type)),
                         ],
                       ),
                     );
@@ -728,8 +729,8 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             widget.placeholderController ??
                             TextEditingController(),
                         decoration: InputDecoration(
-                          labelText: 'Placeholder (Optional)',
-                          hintText: 'Enter placeholder text',
+                          labelText: AppLocalizations.of(context)!.placeholderOptional,
+                          hintText: AppLocalizations.of(context)!.enterPlaceholderText,
                           prefixIcon: Icon(
                             Icons.place_outlined,
                             color: theme.colorScheme.onSurfaceVariant,
@@ -780,8 +781,8 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             widget.optionsController ?? TextEditingController(),
                         maxLines: 3,
                         decoration: InputDecoration(
-                          labelText: 'Options (comma-separated)',
-                          hintText: 'Option 1, Option 2, Option 3',
+                          labelText: AppLocalizations.of(context)!.optionsCommaSeparated,
+                          hintText: AppLocalizations.of(context)!.optionsHint,
                           prefixIcon: Icon(
                             Icons.list_rounded,
                             color: theme.colorScheme.onSurfaceVariant,
@@ -864,7 +865,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Required Field',
+                              AppLocalizations.of(context)!.requiredField,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -874,7 +875,7 @@ class _FormFieldItemState extends State<_FormFieldItem> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Users must fill this field',
+                              AppLocalizations.of(context)!.usersMustFillThisField,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: theme.colorScheme.outline,
@@ -933,22 +934,23 @@ class _FormFieldItemState extends State<_FormFieldItem> {
     }
   }
 
-  String _getFieldTypeName(BookingFieldType type) {
+  String _getFieldTypeName(BuildContext context, BookingFieldType type) {
+    final l = AppLocalizations.of(context)!;
     switch (type) {
       case BookingFieldType.text:
-        return 'Text';
+        return l.fieldTypeText;
       case BookingFieldType.number:
-        return 'Number';
+        return l.fieldTypeNumber;
       case BookingFieldType.date:
-        return 'Date';
+        return l.fieldTypeDate;
       case BookingFieldType.time:
-        return 'Time';
+        return l.fieldTypeTime;
       case BookingFieldType.dropdown:
-        return 'Dropdown';
+        return l.fieldTypeDropdown;
       case BookingFieldType.checkbox:
-        return 'Checkbox';
+        return l.fieldTypeCheckbox;
       case BookingFieldType.textarea:
-        return 'Textarea';
+        return l.fieldTypeTextarea;
     }
   }
 }

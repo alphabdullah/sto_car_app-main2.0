@@ -5,8 +5,10 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auth_state.dart';
 import '../../../state/theme_state.dart';
+import '../../../state/locale_state.dart';
 import '../../../state/auction_state.dart';
 import '../../../state/parts_state.dart';
 import '../../../state/notification_state.dart';
@@ -75,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                               horizontal: horizontalPadding,
                             ),
                             child: Text(
-                              'Explore Categories',
+                              AppLocalizations.of(context)!.exploreCategories,
                               style: Theme.of(context).textTheme.displayMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -152,22 +154,23 @@ class HomeScreen extends StatelessWidget {
       );
     } catch (e) {
       // Fallback UI if there's an error
+      final l10n = AppLocalizations.of(context)!;
       return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(title: const Text('STO - Car Marketplace')),
+        appBar: AppBar(title: Text(l10n.appTitle)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('Error loading home screen: $e'),
+              Text(l10n.errorLoadingHome(e.toString())),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   // Try to reload
                 },
-                child: const Text('Retry'),
+                child: Text(l10n.retry),
               ),
             ],
           ),
@@ -193,7 +196,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 _DrawerMenuItem(
                   icon: Icons.home_rounded,
-                  title: 'Home',
+                  title: AppLocalizations.of(context)!.home,
                   onTap: () {
                     Navigator.pop(context);
                     context.go(AppConstants.routeHomeFeature);
@@ -350,7 +353,7 @@ class _DrawerHeader extends StatelessWidget {
                 final user = authState.currentUser;
                 return Center(
                   child: Text(
-                    user?.name ?? 'User',
+                    user?.name ?? AppLocalizations.of(context)!.user,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -408,7 +411,9 @@ class _DrawerHeader extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          isVerified ? 'Verified Account' : 'Not Verified',
+                          isVerified
+                              ? AppLocalizations.of(context)!.verifiedAccount
+                              : AppLocalizations.of(context)!.notVerified,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 13,
@@ -444,7 +449,7 @@ class _DrawerThemeSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 8),
             child: Text(
-              'Theme',
+              AppLocalizations.of(context)!.theme,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -461,19 +466,19 @@ class _DrawerThemeSection extends StatelessWidget {
               children: [
                 _ThemeOptionTile(
                   icon: Icons.light_mode_rounded,
-                  title: 'Light',
+                  title: AppLocalizations.of(context)!.light,
                   isSelected: current == ThemeMode.light,
                   onTap: () => themeState.setLight(),
                 ),
                 _ThemeOptionTile(
                   icon: Icons.dark_mode_rounded,
-                  title: 'Dark',
+                  title: AppLocalizations.of(context)!.dark,
                   isSelected: current == ThemeMode.dark,
                   onTap: () => themeState.setDark(),
                 ),
                 _ThemeOptionTile(
                   icon: Icons.settings_brightness_rounded,
-                  title: 'System',
+                  title: AppLocalizations.of(context)!.system,
                   isSelected: current == ThemeMode.system,
                   onTap: () => themeState.setSystem(),
                 ),
@@ -689,7 +694,7 @@ class _CustomHeader extends StatelessWidget {
                       SizedBox(width: isSmallScreen ? 4.0 : 8.0),
                     Flexible(
                       child: Text(
-                        'Welcome Back!',
+                        AppLocalizations.of(context)!.welcomeBack,
                         style: TextStyle(
                           fontSize: fontSize,
                           fontWeight: FontWeight.w600,
@@ -799,24 +804,35 @@ class _LanguageSelector extends StatefulWidget {
 }
 
 class _LanguageSelectorState extends State<_LanguageSelector> {
-  String _selectedLanguage = 'English';
-  final List<Map<String, String>> _languages = [
-    {'code': 'en', 'name': 'English', 'native': 'English'},
-    {'code': 'ar', 'name': 'Arabic', 'native': 'العربية'},
-    {'code': 'fr', 'name': 'French', 'native': 'Français'},
-    {'code': 'es', 'name': 'Spanish', 'native': 'Español'},
+  static const List<Map<String, String>> _languages = [
+    {'code': 'en', 'native': 'English'},
+    {'code': 'ar', 'native': 'العربية'},
   ];
 
   double get iconSize => widget.iconSize;
 
+  String _languageDisplayName(AppLocalizations l10n, String code) {
+    switch (code) {
+      case 'en':
+        return l10n.languageEnglish;
+      case 'ar':
+        return l10n.languageArabic;
+      default:
+        return code.toUpperCase();
+    }
+  }
+
   void _showLanguageDropdown(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final localeState = Get.find<LocaleState>();
+    final currentCode = localeState.locale?.languageCode ?? 'en';
     final RenderBox button = context.findRenderObject() as RenderBox;
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     final Offset position = button.localToGlobal(Offset.zero);
 
-    showMenu(
+    showMenu<String>(
       context: context,
       position: RelativeRect.fromLTRB(
         position.dx,
@@ -828,9 +844,11 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
       color: theme.colorScheme.surfaceContainerHighest,
       elevation: 8,
       items: _languages.map((language) {
-        final isSelected = _selectedLanguage == language['name'];
+        final code = language['code']!;
+        final isSelected = currentCode == code;
+        final name = _languageDisplayName(l10n, code);
         return PopupMenuItem<String>(
-          value: language['code'],
+          value: code,
           padding: EdgeInsets.zero,
           child: Container(
             decoration: BoxDecoration(
@@ -853,7 +871,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                   ),
                   child: Center(
                     child: Text(
-                      language['code']!.toUpperCase(),
+                      code.toUpperCase(),
                       style: TextStyle(
                         color: isSelected
                             ? theme.colorScheme.onPrimary
@@ -872,7 +890,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        language['name']!,
+                        name,
                         style: TextStyle(
                           color: isSelected
                               ? theme.colorScheme.onSurface
@@ -884,7 +902,7 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
                           fontFamily: AppTheme.fontFamily,
                         ),
                       ),
-                      if (language['native'] != language['name'])
+                      if (language['native'] != name)
                         Text(
                           language['native']!,
                           style: TextStyle(
@@ -909,21 +927,25 @@ class _LanguageSelectorState extends State<_LanguageSelector> {
       }).toList(),
     ).then((value) {
       if (value != null) {
-        setState(() {
-          _selectedLanguage = _languages.firstWhere(
-            (lang) => lang['code'] == value,
-          )['name']!;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Language changed to $_selectedLanguage'),
-            backgroundColor: theme.colorScheme.surface,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+        localeState.setLocale(value);
+        if (context.mounted) {
+          final displayName = _languageDisplayName(
+            AppLocalizations.of(context)!,
+            value,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.languageChangedTo(displayName),
+              ),
+              backgroundColor: theme.colorScheme.surface,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-          ),
-        );
+          );
+        }
       }
     });
   }
@@ -980,7 +1002,7 @@ class _SearchBar extends StatelessWidget {
       ),
       child: TextField(
         decoration: InputDecoration(
-          hintText: 'Search for Vehicles, Parts, Services...',
+          hintText: AppLocalizations.of(context)!.searchHint,
           hintStyle: TextStyle(
             color: theme.colorScheme.outline,
             fontSize: 15,
@@ -1008,9 +1030,13 @@ class _SearchBar extends StatelessWidget {
           fontFamily: AppTheme.fontFamily,
         ),
         onSubmitted: (value) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Searching for: $value')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.searchingFor(value),
+              ),
+            ),
+          );
         },
       ),
     );
@@ -1089,9 +1115,10 @@ class _CarAuctionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _FeatureCard(
-      title: 'Car Auctions',
-      subtitle: '$auctionsCount live auctions',
+      title: l10n.carAuctions,
+      subtitle: l10n.liveAuctionsCount(auctionsCount),
       iconImage: 'assets/images/auction.png',
       iconColor: AppTheme.redPrimary,
       showIconBackground: false,
@@ -1107,9 +1134,10 @@ class _STOPerformanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authState = AuthState();
+    final l10n = AppLocalizations.of(context)!;
     return _FeatureCard(
-      title: 'STO Performance',
-      subtitle: 'Book a service',
+      title: l10n.stoPerformance,
+      subtitle: l10n.bookService,
       iconImage: 'assets/images/calendar.png',
       iconColor: Colors.blue.shade700,
       showIconBackground: false,
@@ -1133,9 +1161,10 @@ class _PerformancePartsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _FeatureCard(
-      title: 'Performance Parts',
-      subtitle: '$partsCount companies',
+      title: l10n.performanceParts,
+      subtitle: l10n.companiesCount(partsCount),
       iconImage: 'assets/images/repair.png',
       iconColor: Colors.purple.shade700,
       showIconBackground: false,
@@ -1151,11 +1180,13 @@ class _GetVerifiedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authState = AuthState();
+    final l10n = AppLocalizations.of(context)!;
     return Obx(() {
       final isVerified = authState.isVerified;
       return _FeatureCard(
-        title: 'Get Verified',
-        subtitle: isVerified ? 'Account verified' : 'Verify your account',
+        title: l10n.getVerified,
+        subtitle:
+            isVerified ? l10n.accountVerified : l10n.verifyYourAccount,
         iconImage: 'assets/images/verify.png',
         iconColor: isVerified ? Colors.green.shade700 : Colors.orange.shade700,
         showIconBackground: false,
@@ -1563,8 +1594,8 @@ class _AuthButtonsRow extends StatelessWidget {
                         color: Colors.white,
                       ),
                       const SizedBox(width: 10),
-                      const Text(
-                        AppStrings.login,
+                      Text(
+                         AppLocalizations.of(context)!.login,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -1618,9 +1649,9 @@ class _AuthButtonsRow extends StatelessWidget {
                         color: AppTheme.redPrimary,
                       ),
                       const SizedBox(width: 10),
-                      const Text(
-                        'Signup',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.signup,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.redPrimary,
@@ -1662,7 +1693,7 @@ class _LiveAuctionsPreview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Live Auctions',
+                AppLocalizations.of(context)!.liveAuctions,
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -1673,7 +1704,7 @@ class _LiveAuctionsPreview extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      'View All',
+                      AppLocalizations.of(context)!.viewAll,
                       style: TextStyle(
                         color: AppTheme.redPrimary,
                         fontWeight: FontWeight.w600,

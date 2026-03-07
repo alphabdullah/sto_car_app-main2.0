@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/guards/verification_guard_widget.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/parts_state.dart';
 import '../../../state/auth_state.dart';
 import '../../../models/part_model.dart';
@@ -34,7 +35,7 @@ class CompanyPartsScreen extends StatelessWidget {
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
-          company?.name ?? 'Parts',
+          company?.name ?? AppLocalizations.of(context)!.parts,
           style: TextStyle(
             color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.w600,
@@ -63,8 +64,8 @@ class CompanyPartsScreen extends StatelessWidget {
         if (parts.isEmpty) {
           return _EmptyState(
             icon: Icons.inventory_2_outlined,
-            title: 'No Parts Available',
-            message: 'This company doesn\'t have any parts listed yet',
+            title: AppLocalizations.of(context)!.noPartsAvailable,
+            message: AppLocalizations.of(context)!.noPartsAvailableMessage,
             companyName: company?.name,
           );
         }
@@ -394,7 +395,9 @@ class _PartCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            isInStock ? 'In Stock' : 'Out of Stock',
+                            isInStock
+                                ? AppLocalizations.of(context)!.inStock
+                                : AppLocalizations.of(context)!.outOfStock,
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -451,7 +454,7 @@ class _PartCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Price',
+                              AppLocalizations.of(context)!.price,
                               style: TextStyle(
                                 fontSize: 11,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -486,7 +489,7 @@ class _PartCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Available',
+                                AppLocalizations.of(context)!.available,
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: theme.colorScheme.onSurfaceVariant,
@@ -496,7 +499,7 @@ class _PartCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '${part.stockQuantity} units',
+                                AppLocalizations.of(context)!.unitsCount(part.stockQuantity),
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -515,7 +518,7 @@ class _PartCard extends StatelessWidget {
                 if (isInStock && onPurchase != null) ...[
                   const SizedBox(height: 16),
                   VerificationGuardWidget(
-                    actionDescription: 'Verify your account to purchase parts',
+                    actionDescription: AppLocalizations.of(context)!.verifyAccountToPurchaseParts,
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -536,9 +539,9 @@ class _PartCard extends StatelessWidget {
                       child: ElevatedButton.icon(
                         onPressed: onPurchase,
                         icon: const Icon(Icons.shopping_cart, size: 20),
-                        label: const Text(
-                          'Purchase',
-                          style: TextStyle(
+                        label: Text(
+                          AppLocalizations.of(context)!.purchase,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),

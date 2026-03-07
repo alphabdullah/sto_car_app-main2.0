@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../controller/booking_controller.dart';
 import '../../../core/utils/responsive.dart';
 
@@ -44,12 +45,12 @@ class NewBookingScreen extends StatelessWidget {
                         minWidth: 40,
                         minHeight: 40,
                       ),
-                      tooltip: 'Back',
+                      tooltip: AppLocalizations.of(context)!.back,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Book a Service',
+                        AppLocalizations.of(context)!.bookAService,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -128,44 +129,44 @@ class _BookingForm extends StatelessWidget {
 
           // Name Field
           _FormField(
-            label: 'Full Name',
+            label: AppLocalizations.of(context)!.fullName,
             controller: controller.nameController,
             icon: Icons.person_outline_rounded,
             keyboardType: TextInputType.name,
-            hintText: 'Enter your full name',
+            hintText: AppLocalizations.of(context)!.enterFullName,
           ),
 
           const SizedBox(height: 20),
 
           // Phone Number Field
           _FormField(
-            label: 'Phone Number',
+            label: AppLocalizations.of(context)!.phoneNumber,
             controller: controller.phoneController,
             icon: Icons.phone_outlined,
             keyboardType: TextInputType.phone,
-            hintText: 'Enter your phone number',
+            hintText: AppLocalizations.of(context)!.enterPhoneNumber,
           ),
 
           const SizedBox(height: 20),
 
           // Car Name Field
           _FormField(
-            label: 'Car Name',
+            label: AppLocalizations.of(context)!.carName,
             controller: controller.carNameController,
             icon: Icons.directions_car_outlined,
             keyboardType: TextInputType.text,
-            hintText: 'e.g., BMW, Mercedes',
+            hintText: AppLocalizations.of(context)!.carNameHint,
           ),
 
           const SizedBox(height: 20),
 
           // Car Model Field
           _FormField(
-            label: 'Car Model',
+            label: AppLocalizations.of(context)!.carModel,
             controller: controller.carModelController,
             icon: Icons.build_outlined,
             keyboardType: TextInputType.text,
-            hintText: 'e.g., 3 Series, C-Class',
+            hintText: AppLocalizations.of(context)!.carModelHint,
           ),
 
           const SizedBox(height: 20),
@@ -285,7 +286,7 @@ class _BookingForm extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          'Submit Booking',
+                          AppLocalizations.of(context)!.submitBooking,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -405,7 +406,7 @@ class _DescriptionField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Description',
+          AppLocalizations.of(context)!.description,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -425,7 +426,7 @@ class _DescriptionField extends StatelessWidget {
             fontSize: 16,
           ),
           decoration: InputDecoration(
-            hintText: 'Enter service description or additional notes',
+            hintText: AppLocalizations.of(context)!.enterServiceDescription,
             hintStyle: TextStyle(
               color: Theme.of(context).colorScheme.outline,
               fontFamily: AppTheme.fontFamily,
@@ -484,7 +485,7 @@ class _DatePickerField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Preferred Date',
+          AppLocalizations.of(context)!.preferredDate,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -523,7 +524,7 @@ class _DatePickerField extends StatelessWidget {
                   child: Text(
                     selectedDate != null
                         ? '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}'
-                        : 'Select preferred date',
+                        : AppLocalizations.of(context)!.selectPreferredDate,
                     style: TextStyle(
                       color: selectedDate != null
                           ? AppTheme.textPrimary
@@ -560,7 +561,7 @@ class _TimePickerField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Preferred Time',
+          AppLocalizations.of(context)!.preferredTime,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -599,7 +600,7 @@ class _TimePickerField extends StatelessWidget {
                   child: Text(
                     selectedTime != null
                         ? '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}'
-                        : 'Select preferred time',
+                        : AppLocalizations.of(context)!.selectPreferredTime,
                     style: TextStyle(
                       color: selectedTime != null
                           ? AppTheme.textPrimary

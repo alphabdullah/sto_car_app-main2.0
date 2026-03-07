@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/guards/verification_guard_widget.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/parts_state.dart';
 
 /// Unified parts controller for both guest and logged-in users
@@ -29,14 +30,18 @@ class PartsController extends GetxController {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${selectedPart.name} purchased successfully!'),
+            content: Text(
+              AppLocalizations.of(context)!.purchasedSuccess(selectedPart.name),
+            ),
             backgroundColor: Colors.green,
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Purchase failed. Please try again.'),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.purchaseFailedTryAgain,
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -183,7 +188,7 @@ class PartsController extends GetxController {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              'FEATURED',
+                              AppLocalizations.of(context)!.featured,
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w900,
@@ -284,27 +289,33 @@ class PartsController extends GetxController {
                         ),
                         child: Column(
                           children: [
-                            _buildSpecRow('Part #', part.partNumber ?? 'N/A'),
-                            Divider(height: 24, color: AppTheme.border),
-                            _buildSpecRow('OEM #', part.oemNumber ?? 'N/A'),
+                            _buildSpecRow(
+                              AppLocalizations.of(context)!.partNumber,
+                              part.partNumber ?? 'N/A',
+                            ),
                             Divider(height: 24, color: AppTheme.border),
                             _buildSpecRow(
-                              'Compatible',
+                              AppLocalizations.of(context)!.oemNumber,
+                              part.oemNumber ?? 'N/A',
+                            ),
+                            Divider(height: 24, color: AppTheme.border),
+                            _buildSpecRow(
+                              AppLocalizations.of(context)!.compatible,
                               '${part.compatibleMake ?? ""} ${part.compatibleModel ?? ""}',
                             ),
                             if (part.yearFrom != null) ...[
                               Divider(height: 24, color: AppTheme.border),
                               _buildSpecRow(
-                                'Years',
-                                '${part.yearFrom} - ${part.yearTo ?? "Present"}',
+                                AppLocalizations.of(context)!.years,
+                                '${part.yearFrom} - ${part.yearTo ?? AppLocalizations.of(context)!.present}',
                               ),
                             ],
                             Divider(height: 24, color: AppTheme.border),
                             _buildSpecRow(
-                              'Stock',
+                              AppLocalizations.of(context)!.stock,
                               part.stockQuantity > 0
-                                  ? '${part.stockQuantity} Units'
-                                  : 'Out of Stock',
+                                  ? AppLocalizations.of(context)!.unitsCount(part.stockQuantity)
+                                  : AppLocalizations.of(context)!.outOfStock,
                               valueColor: part.stockQuantity > 0
                                   ? AppTheme.success
                                   : AppTheme.redPrimary,
@@ -343,7 +354,7 @@ class PartsController extends GetxController {
                           const SizedBox(width: 24),
                           Expanded(
                             child: VerificationGuardWidget(
-                              actionDescription: 'Verify account to purchase',
+                              actionDescription: AppLocalizations.of(context)!.verifyAccountToPurchase,
                               inline: true,
                               child: ElevatedButton(
                                 onPressed: part.isInStock
@@ -360,9 +371,9 @@ class PartsController extends GetxController {
                                   ),
                                   elevation: 0,
                                 ),
-                                child: const Text(
-                                  'Purchase Now',
-                                  style: TextStyle(
+                                child: Text(
+                                  AppLocalizations.of(context)!.purchaseNow,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
@@ -429,11 +440,19 @@ class PartsController extends GetxController {
       Navigator.pop(context);
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${part.name} purchased successfully!')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.purchasedSuccess(part.name),
+            ),
+          ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Purchase failed. Please try again.')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.purchaseFailedTryAgain,
+            ),
+          ),
         );
       }
     }

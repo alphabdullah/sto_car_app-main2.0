@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../../../models/booking_model.dart';
 
 /// Dynamic form field widget for booking forms
@@ -55,7 +56,7 @@ class _DynamicFormFieldState extends State<DynamicFormField> {
           child: InputDecorator(
             decoration: InputDecoration(
               labelText: widget.field.label + (widget.field.isRequired ? ' *' : ''),
-              hintText: widget.field.placeholder ?? 'Select date',
+              hintText: widget.field.placeholder ?? AppLocalizations.of(context)!.selectDate,
             ),
             child: Text(widget.field.value?.toString() ?? ''),
           ),
@@ -75,7 +76,7 @@ class _DynamicFormFieldState extends State<DynamicFormField> {
           child: InputDecorator(
             decoration: InputDecoration(
               labelText: widget.field.label + (widget.field.isRequired ? ' *' : ''),
-              hintText: widget.field.placeholder ?? 'Select time',
+              hintText: widget.field.placeholder ?? AppLocalizations.of(context)!.selectTime,
             ),
             child: Text(widget.field.value?.toString() ?? ''),
           ),

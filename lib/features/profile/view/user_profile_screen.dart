@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_constants.dart';
-import '../../../core/constants/app_strings.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/auth_state.dart';
 import '../../../core/utils/responsive.dart';
 
@@ -142,7 +142,7 @@ class UserProfileScreen extends StatelessWidget {
 
                             // User Name
                             Text(
-                              user?.name ?? 'User',
+                              user?.name ?? AppLocalizations.of(context)!.user,
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
@@ -239,7 +239,7 @@ class UserProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Account Information',
+                          AppLocalizations.of(context)!.accountInformation,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -257,27 +257,27 @@ class UserProfileScreen extends StatelessWidget {
                               _InfoCard(
                                 icon: Icons.email_outlined,
                                 iconColor: AppTheme.info,
-                                label: 'Email',
+                                label: AppLocalizations.of(context)!.email,
                                 value: user?.email ?? 'N/A',
                               ),
                               const SizedBox(height: 12),
                               _InfoCard(
                                 icon: Icons.badge_outlined,
                                 iconColor: AppTheme.warning,
-                                label: 'Role',
+                                label: AppLocalizations.of(context)!.role,
                                 value:
                                     user?.role
                                         .toString()
                                         .split('.')
                                         .last
                                         .capitalizeFirst ??
-                                    'User',
+                                    AppLocalizations.of(context)!.user,
                               ),
                               const SizedBox(height: 12),
                               _InfoCard(
                                 icon: Icons.calendar_today_outlined,
                                 iconColor: AppTheme.redPrimary,
-                                label: 'Member Since',
+                                label: AppLocalizations.of(context)!.memberSince,
                                 value: user?.createdAt != null
                                     ? user!.createdAt!.toString().split(' ')[0]
                                     : 'N/A',
@@ -301,7 +301,7 @@ class UserProfileScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Emirates ID',
+                            AppLocalizations.of(context)!.emiratesId,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -316,7 +316,7 @@ class UserProfileScreen extends StatelessWidget {
                               Expanded(
                                 child: _buildIdImageCard(
                                   context,
-                                  label: 'Front Side',
+                                  label: AppLocalizations.of(context)!.frontSide,
                                   imageUrl: front,
                                 ),
                               ),
@@ -324,7 +324,7 @@ class UserProfileScreen extends StatelessWidget {
                               Expanded(
                                 child: _buildIdImageCard(
                                   context,
-                                  label: 'Back Side',
+                                  label: AppLocalizations.of(context)!.backSide,
                                   imageUrl: back,
                                 ),
                               ),
@@ -373,7 +373,7 @@ class UserProfileScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  AppStrings.logout,
+                                  AppLocalizations.of(context)!.logout,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -451,7 +451,7 @@ class UserProfileScreen extends StatelessWidget {
 
                 // Title
                 Text(
-                  'Logout',
+                  AppLocalizations.of(dialogContext)!.logout,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -463,7 +463,7 @@ class UserProfileScreen extends StatelessWidget {
 
                 // Message
                 Text(
-                  'Are you sure you want to logout?',
+                  AppLocalizations.of(dialogContext)!.logoutConfirmMessage,
                   style: TextStyle(
                     fontSize: 16,
                     color: dialogTheme.colorScheme.onSurfaceVariant,
@@ -495,7 +495,7 @@ class UserProfileScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               alignment: Alignment.center,
                               child: Text(
-                                AppStrings.cancel,
+                                AppLocalizations.of(dialogContext)!.cancel,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -542,7 +542,7 @@ class UserProfileScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               alignment: Alignment.center,
                               child: Text(
-                                AppStrings.logout,
+                                AppLocalizations.of(dialogContext)!.logout,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

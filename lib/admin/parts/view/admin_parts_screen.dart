@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/shared_widgets/role_bottom_nav.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../state/parts_state.dart';
 import '../../../models/sold_part_model.dart';
 import '../controller/admin_parts_controller.dart';
@@ -68,7 +69,7 @@ class AdminPartsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sold Parts',
+                                AppLocalizations.of(context)!.soldParts,
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class AdminPartsScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                '${soldParts.length} ${soldParts.length == 1 ? 'sale' : 'sales'} recorded',
+                                '${soldParts.length} ${soldParts.length == 1 ? AppLocalizations.of(context)!.saleRecorded : AppLocalizations.of(context)!.salesRecorded}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: theme.colorScheme.onSurfaceVariant,
@@ -204,7 +205,7 @@ class _SoldPartCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final categoryColor = _getCategoryColor(soldPart.category);
-    final dateStr = _formatDate(soldPart.soldAt);
+    final dateStr = _formatDate(context, soldPart.soldAt);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -384,7 +385,7 @@ class _SoldPartCard extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Quantity',
+                                        AppLocalizations.of(context)!.quantity,
                                         style: TextStyle(
                                           fontSize: isSmallScreen ? 10 : 11,
                                           color: theme.colorScheme.onSurfaceVariant,
@@ -393,7 +394,7 @@ class _SoldPartCard extends StatelessWidget {
                                       ),
                                       SizedBox(height: isSmallScreen ? 2 : 4),
                                       Text(
-                                        '${soldPart.quantity} ${soldPart.quantity == 1 ? 'unit' : 'units'}',
+                                        '${soldPart.quantity} ${soldPart.quantity == 1 ? AppLocalizations.of(context)!.unit : AppLocalizations.of(context)!.units}',
                                         style: TextStyle(
                                           fontSize: isSmallScreen ? 14 : 16,
                                           fontWeight: FontWeight.bold,
@@ -464,7 +465,7 @@ class _SoldPartCard extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Total',
+                                        AppLocalizations.of(context)!.total,
                                         style: TextStyle(
                                           fontSize: isSmallScreen ? 10 : 11,
                                           color: theme.colorScheme.onSurfaceVariant,
@@ -514,7 +515,7 @@ class _SoldPartCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Sold on',
+                                  AppLocalizations.of(context)!.soldOn,
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 11 : 12,
                                     color: theme.colorScheme.onSurfaceVariant,
@@ -547,7 +548,7 @@ class _SoldPartCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Buyer',
+                                    AppLocalizations.of(context)!.buyer,
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 11 : 12,
                                       color: theme.colorScheme.onSurfaceVariant,
@@ -583,19 +584,22 @@ class _SoldPartCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
+  static String _formatDate(BuildContext context, DateTime date) {
+    final l = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(date);
 
     if (difference.inDays == 0) {
       if (difference.inHours == 0) {
-        return '${difference.inMinutes} min ago';
+        return l.timeMinAgo(difference.inMinutes);
       }
-      return '${difference.inHours} hour${difference.inHours == 1 ? '' : 's'} ago';
+      return difference.inHours == 1
+          ? l.timeHourAgo
+          : l.timeHoursAgo(difference.inHours);
     } else if (difference.inDays == 1) {
-      return 'Yesterday';
+      return l.yesterday;
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} days ago';
+      return l.timeDaysAgo(difference.inDays);
     } else {
       return '${date.day}/${date.month}/${date.year}';
     }
@@ -677,7 +681,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Sales Recorded',
+              AppLocalizations.of(context)!.noSalesRecorded,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -687,7 +691,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'No parts have been sold yet',
+              AppLocalizations.of(context)!.noPartsSoldYet,
               style: TextStyle(
                 fontSize: 14,
                 color: theme.colorScheme.onSurfaceVariant,
@@ -739,7 +743,7 @@ class _EmptyState extends StatelessWidget {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          'Add Part',
+                          AppLocalizations.of(context)!.addPart,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

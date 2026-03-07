@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/constants/app_strings.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../state/parts_state.dart';
 import '../../../models/part_model.dart';
@@ -48,10 +48,11 @@ class AdminPartsController extends GetxController {
   }) {
     final companies = _partsState.companies;
 
+    final l = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.7),
-      builder: (context) => Dialog(
+      builder: (dialogContext) => Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: const EdgeInsets.symmetric(horizontal: 16),
         child: LayoutBuilder(
@@ -110,7 +111,7 @@ class AdminPartsController extends GetxController {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            isEdit ? 'Edit Part' : 'Add Part',
+                            isEdit ? l.editPart : l.addPart,
                             style: TextStyle(
                               fontSize: isSmallScreen ? 20 : 24,
                               fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class AdminPartsController extends GetxController {
                           ),
                           onPressed: () {
                             _clearFields();
-                            Navigator.pop(context);
+                            Navigator.pop(dialogContext);
                           },
                         ),
                       ],
@@ -145,7 +146,7 @@ class AdminPartsController extends GetxController {
                           DropdownButtonFormField<String>(
                             initialValue: _selectedCompanyId,
                             decoration: InputDecoration(
-                              labelText: 'Company',
+                              labelText: l.company,
                               prefixIcon: Icon(
                                 Icons.business_rounded,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -192,7 +193,7 @@ class AdminPartsController extends GetxController {
                           TextField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                              labelText: 'Part Name',
+                              labelText: l.partName,
                               prefixIcon: Icon(
                                 Icons.label_outline_rounded,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -229,7 +230,7 @@ class AdminPartsController extends GetxController {
                           TextField(
                             controller: _descriptionController,
                             decoration: InputDecoration(
-                              labelText: 'Description',
+                              labelText: l.description,
                               prefixIcon: Icon(
                                 Icons.description_outlined,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -267,7 +268,7 @@ class AdminPartsController extends GetxController {
                           TextField(
                             controller: _categoryController,
                             decoration: InputDecoration(
-                              labelText: 'Category',
+                              labelText: l.category,
                               prefixIcon: Icon(
                                 Icons.category_outlined,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -304,7 +305,7 @@ class AdminPartsController extends GetxController {
                           TextField(
                             controller: _priceController,
                             decoration: InputDecoration(
-                              labelText: 'Price (AED)',
+                              labelText: l.priceAed,
                               prefixIcon: Icon(
                                 Icons.attach_money_rounded,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -342,7 +343,7 @@ class AdminPartsController extends GetxController {
                           TextField(
                             controller: _stockController,
                             decoration: InputDecoration(
-                              labelText: 'Stock Quantity',
+                              labelText: l.stockQuantity,
                               prefixIcon: Icon(
                                 Icons.inventory_2_outlined,
                                 color: theme.colorScheme.onSurfaceVariant,
@@ -397,7 +398,7 @@ class AdminPartsController extends GetxController {
                           child: TextButton(
                             onPressed: () {
                               _clearFields();
-                              Navigator.pop(context);
+                              Navigator.pop(dialogContext);
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
@@ -412,7 +413,7 @@ class AdminPartsController extends GetxController {
                               ),
                             ),
                             child: Text(
-                              AppStrings.cancel,
+                              l.cancel,
                               style: TextStyle(
                                 fontSize: isSmallScreen ? 14 : 16,
                                 fontWeight: FontWeight.w600,
@@ -449,7 +450,7 @@ class AdminPartsController extends GetxController {
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                onTap: () => _savePart(context, isEdit, part),
+                                onTap: () => _savePart(dialogContext, isEdit, part),
                                 borderRadius: BorderRadius.circular(12),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
@@ -457,7 +458,7 @@ class AdminPartsController extends GetxController {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      isEdit ? AppStrings.save : AppStrings.add,
+                                      isEdit ? l.save : l.add,
                                       style: TextStyle(
                                         fontSize: isSmallScreen ? 14 : 16,
                                         fontWeight: FontWeight.bold,
@@ -491,9 +492,10 @@ class AdminPartsController extends GetxController {
     if (_nameController.text.isEmpty ||
         _priceController.text.isEmpty ||
         _selectedCompanyId == null) {
+      final ctx = Get.context;
       Get.snackbar(
-        AppStrings.error,
-        'Please fill all required fields',
+        ctx != null ? AppLocalizations.of(ctx)!.error : 'Error',
+        ctx != null ? AppLocalizations.of(ctx)!.pleaseFillRequiredFields : 'Please fill all required fields',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -528,9 +530,12 @@ class AdminPartsController extends GetxController {
     if (context.mounted) {
       Navigator.pop(context);
       _clearFields();
+      final ctx = Get.context;
       Get.snackbar(
-        AppStrings.success,
-        isEdit ? 'Part updated successfully' : 'Part added successfully',
+        ctx != null ? AppLocalizations.of(ctx)!.success : 'Success',
+        isEdit
+            ? (ctx != null ? AppLocalizations.of(ctx)!.partUpdatedSuccessfully : 'Part updated successfully')
+            : (ctx != null ? AppLocalizations.of(ctx)!.partAddedSuccessfully : 'Part added successfully'),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
@@ -539,20 +544,21 @@ class AdminPartsController extends GetxController {
   }
 
   Future<void> deletePart(BuildContext context, String partId) async {
+    final l = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Part'),
-        content: const Text('Are you sure you want to delete this part?'),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l.deletePartTitle),
+        content: Text(l.deletePartConfirmMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text(AppStrings.cancel),
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l.cancel),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(dialogContext, true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text(AppStrings.delete),
+            child: Text(l.delete),
           ),
         ],
       ),
@@ -560,9 +566,10 @@ class AdminPartsController extends GetxController {
 
     if (confirmed == true) {
       await _partsState.deletePart(partId);
+      final ctx = Get.context;
       Get.snackbar(
-        AppStrings.success,
-        'Part deleted successfully',
+        ctx != null ? AppLocalizations.of(ctx)!.success : 'Success',
+        ctx != null ? AppLocalizations.of(ctx)!.partDeletedSuccessfully : 'Part deleted successfully',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
